@@ -1,0 +1,30 @@
+orgId1:
+  - eventType: Withdrawal
+    payload: 
+      opId: foo
+      status: bar
+  - eventType: Deposit
+    payload: 
+      opId: foo
+      status: bar
+  - eventType: KYCStarted
+    payload: 
+      affiliateId: asd
+  - eventType: KYCApproved
+    payload: 
+      affiliateId: asd
+orgId2:
+  - eventType: Withdrawal
+    payload: 
+      opId: foo
+      status: bar
+  - eventType: Deposit
+    payload: 
+      opId: foo
+      status: bar
+  - eventType: KYCStarted
+    payload: 
+      affiliateId: asd
+  - eventType: KYCApproved
+    payload: 
+      affiliateId: asd

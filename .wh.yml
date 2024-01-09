@@ -1,0 +1,51 @@
+events:
+  - name: Withdrawal
+    schemas:
+      1:  {
+        opId: 'string',
+        status: 'string'
+      }
+  - name: Deposit
+    schemas: 
+      1:  {
+        opId: 'string',
+        status: 'string'
+      }
+  - name: KYCStarted
+    schemas: 
+      1: {
+        affiliateId: 'string'
+      }
+  - name: KYCApproved
+    schemas: 
+      1: {
+        affiliateId: 'string'
+      }
+apps:
+  - def:
+      name: orgId1
+    endpoints:
+      - url: http://127.0.0.1:3428
+        secret: 
+          value: whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw
+          isSet: true
+        filterTypes: 
+        - KYCApproved
+        - Deposit
+  - def: 
+      name: orgId2
+    endpoints:
+      - url: http://127.0.0.1:2574
+        secret: 
+          value: whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw
+          isSet: true
+        filterTypes: 
+        - Withdrawal
+        - Deposit
+      - url: http://127.0.0.1:3526
+        secret: 
+          value: whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw
+          isSet: true
+        filterTypes: 
+        - KYCStarted
+        - KYCApproved
