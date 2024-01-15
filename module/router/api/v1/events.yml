@@ -1,0 +1,1142 @@
+openapi: 3.1.0
+info:
+  title: Event API
+  version: '1.0'
+  summary: Manage your webhook endpoints
+  description: This service distributes events to webhooks and/or email
+  contact:
+    name: André Stielau
+    email: andre.stielau@anchorage.com
+servers:
+  - url: 'http://localhost:3000/event'
+    description: Local
+paths:
+  /providers:
+    get:
+      summary: List Notification Providers
+      description: List Notification Providers
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/ProviderList'
+      operationId: list-providers
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/tenantId'
+  '/providers/{providerId}':
+    parameters:
+      - $ref: '#/components/parameters/providerId'
+    get:
+      summary: Get Notification Provider
+      description: Get Notification Provider
+      tags:
+        - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+      operationId: get-provider
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+  /notification-types:
+    get:
+      summary: List Notification Types
+      description: List Notification Types
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/NotificationTypeList'
+      operationId: list-notification-types
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+    parameters: []
+  /subscriptions:
+    get:
+      summary: List Subscriptions
+      description: List Subscriptions
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/SubscriptionList'
+      operationId: list-subscriptions
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+    post:
+      summary: Subscribe
+      operationId: create-subscriptions
+      description: Subscribe
+      responses:
+        '200':
+          $ref: '#/components/responses/SubscriptionResult'
+      tags:
+        - events
+      requestBody:
+        $ref: '#/components/requestBodies/NewSubscriptions'
+  '/subscriptions/{subscriptionId}':
+    parameters:
+      - $ref: '#/components/parameters/subscriptionId'
+    get:
+      summary: Get Subscription
+      description: Get Subscription
+      tags:
+        - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+      operationId: get-subscription
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+    delete:
+      summary: Unsubscribe
+      description: Unsubscribe
+      operationId: delete-subscription
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - events
+  /webhoook/types:
+    get:
+      summary: List Web Hook Types
+      description: List Web Hook Types
+      tags:
+        - webhooks
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookTypeList'
+      operationId: list-webhook-types
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+    parameters: []
+  /webhoook/endpoints:
+    post:
+      summary: Create Web Hook Endpoints
+      description: Create Web Hook Endpoints
+      operationId: create-webhook-endpoints
+      responses:
+        '201':
+          $ref: '#/components/responses/WebHookEndpointResult'
+        '400':
+          description: Missing Required Information
+        '401':
+          description: Unauthorized
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+      requestBody:
+        $ref: '#/components/requestBodies/NewWebHookEndpoints'
+      tags:
+        - webhooks
+    parameters: []
+    get:
+      summary: List Web Hook Endpoints
+      description: List Web Hook Endpoints
+      operationId: list-webhook-endpoints
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookEndpointList'
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+      tags:
+        - webhooks
+  '/webhoook/endpoints/{endpointId}':
+    parameters:
+      - $ref: '#/components/parameters/endpointId'
+    get:
+      summary: Get Web Hook Endpoint
+      tags:
+        - webhooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebHookEndpoint'
+        '404':
+          description: User Not Found
+      operationId: get-webhook-endpoint
+      description: Retrieve the information of the user with the matching user ID.
+      x-internal: false
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+    delete:
+      summary: Delete Web Hook Endpoint
+      description: Delete Web Hook Endpoint
+      operationId: delete-webhook-endpoint
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+      tags:
+        - webhooks
+  '/webhoook/endpoints/{endpointId}/attempts':
+    parameters:
+      - $ref: '#/components/parameters/endpointId'
+    get:
+      summary: List Web Hook Endpoint Attempts
+      description: List Web Hook Endpoint Attempts
+      tags:
+        - webhooks
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookAttemptList'
+      operationId: list-webhook-endpoint-attempts
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/tenantId'
+  '/webhoook/endpoints/{endpointId}/messages':
+    parameters:
+      - $ref: '#/components/parameters/endpointId'
+    get:
+      summary: List Web Hook Endpoint Messages
+      description: List Web Hook Endpoint Messages
+      tags:
+        - webhooks
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookMessageList'
+      operationId: list-webhook-endpoint-messages
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+  '/webhoook/endpoints/{endpointId}/messages/{msgId}':
+    parameters:
+      - $ref: '#/components/parameters/endpointId'
+      - $ref: '#/components/parameters/msgId'
+    get:
+      summary: List Web Hook Endpoint Message Attempts
+      description: List Web Hook Endpoint Message Attempts
+      tags:
+        - webhooks
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookAttemptList'
+      operationId: list-webhook-endpoint-message-attempts
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+  /webhoook/messages:
+    parameters: []
+    get:
+      summary: List Web Hook Messages
+      description: List Web Hook Messages
+      tags:
+        - webhooks
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookMessageList'
+        '404':
+          description: Not Found
+      operationId: list-webhook-messages
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+    post:
+      summary: Create Web Hook Messages
+      operationId: create-webhook-messages
+      description: Create Web Hook Messages
+      responses:
+        '201':
+          $ref: '#/components/responses/WebHookMessageResult'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+      requestBody:
+        $ref: '#/components/requestBodies/NewWebHookMessages'
+      tags:
+        - webhooks
+  '/webhoook/messages/{msgId}':
+    parameters:
+      - $ref: '#/components/parameters/msgId'
+    get:
+      summary: Get Web Hook Message
+      description: Get Web Hook Message
+      tags:
+        - webhooks
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebHookMessage'
+        '404':
+          description: Not Found
+      operationId: get-webhook-message
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+  '/webhoook/messages/{msgId}/attempts':
+    parameters:
+      - $ref: '#/components/parameters/msgId'
+    get:
+      summary: List Web Hook Message Attempts
+      description: List Web Hook Message Attempts
+      tags:
+        - webhooks
+      responses:
+        '200':
+          $ref: '#/components/responses/WebHookAttemptList'
+      operationId: list-webhook-message-attempts
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/tenantId'
+  '/webhoook/messages/{msgId}/attempts/{attemptId}':
+    parameters:
+      - $ref: '#/components/parameters/msgId'
+      - $ref: '#/components/parameters/attemptId'
+    get:
+      summary: Get Web Hook Message Attempt
+      description: Get Web Hook Message Attempt
+      tags:
+        - webhooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebHookAttempt'
+      operationId: get-webhook-message-attempt
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+    delete:
+      summary: Expunge Web Hook Message
+      description: Expunge Web Hook Message
+      operationId: expunge-webhook-message
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - webhooks
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+components:
+  schemas:
+    Error:
+      title: Error
+      x-stoplight:
+        id: 69sy8uzl4q32f
+      type: object
+      properties:
+        code:
+          type: integer
+        reason:
+          type: string
+        index:
+          type: string
+    PageInfo:
+      title: Page Info
+      x-stoplight:
+        id: 4jzatg2l5ik7v
+      type: object
+      properties:
+        next:
+          type: string
+        prev:
+          type: string
+        done:
+          type: boolean
+      required:
+        - done
+    Provider:
+      title: Provider
+      x-stoplight:
+        id: vti3mhd12kmfg
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        notificationTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationType'
+      required:
+        - id
+        - name
+    Subscription:
+      title: Subscription
+      x-stoplight:
+        id: bvxnr43g4sydr
+      type: object
+      examples:
+        - {}
+      properties:
+        id:
+          type: string
+        notificationTypeId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        notificationType:
+          $ref: '#/components/schemas/NotificationType'
+      required:
+        - id
+        - notificationTypeId
+        - createdAt
+    NotificationType:
+      title: NotificationType
+      x-stoplight:
+        id: ogdda6qyexr2m
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        subscribed:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/Provider'
+      required:
+        - id
+        - name
+        - subscribed
+    NewSubscription:
+      title: NewSubscription
+      x-stoplight:
+        id: zv8n5h03751vq
+      type: object
+      properties:
+        notificationTypeId:
+          type: string
+      required:
+        - notificationTypeId
+    WebHookType:
+      title: Web Hook Type
+      x-stoplight:
+        id: lcg4mafclt47l
+      type: object
+      examples:
+        - name: string
+          schemas: string
+          createdAt: '2019-08-24T14:15:22Z'
+          updatedAt: '2019-08-24T14:15:22Z'
+          description: string
+      properties:
+        name:
+          type: string
+        schemas:
+          type: string
+          format: binary
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        description:
+          type: string
+      required:
+        - name
+        - schemas
+        - createdAt
+        - updatedAt
+        - description
+    WebHookEndpoint:
+      title: Web Hook Endpoint
+      type: object
+      description: web-hook endpoint
+      examples:
+        - id: string
+          url: 'http://example.com'
+          uid: string
+          metadata: string
+          createdAt: '2019-08-24T14:15:22Z'
+          description: string
+          disabled: true
+          rateLimit: 0
+          channels:
+            - string
+          filterTypes:
+            - string
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given endpoint.
+        url:
+          type: string
+          format: uri
+        uid:
+          type: string
+        metadata:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disabled:
+          type: boolean
+        rateLimit:
+          type: integer
+          format: int32
+        channels:
+          type: array
+          items:
+            type: string
+        filterTypes:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - url
+        - metadata
+        - createdAt
+        - description
+        - channels
+        - filterTypes
+    WebHookMessage:
+      title: Message
+      x-stoplight:
+        id: 3dhmmcvmjwljx
+      type: object
+      examples:
+        - id: string
+          payload: string
+          eventType: string
+          eventId: string
+          createdAt: '2019-08-24T14:15:22Z'
+          tags:
+            - string
+          channels:
+            - string
+      properties:
+        id:
+          type: string
+        payload:
+          type: string
+        eventType:
+          type: string
+        eventId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        channels:
+          type: array
+          items:
+            type: string
+      required:
+        - payload
+        - eventType
+        - createdAt
+        - channels
+    WebHookAttempt:
+      title: Attempt
+      x-stoplight:
+        id: gb9elnme88ftx
+      type: object
+      description: 'Message Attempt to an Endpoint '
+      examples:
+        - endpointId: string
+          msgId: string
+          id: string
+          url: string
+          status: string
+          triggerType: string
+          timestamp: '2019-08-24T14:15:22Z'
+          response: string
+          responseStatusCode: 0
+      properties:
+        endpointId:
+          type: string
+        msgId:
+          type: string
+        id:
+          type: string
+        url:
+          type: string
+        status:
+          type: string
+        triggerType:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        response:
+          type: string
+        responseStatusCode:
+          type: integer
+          format: int32
+      required:
+        - endpointId
+        - msgId
+        - id
+        - url
+        - status
+        - triggerType
+        - timestamp
+        - response
+        - responseStatusCode
+    NewWebHookEndpoint:
+      type: object
+      x-examples:
+        example-1:
+          url: 'http://example.com'
+          uid: string
+          secret: pa$$word
+          metadata: '{ "foo": "bar" }'
+          description: string
+          disabled: true
+          rateLimit: 0
+          channels:
+            - string
+      examples:
+        - url: 'http://example.com'
+          uid: string
+          metadata: string
+          description: string
+          disabled: true
+          rateLimit: 0
+          channels:
+            - string
+      properties:
+        url:
+          type: string
+          format: uri
+        uid:
+          type: string
+        secret:
+          type: string
+          format: password
+          writeOnly: true
+        metadata:
+          type: string
+        description:
+          type: string
+        disabled:
+          type: boolean
+        rateLimit:
+          type: integer
+          format: int32
+        channels:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        filterTypes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+      required:
+        - url
+      title: New Web Hook Endpoint
+    NewWebHookMessage:
+      type: object
+      x-examples:
+        example-1:
+          payload: string
+          eventType: string
+          eventId: string
+          tags:
+            - string
+          channels:
+            - string
+          retentionPeriod: -9223372036854776000
+      examples:
+        - payload: string
+          eventType: string
+          eventId: string
+          tags:
+            - string
+          channels:
+            - string
+          retentionPeriod: 0
+      properties:
+        payload:
+          type: string
+        eventType:
+          type: string
+        eventId:
+          type: string
+        tags:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          readOnly: true
+        channels:
+          type: array
+          items:
+            type: string
+        retentionPeriod:
+          type: integer
+          format: int64
+      required:
+        - payload
+        - eventType
+  requestBodies:
+    NewWebHookEndpoints:
+      content:
+        application/json:
+          schema:
+            type: array
+            x-examples:
+              example-1:
+                - id: 0
+                  url: 'http://example.com'
+                  createdAt: string
+                  channels:
+                    - string
+                  description: string
+                  disabled: true
+            items:
+              $ref: '#/components/schemas/NewWebHookEndpoint'
+          examples:
+            minimal:
+              value:
+                - url: 'http://example.com'
+                - url: 'http://example2.com'
+            full:
+              value:
+                - url: 'http://example.com'
+                  uid: string
+                  secret: pa$$word
+                  metadata: '{ "foo": "bar" }'
+                  description: string
+                  disabled: true
+                  rateLimit: 0
+                  channels:
+                    - string
+    NewWebHookMessages:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/NewWebHookMessage'
+          examples:
+            minimal:
+              value:
+                - payload: string
+                  eventType: string
+                - payload: string
+                  eventType: string
+            full:
+              value:
+                - payload: string
+                  eventType: string
+                  eventId: string
+                  tags:
+                    - string
+                  channels:
+                    - string
+                  retentionPeriod: -9223372036854776000
+    NewSubscriptions:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/NewSubscription'
+  responses:
+    WebHookEndpointList:
+      description: Example Endpoint Responses
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebHookEndpoint'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - id: string
+                    uid: string
+                    url: 'http://example.com'
+                    metadata: string
+                    createdAt: '2019-08-24T14:15:22Z'
+                    description: string
+                    disabled: true
+                    rateLimit: 0
+                    channels:
+                      - string
+                    filterTypes:
+                      - string
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    WebHookMessageList:
+      description: Example Message Responses
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebHookMessage'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - id: string
+                    payload: string
+                    eventType: string
+                    eventId: string
+                    createdAt: '2019-08-24T14:15:22Z'
+                    tags:
+                      - string
+                    channels:
+                      - string
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    WebHookAttemptList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebHookAttempt'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - endpointId: string
+                    msgId: string
+                    id: string
+                    url: string
+                    status: string
+                    triggerType: string
+                    timestamp: '2019-08-24T14:15:22Z'
+                    response: string
+                    responseStatusCode: 0
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    WebHookTypeList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebHookType'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - name: string
+                    schemas: string
+                    createdAt: '2019-08-24T14:15:22Z'
+                    updatedAt: '2019-08-24T14:15:22Z'
+                    description: string
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    WebHookEndpointResult:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebHookEndpoint'
+            required:
+              - data
+          examples:
+            example-1:
+              value:
+                errors:
+                  - code: 0
+                    reason: string
+                    index: string
+                data:
+                  - id: string
+                    uid: string
+                    url: 'http://example.com'
+                    metadata: string
+                    createdAt: '2019-08-24T14:15:22Z'
+                    description: string
+                    disabled: true
+                    rateLimit: 0
+                    channels:
+                      - string
+                    filterTypes:
+                      - string
+    WebHookMessageResult:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebHookMessage'
+            required:
+              - data
+          examples:
+            example-1:
+              value:
+                errors:
+                  - code: 0
+                    reason: string
+                    index: string
+                data:
+                  - id: string
+                    payload: string
+                    eventType: string
+                    eventId: string
+                    createdAt: '2019-08-24T14:15:22Z'
+                    tags:
+                      - string
+                    channels:
+                      - string
+    ProviderList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - id: string
+                    name: string
+                    notificationTypes:
+                      - id: string
+                        name: string
+                        subscribed: true
+                        provider: {}
+                        events:
+                          - id: string
+                            name: string
+                            notificationTypes:
+                              - {}
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    SubscriptionList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - {}
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    NotificationTypeList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationType'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - id: string
+                    name: string
+                    subscribed: true
+                    provider:
+                      id: string
+                      name: string
+                      notificationTypes:
+                        - {}
+                    events:
+                      - id: string
+                        name: string
+                        notificationTypes:
+                          - {}
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    SubscriptionResult:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+            required:
+              - data
+  parameters:
+    endpointId:
+      name: endpointId
+      in: path
+      required: true
+      schema:
+        type: string
+    msgId:
+      name: msgId
+      in: path
+      required: true
+      schema:
+        type: string
+    tenantId:
+      name: tenantId
+      in: header
+      required: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+    cursor:
+      name: cursor
+      in: query
+      required: false
+      schema:
+        type: string
+    attemptId:
+      name: attemptId
+      in: path
+      required: true
+      schema:
+        type: string
+    providerId:
+      name: providerId
+      in: path
+      required: true
+      schema:
+        type: string
+    subscriptionId:
+      name: subscriptionId
+      in: path
+      required: true
+      schema:
+        type: string
+tags:
+  - name: events
+  - name: webhooks

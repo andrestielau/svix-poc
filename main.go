@@ -6,6 +6,4 @@ import (
 	"github.com/samber/lo"
 )
 
-func main() {
-	lo.Must0(cmd.Root.Execute())
-}
+func main() { lo.Must0(cmd.Root.Execute()) }

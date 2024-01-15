@@ -28,10 +28,12 @@ services:
 
   postgres:
     image: postgres:13.4
-    volumes:
-      - "postgres-data:/var/lib/postgresql/data/"
+    #volumes:
+    #  - "postgres-data:/var/lib/postgresql/data/"
     environment:
       POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
 
   pgbouncer:
     image: edoburu/pgbouncer:1.15.0
@@ -52,13 +54,26 @@ services:
 
   redis:
     image: "redis:7-alpine"
-    # Enable persistence
     command: "--save 60 500 --appendonly yes --appendfsync everysec"
     volumes:
       - "redis-data:/data"
     ports:
       - "8078:6379" # Needed for sqlx
 
+  pubsub:
+    image: "andrewrjones/google-pubsub-emulator:latest"
+    ports:
+      - "8042:8042"
+    environment:
+      PUBSUB_EMULATOR_HOST: localhost:8042
+
+  mailhog:
+    image: us-east1-docker.pkg.dev/anchorage-ci/docker-build/mailhog/mailhog:latest@sha256:8d76a3d4ffa32a3661311944007a415332c4bb855657f4f6c57996405c009bea
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:1025:1025'
+      - '8025:8025'
+  
   mock:
     build:
       context: .
@@ -69,6 +84,30 @@ services:
       - "2574:2574"
       - "3526:3526"
 
+  webhooks:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["/app/poc", "serve", "webhooks"]
+    ports:
+      - "4010:4010"
+
+  router:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["/app/poc", "mock", "router"]
+    ports:
+      - "4020:4020"
+
+  email:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["/app/poc", "mock", "emails"]
+    ports:
+      - "4030:4030"
+
 volumes:
-  postgres-data:
+  # postgres-data:
   redis-data:

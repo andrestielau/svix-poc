@@ -1,0 +1,21 @@
+version: v1
+types:
+  include:
+    - buf.alpha.lint.v1.IDPaths
+plugins:
+  - plugin: go
+    out: .
+    opt: paths=source_relative
+  - plugin: go-grpc
+    out: .
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  - plugin: ts
+    out: .
+    opt:
+      - paths=source_relative
+  - plugin: ts-grpc
+    out: .
+    opt:
+      - paths=source_relative

@@ -29,12 +29,25 @@ graph TD
             KYCApproved
         end
     end
+    subgraph Subscriptions
+      SA[API]
+      SS[Subscriber]
+      SR[Repository]
+      SvixClient
+    end
     App1 -- "KYCApproved,\nDeposit" --> Endpoint1
     App2 -- "Withdrawal,\nDeposit" --> Endpoint2
     App2 -- "KYCStarted,\nKYCApproved" --> Endpoint3
-    Demo -- "Withdrawal,\nDeposit,\nKYCStarted,\nKYCApproved" --> App1
-    Demo -- "Withdrawal,\nDeposit,\nKYCStarted,\nKYCApproved" --> App2
-    Demo --> EventTypes
+    SvixClient -- "KYCApproved,\nDeposit" --> App1
+    SvixClient -- "Withdrawal,\nDeposit,\nKYCStarted,\nKYCApproved" --> App2
+    SvixClient --> EventTypes
+    Demo --> SA
+    SA --> SR
+    PubSub --> SS
+    SS --> SR
+    SS --> SvixClient
+    SA --> SvixClient
+    Demo --> PubSub
 
 ```
 
@@ -136,3 +149,26 @@ orgId2:
     payload: 
       affiliateId: asd
 ```
+
+# Phase Dependencies
+## 1 - Prepare
+- Subscribe DB
+- Subscribe API
+## 2 - Config
+- WebHook API
+## 3 - Subscribe
+- WebHook GRPC
+## 4 - Publish
+- Subscribe PubSub
+## 5 - Sync
+- Subscribe GRPC
+
+# Adding New Event Types
+## Create Event Mapper/Stream Processor (Go)
+## Create Event Types (Svix)
+## Create EventNotification (DB)
+
+# Missing
+## Sync between svix event types and notification targets
+## Validate if user has provider enabled
+## Filtering based on content

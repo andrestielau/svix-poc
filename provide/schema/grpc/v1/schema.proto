@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package webhooks.v1;
+option go_package = "svix-poc/module/webhook/grpc/v1;webhooks1";
+
+service SchemaService {
+    rpc CreateApps(CreateAppsRequest) returns (CreateAppsResponse);
+}
+
+message CreateAppsRequest {
+
+}
+
+message CreateAppsResponse {
+    
+}
