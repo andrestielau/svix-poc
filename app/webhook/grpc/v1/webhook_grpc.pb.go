@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             (unknown)
-// source: app/webhook/grpc/v1/webhooks.proto
+// source: app/webhook/grpc/v1/webhook.proto
 
 package webhooksv1
 
@@ -103,5 +103,5 @@ var WebHookService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "app/webhook/grpc/v1/webhooks.proto",
+	Metadata: "app/webhook/grpc/v1/webhook.proto",
 }

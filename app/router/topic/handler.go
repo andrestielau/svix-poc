@@ -13,7 +13,6 @@ import (
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
-	"github.com/google/wire"
 	"github.com/samber/lo"
 )
 
@@ -21,15 +20,6 @@ type Handler struct {
 	router.Dependencies
 	*app.BaseActor
 }
-
-func Provide(d router.Dependencies) *Handler {
-	return &Handler{
-		Dependencies: d,
-		BaseActor:    app.NewActor(),
-	}
-}
-
-var Set = wire.NewSet(Provide)
 
 // TODO make dynamic
 func Handle() {

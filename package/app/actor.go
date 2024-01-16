@@ -2,10 +2,8 @@ package app
 
 import (
 	"context"
-	"errors"
+	"svix-poc/package/utils"
 	"sync"
-
-	"github.com/samber/lo"
 )
 
 type Actors map[string]Actor
@@ -21,14 +19,15 @@ type BaseActor struct {
 	ctr      uint
 	Children Actors
 	Lock     *sync.Mutex
-	closer   chan struct{}
 }
 
-func NewActor() *BaseActor {
-	return &BaseActor{
+func NewActor(children Actors) *BaseActor {
+	a := &BaseActor{
 		Children: make(Actors),
 		Lock:     &sync.Mutex{},
 	}
+	a.SpawnAll(children)
+	return a
 }
 func (a *BaseActor) Spawn(k string, v Actor) Actor {
 	if _, ok := a.Children[k]; !ok {
@@ -48,25 +47,13 @@ func (a *BaseActor) Start(ctx context.Context) (bool, error) {
 	return a.BaseStart(ctx)
 }
 func (a *BaseActor) BaseStart(ctx context.Context) (bool, error) {
-	a.ctr++
-	if a.ctr > 1 {
+	if a.ctr++; a.ctr > 1 { // if not first call
 		return false, nil
 	}
-	a.closer = make(chan struct{})
-	if len(a.Children) == 0 {
-		return false, nil
-	}
-	wg := sync.WaitGroup{}
-	wg.Add(len(a.Children))
-	errs := make([]error, len(a.Children))
-	for i, c := range lo.Keys(a.Children) {
-		go func(i int, k string) {
-			defer wg.Done()
-			_, errs[i] = a.Children[k].Start(ctx)
-		}(i, c)
-	}
-	wg.Wait()
-	return true, errors.Join(errs...)
+	return true, utils.ForAll(a.Children, func(k string) error {
+		_, err := a.Children[k].Start(ctx)
+		return err
+	})
 }
 func (a *BaseActor) Stop(ctx context.Context) (bool, error) {
 	a.Lock.Lock()
@@ -74,20 +61,12 @@ func (a *BaseActor) Stop(ctx context.Context) (bool, error) {
 	return a.BaseStop(ctx)
 }
 func (a *BaseActor) BaseStop(ctx context.Context) (bool, error) {
-	a.ctr--
-	if a.ctr > 0 {
+	if a.ctr--; a.ctr > 0 { // if not last call
 		return false, nil
 	}
-	wg := sync.WaitGroup{}
-	wg.Add(len(a.Children))
-	errs := make([]error, len(a.Children))
-	for i, c := range lo.Keys(a.Children) {
-		go func(i int, k string) {
-			defer wg.Done()
-			_, errs[i] = a.Children[k].Stop(ctx)
-		}(i, c)
-	}
-	wg.Wait()
-	return true, nil
+	return true, utils.ForAll(a.Children, func(k string) error {
+		_, err := a.Children[k].Stop(ctx)
+		return err
+	})
 }
 func (a *BaseActor) IsStarted() bool { return a.ctr > 0 }

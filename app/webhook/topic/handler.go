@@ -3,6 +3,7 @@ package webhooktopic
 import (
 	"encoding/json"
 	"svix-poc/app/webhook"
+	svixclient "svix-poc/app/webhook/svix"
 	"svix-poc/package/app"
 
 	"github.com/ThreeDotsLabs/watermill/message"
@@ -18,7 +19,9 @@ type Handler struct {
 func Provide(d webhook.Dependencies) *Handler {
 	return &Handler{
 		Dependencies: d,
-		BaseActor:    app.NewActor(),
+		BaseActor: app.NewActor(app.Actors{
+			svixclient.SingletonKey: d.SvixClient,
+		}),
 	}
 }
 

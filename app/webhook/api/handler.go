@@ -35,7 +35,9 @@ func (h *Handler) Start(ctx context.Context) (first bool, err error) {
 			host = "localhost" + host
 		}
 		log.Println("webhook api listening on http://" + host)
-		http.Serve(h.l, webhookv1.Handler(h))
+		if err := http.Serve(h.l, webhookv1.Handler(h)); err != nil {
+			log.Println(err)
+		}
 	}()
 	return true, nil
 }

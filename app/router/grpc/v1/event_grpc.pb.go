@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: app/router/grpc/v1/event.proto
 
-package eventv1
+package eventsv1
 
 import (
 	grpc "google.golang.org/grpc"

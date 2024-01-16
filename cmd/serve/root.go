@@ -26,9 +26,6 @@ var Root = cmd.New("serve",
 )
 
 func runServe(cmd *cobra.Command, modules []string) {
-	sys := app.NewActor()
-	ctx := cmd.Context()
-	defer sys.Stop(ctx)
 	defer func() {
 		if err := recover(); err != nil {
 			fmt.Printf("Error: %+v", fmt.Errorf("%v", err))
@@ -45,8 +42,11 @@ func runServe(cmd *cobra.Command, modules []string) {
 			apps[module] = provider()
 		}
 	}
-	lo.Must(sys.SpawnAll(apps).Start(ctx))
-	utils.WaitSigs(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+	sys := app.NewActor(apps)
+	ctx := cmd.Context()
+	defer sys.Stop(ctx)
+	lo.Must(sys.Start(ctx))
+	<-utils.WaitSigs(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 }
 
 var appProviders = map[string]func() app.Actor{
@@ -55,8 +55,8 @@ var appProviders = map[string]func() app.Actor{
 }
 
 func NewRouterApp(a *routerapi.Handler, g *routergrpc.Handler, t *routertopic.Handler, d router.Dependencies) app.Actor {
-	return router.New(d).SpawnAll(app.Actors{"api": a, "grpc": g, "topic": t})
+	return app.NewActor(app.Actors{"api": a, "grpc": g, "topic": t})
 }
 func NewWebHookApp(a *webhookapi.Handler, g *webhookgrpc.Handler, t *webhooktopic.Handler, d webhook.Dependencies) app.Actor {
-	return webhook.New(d).SpawnAll(app.Actors{"api": a, "grpc": g, "topic": t})
+	return app.NewActor(app.Actors{"api": a, "grpc": g, "topic": t})
 }

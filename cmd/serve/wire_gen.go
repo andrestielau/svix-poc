@@ -23,9 +23,9 @@ import (
 // Injectors from wire.go:
 
 func RouterApp() app.Actor {
-	provider := repo.Provide()
+	repository := repo.Provide()
 	dependencies := router.Dependencies{
-		Provider: provider,
+		Repository: repository,
 	}
 	handler := routerapi.Provide(dependencies)
 	routergrpcHandler := routergrpc.Provide(dependencies)
@@ -35,9 +35,9 @@ func RouterApp() app.Actor {
 }
 
 func WebHookApp() app.Actor {
-	provider := svixclient.Provide()
+	svixClient := svixclient.Provide()
 	dependencies := webhook.Dependencies{
-		Provider: provider,
+		SvixClient: svixClient,
 	}
 	handler := webhookapi.Provide(dependencies)
 	webhookgrpcHandler := webhookgrpc.Provide(dependencies)

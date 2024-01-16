@@ -1,29 +1,29 @@
-package routerapi
+package webhookgrpc
 
 import (
 	"os"
-	"svix-poc/app/router"
-	"svix-poc/app/router/repo"
+	"svix-poc/app/webhook"
+	svixclient "svix-poc/app/webhook/svix"
 	"svix-poc/package/app"
 
 	"github.com/google/wire"
 )
 
-func Provide(d router.Dependencies) *Handler {
+func Provide(d webhook.Dependencies) *Handler {
 	return &Handler{
 		Dependencies: d,
 		BaseActor: app.NewActor(app.Actors{
-			repo.SingletonKey: d.Repository,
+			svixclient.SingletonKey: d.SvixClient,
 		}),
 	}
 }
 
 type Host string
 
-var DefaultHost Host = ":3524"
+var DefaultHost Host = ":4315"
 
 func ProvideHost() Host {
-	if url := Host(os.Getenv("ROUTER_API_HOST")); url != "" {
+	if url := Host(os.Getenv("ROUTER_GRPC_HOST")); url != "" {
 		return url
 	}
 	return DefaultHost

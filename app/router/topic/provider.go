@@ -1,7 +1,6 @@
-package routerapi
+package routertopic
 
 import (
-	"os"
 	"svix-poc/app/router"
 	"svix-poc/app/router/repo"
 	"svix-poc/package/app"
@@ -16,17 +15,6 @@ func Provide(d router.Dependencies) *Handler {
 			repo.SingletonKey: d.Repository,
 		}),
 	}
-}
-
-type Host string
-
-var DefaultHost Host = ":3524"
-
-func ProvideHost() Host {
-	if url := Host(os.Getenv("ROUTER_API_HOST")); url != "" {
-		return url
-	}
-	return DefaultHost
 }
 
 var Set = wire.NewSet(Provide)

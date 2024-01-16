@@ -1,4 +1,4 @@
-package routerapi
+package routergrpc
 
 import (
 	"os"
@@ -20,10 +20,10 @@ func Provide(d router.Dependencies) *Handler {
 
 type Host string
 
-var DefaultHost Host = ":3524"
+var DefaultHost Host = ":2573"
 
 func ProvideHost() Host {
-	if url := Host(os.Getenv("ROUTER_API_HOST")); url != "" {
+	if url := Host(os.Getenv("ROUTER_GRPC_HOST")); url != "" {
 		return url
 	}
 	return DefaultHost

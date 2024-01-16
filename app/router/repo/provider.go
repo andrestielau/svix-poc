@@ -8,20 +8,22 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-type Provider struct {
+const SingletonKey = "router_repo"
+
+type Repository struct {
 	*app.BaseActor
 	conn *pgx.Conn
 	Querier
 }
 
-func Provide() *Provider {
-	return &Provider{}
+func Provide() *Repository {
+	return &Repository{
+		BaseActor: app.NewActor(nil),
+	}
 }
 
-func (p *Provider) Start(ctx context.Context) (first bool, err error) {
-	p.Lock.Lock()
-	defer p.Lock.Unlock()
-	if first, err = p.BaseStart(ctx); first || err != nil {
+func (p *Repository) Start(ctx context.Context) (first bool, err error) {
+	if first, err = p.BaseActor.Start(ctx); !first || err != nil {
 		return first, err
 	} else if p.conn, err = pgx.Connect(ctx, string(ProvideDbUrl())); err != nil {
 		return true, nil
@@ -31,18 +33,19 @@ func (p *Provider) Start(ctx context.Context) (first bool, err error) {
 	return true, nil
 }
 
-func (p *Provider) Stop(ctx context.Context) (bool, error) {
-	p.Lock.Lock()
-	defer p.Lock.Unlock()
-	if last, err := p.BaseStop(ctx); !last || err != nil {
+func (p *Repository) Stop(ctx context.Context) (bool, error) {
+	if last, err := p.BaseActor.Stop(ctx); !last || err != nil {
 		return last, err
+	}
+	if p.conn == nil {
+		return true, nil
 	}
 	return true, p.conn.Close(ctx)
 }
 
 type DbUrl string
 
-var DefaultDbUrl DbUrl = ""
+var DefaultDbUrl DbUrl = "postgres://postgres:postgres@localhost:5432?sslmode=disable"
 
 func ProvideDbUrl() DbUrl {
 	if url := DbUrl(os.Getenv("WEBHOOK_DB_URL")); url != "" {

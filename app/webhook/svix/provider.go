@@ -7,17 +7,19 @@ import (
 	svix "github.com/svix/svix-webhooks/go"
 )
 
-type Provider struct {
+const SingletonKey = "svix_client"
+
+type SvixClient struct {
 	*app.BaseActor
 	*svix.Svix
 }
 
-func Provide() *Provider {
-	return &Provider{
-		BaseActor: app.NewActor(),
+func Provide() *SvixClient {
+	return &SvixClient{
+		BaseActor: app.NewActor(nil),
 	}
 }
-func (p *Provider) Start(ctx context.Context) (first bool, err error) {
+func (p *SvixClient) Start(ctx context.Context) (first bool, err error) {
 	p.Lock.Lock()
 	defer p.Lock.Unlock()
 	if first, err = p.BaseStart(ctx); first || err != nil {
