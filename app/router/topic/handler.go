@@ -26,7 +26,7 @@ type NotificationProviderHandler struct {
 }
 
 func (h *NotificationProviderHandler) Add(router *message.Router, sub message.Subscriber, pub message.Publisher) {
-	router.AddHandler(h.Key+"_notification_handler", "notifications_topic", sub, h.Topic, pub, h.Handle)
+	router.AddHandler(h.Key+"_notification_handler", "notification", sub, h.Topic, pub, h.Handle)
 }
 
 func (h *NotificationProviderHandler) Handle(msg *message.Message) ([]*message.Message, error) {
@@ -43,7 +43,7 @@ type EventNotificationHandler struct {
 }
 
 func (h *EventNotificationHandler) Add(router *message.Router, sub message.Subscriber, pub message.Publisher) {
-	router.AddHandler(h.Key+"_event_handler", h.Topic, sub, "notifications_topic", pub, h.Handle)
+	router.AddHandler(h.Key+"_event_handler", h.Topic, sub, "notification", pub, h.Handle)
 }
 
 func (h *EventNotificationHandler) Handle(msg *message.Message) ([]*message.Message, error) {

@@ -3,6 +3,7 @@ package routertopic
 import (
 	"context"
 	"log"
+	"strconv"
 	"svix-poc/app/router"
 	"svix-poc/app/router/repo"
 	"svix-poc/package/app"
@@ -29,10 +30,12 @@ func (h *Handler) Start(ctx context.Context) (first bool, err error) {
 		return first, err
 	}
 	logger := watermill.NewStdLogger(true, false)
+	var i int
 	if h.subscriber, err = googlecloud.NewSubscriber(
 		googlecloud.SubscriberConfig{
 			GenerateSubscriptionName: func(topic string) string {
-				return "router_" + topic
+				i++
+				return "router_" + topic + strconv.Itoa(i)
 			},
 			ProjectID: "demo",
 		},

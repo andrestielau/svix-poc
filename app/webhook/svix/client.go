@@ -1,6 +1,7 @@
 package svixclient
 
 import (
+	"log"
 	"net/url"
 	"os"
 
@@ -33,8 +34,9 @@ type AuthToken string
 var DefaultAuthToken AuthToken = ""
 
 func ProvideAuthToken() AuthToken {
-	if url := AuthToken(os.Getenv("SVIX_AUTH_TOKEN")); url != "" {
-		return url
+	if token := AuthToken(os.Getenv("SVIX_AUTH_TOKEN")); token != "" {
+		log.Println(token)
+		return token
 	}
 	return DefaultAuthToken
 }

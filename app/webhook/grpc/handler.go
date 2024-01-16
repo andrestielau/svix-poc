@@ -4,17 +4,12 @@ import (
 	"context"
 	"svix-poc/app/webhook"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
-	"svix-poc/package/app"
 	schemav1 "svix-poc/package/schema/grpc/v1"
-
-	"google.golang.org/grpc"
 )
 
 // TODO: wrap handler with a provider instead of havingt server inside
 type Handler struct {
 	webhook.Dependencies
-	*app.BaseActor
-	Server *grpc.Server
 }
 
 var _ webhooksv1.WebHookServiceServer = &Handler{}
