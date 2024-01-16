@@ -1,1 +1,0 @@
-insert into evnt.provider (name) values ('Webhooks');

@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package emails.v1;
-option go_package = "svix-poc/module/email/grpc/v1;emailsv1";
-
-service EmailService {
-    
-}

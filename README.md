@@ -1,174 +1,70 @@
 # SVIX POC
-This repository contains example code to access svix
+The goal of this POC is to allow:
+- admins to configure notifications-types for web-hooks
+- customers to read schemas for web-hook notification-types
+- admins to configure schemas for web-hook notification-types
+- customers to configure the endpoints they want to receive web-hooks at
+- customers to configure notification-types they want for each endpoint
+- services to send type-safe messages to pub-sub to be relayed to web-hooks
+- admins/tests to validate payloads against json schemas 
 
+This first part is command and consumer driven, 
+meaning that the message represents an action to be executed,
+and that the schema is defined by the consumer (in svix).
+This requires that either:
+- the consumer sends messages that are expected to fail.
+  (if the customer doesn't have an app created in svix)
+- the producer checks the app existence before sending the event.
+- the event is filtered after being published but before being sent to svix. 
+  
+The extended scope of this POC is to allow:
+- admins to manage schemas for their event types
+- events to be mapped to notifications dynamically
+- customers to manage their subscribe to notification-types
+- admins to manage transformations and links between events and notifications
+- customers to manage the emails they want to receve notifications at
 
-# High Level
-The concept to prove is the decoupled management of message delivery and filtering of sent messages.
+# App
 
-```mermaid
-graph TD
-    subgraph Mock
-        subgraph Org1
-            Endpoint1
-        end
-        subgraph Org2
-            Endpoint2
-            Endpoint3
-        end
-    end
-    subgraph Svix
-        subgraph Apps
-            App1
-            App2
-        end
-        subgraph EventTypes
-            direction LR
-            Withdrawal
-            Deposit
-            KYCStarted
-            KYCApproved
-        end
-    end
-    subgraph Subscriptions
-      SA[API]
-      SS[Subscriber]
-      SR[Repository]
-      SvixClient
-    end
-    App1 -- "KYCApproved,\nDeposit" --> Endpoint1
-    App2 -- "Withdrawal,\nDeposit" --> Endpoint2
-    App2 -- "KYCStarted,\nKYCApproved" --> Endpoint3
-    SvixClient -- "KYCApproved,\nDeposit" --> App1
-    SvixClient -- "Withdrawal,\nDeposit,\nKYCStarted,\nKYCApproved" --> App2
-    SvixClient --> EventTypes
-    Demo --> SA
-    SA --> SR
-    PubSub --> SS
-    SS --> SR
-    SS --> SvixClient
-    SA --> SvixClient
-    Demo --> PubSub
+## WebHooks
+### API
+- Read WebHookTypes
+- Manage Endpoints
+- Read Sent Messages
+- Read Message Attempts
+### GRPC
+- Manage Apps
+- Manage WebHook Schemas
+### Subscriber
+- Request WebHooks
 
-```
+## Router
+### API
+- Manage Notification Subscriptions
+### GRPC
+- Manage Event Schemas
+### Subscriber
+- Transform payloads between topics
+- Publish Notifications for Events into common topic
+- Publish Commands for Notifications into provider topics
 
-# WebHooks Config
-This configuration is used by mocks to get the port to emulate, and by the demo to know which ports to register in svix.
- 
-```yaml
-# .wh.yml
-events:
-  - name: Withdrawal
-    schemas:
-      1:  {
-        opId: 'string',
-        status: 'string'
-      }
-  - name: Deposit
-    schemas: 
-      1:  {
-        opId: 'string',
-        status: 'string'
-      }
-  - name: KYCStarted
-    schemas: 
-      1: {
-        affiliateId: 'string'
-      }
-  - name: KYCApproved
-    schemas: 
-      1: {
-        affiliateId: 'string'
-      }
-apps:
-  - def:
-      name: orgId1
-    endpoints:
-      - url: http://127.0.0.1:3428
-        secret: 
-          value: ...
-          isSet: true
-        filterTypes: 
-        - KYCApproved
-        - Deposit
-  - def: 
-      name: orgId2
-    endpoints:
-      - url: http://127.0.0.1:2574
-        secret: 
-          value: ...
-          isSet: true
-        filterTypes: 
-        - Withdrawal
-        - Deposit
-      - url: http://127.0.0.1:3526
-        secret: 
-          value: ...
-          isSet: true
-        filterTypes: 
-        - KYCStarted
-        - KYCApproved
-```
+## Email
+### API
+- Manage Email
+### GRPC
+- Manage Template Schemas
+### Subscriber
+- Render Template
+- Add Attachments
+- Send Emails
 
-# Test
-- Start Docker: `docker-compose up -d`
-- Check token service logs to get auth token
-- Run demo `go run . call demo -t {auth token}`
-- Check logs for mock server
+# Package
+## app
+## files
+## schema
+## topic
+## utils
 
-## Message Config
-```yaml
-# .msg.yml
-orgId1:
-  - eventType: Withdrawal
-    payload: 
-      opId: foo
-      status: bar
-  - eventType: Deposit
-    payload: 
-      opId: foo
-      status: bar
-  - eventType: KYCStarted
-    payload: 
-      affiliateId: asd
-  - eventType: KYCApproved
-    payload: 
-      affiliateId: asd
-orgId2:
-  - eventType: Withdrawal
-    payload: 
-      opId: foo
-      status: bar
-  - eventType: Deposit
-    payload: 
-      opId: foo
-      status: bar
-  - eventType: KYCStarted
-    payload: 
-      affiliateId: asd
-  - eventType: KYCApproved
-    payload: 
-      affiliateId: asd
-```
+# Renderer
 
-# Phase Dependencies
-## 1 - Prepare
-- Subscribe DB
-- Subscribe API
-## 2 - Config
-- WebHook API
-## 3 - Subscribe
-- WebHook GRPC
-## 4 - Publish
-- Subscribe PubSub
-## 5 - Sync
-- Subscribe GRPC
-
-# Adding New Event Types
-## Create Event Mapper/Stream Processor (Go)
-## Create Event Types (Svix)
-## Create EventNotification (DB)
-
-# Missing
-## Sync between svix event types and notification targets
-## Validate if user has provider enabled
-## Filtering based on content
+# Demo

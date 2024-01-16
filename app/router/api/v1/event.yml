@@ -1,0 +1,365 @@
+openapi: 3.1.0
+info:
+  title: Event API
+  version: '1.0'
+  summary: Manage your notification subscriptions
+  description: This service routes events to webhooks and/or email topics
+  contact:
+    name: André Stielau
+    email: andre.stielau@anchorage.com
+servers:
+  - url: 'http://localhost:3000/event'
+    description: Local
+paths:
+  /types:
+    get:
+      summary: List Event Types
+      description: List Event Types
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/EventTypeList'
+      operationId: list-event-types
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+    parameters: []
+  /providers:
+    get:
+      summary: List Notification Providers
+      description: List Notification Providers
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/ProviderList'
+      operationId: list-providers
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/tenantId'
+  '/providers/{providerId}':
+    parameters:
+      - $ref: '#/components/parameters/providerId'
+    get:
+      summary: Get Notification Provider
+      description: Get Notification Provider
+      tags:
+        - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+      operationId: get-provider
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+  /subscriptions:
+    get:
+      summary: List Subscriptions
+      description: List Subscriptions
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/SubscriptionList'
+      operationId: list-subscriptions
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
+    post:
+      summary: Subscribe
+      operationId: create-subscriptions
+      description: Subscribe
+      responses:
+        '200':
+          $ref: '#/components/responses/SubscriptionResult'
+      tags:
+        - events
+      requestBody:
+        $ref: '#/components/requestBodies/NewSubscriptions'
+  '/subscriptions/{subscriptionId}':
+    parameters:
+      - $ref: '#/components/parameters/subscriptionId'
+    get:
+      summary: Get Subscription
+      description: Get Subscription
+      tags:
+        - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+      operationId: get-subscription
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+    delete:
+      summary: Unsubscribe
+      description: Unsubscribe
+      operationId: delete-subscription
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - events
+components:
+  schemas:
+    Error:
+      title: Error
+      x-stoplight:
+        id: 69sy8uzl4q32f
+      type: object
+      properties:
+        code:
+          type: integer
+        reason:
+          type: string
+        index:
+          type: string
+    PageInfo:
+      title: Page Info
+      x-stoplight:
+        id: 4jzatg2l5ik7v
+      type: object
+      properties:
+        next:
+          type: string
+        prev:
+          type: string
+        done:
+          type: boolean
+      required:
+        - done
+    Provider:
+      title: Provider
+      x-stoplight:
+        id: vti3mhd12kmfg
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        eventTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventType'
+      required:
+        - id
+        - name
+    EventType:
+      title: EventType
+      x-stoplight:
+        id: ogdda6qyexr2m
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        subscribed:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/Provider'
+      required:
+        - id
+        - name
+        - subscribed
+    Subscription:
+      title: Subscription
+      x-stoplight:
+        id: bvxnr43g4sydr
+      type: object
+      examples:
+        - {}
+      properties:
+        id:
+          type: string
+        eventTypeId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        eventType:
+          $ref: '#/components/schemas/EventType'
+      required:
+        - id
+        - eventTypeId
+        - createdAt
+    NewSubscription:
+      title: NewSubscription
+      x-stoplight:
+        id: zv8n5h03751vq
+      type: object
+      properties:
+        eventTypeId:
+          type: string
+      required:
+        - eventTypeId
+  requestBodies:
+    NewSubscriptions:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/NewSubscription'
+  responses:
+    ProviderList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - id: string
+                    name: string
+                    eventTypes:
+                      - id: string
+                        name: string
+                        subscribed: true
+                        provider: {}
+                        events:
+                          - id: string
+                            name: string
+                            eventTypes:
+                              - {}
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    SubscriptionList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - {}
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    EventTypeList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventType'
+              cursor:
+                $ref: '#/components/schemas/PageInfo'
+            required:
+              - data
+              - cursor
+          examples:
+            example-1:
+              value:
+                data:
+                  - id: string
+                    name: string
+                    subscribed: true
+                    provider:
+                      id: string
+                      name: string
+                      eventTypes:
+                        - {}
+                    events:
+                      - id: string
+                        name: string
+                        eventTypes:
+                          - {}
+                cursor:
+                  next: string
+                  prev: string
+                  done: true
+    SubscriptionResult:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+            required:
+              - data
+  parameters:
+    tenantId:
+      name: tenantId
+      in: header
+      required: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+    cursor:
+      name: cursor
+      in: query
+      required: false
+      schema:
+        type: string
+    providerId:
+      name: providerId
+      in: path
+      required: true
+      schema:
+        type: string
+    subscriptionId:
+      name: subscriptionId
+      in: path
+      required: true
+      schema:
+        type: string
+tags:
+  - name: events
+  - name: webhooks

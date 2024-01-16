@@ -1,13 +1,14 @@
 package cmd
 
 import (
-	"svix-poc/x/app/cmd"
+	"svix-poc/cmd/serve"
+	"svix-poc/package/app/cmd"
 
 	svix "github.com/svix/svix-webhooks/go"
 )
 
 var Root = cmd.New("svix-poc",
-	cmd.Add(Demo, Mock, Serve),
+	cmd.Add(Demo, Mock, serve.Root),
 )
 
 type App struct {

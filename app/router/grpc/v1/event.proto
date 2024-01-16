@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package events.v1;
+option go_package = "svix-poc/app/router/grpc/v1;eventv1";
+
+service EventService {
+    
+}
