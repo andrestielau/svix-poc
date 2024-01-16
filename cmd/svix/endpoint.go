@@ -23,7 +23,7 @@ var Endpoint = cmd.New("endpoint",
 		cmd.New("list", cmd.Alias("l"), cmd.Run(runListEndpoints), cmd.Flags(listFlagsOpt...)),
 		cmd.New("create", cmd.Alias("c"), cmd.Run(runCreateEndpoints), cmd.Flags(
 			flag.StringP(&endpointSecret, "secret", "", "s", "secret"),
-			flag.StringP(&endpointUid, "url", "", "u", "url"),
+			flag.StringP(&endpointUrl, "url", "", "u", "url"),
 			flag.StringP(&endpointUid, "uid", "", "i", "uid"),
 		)),
 		cmd.New("get", cmd.Alias("g"), cmd.Run(runGetEndpoints)),
