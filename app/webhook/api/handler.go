@@ -1,11 +1,7 @@
 package webhookapi
 
 import (
-	"context"
-	"log"
-	"net"
 	"net/http"
-	"strings"
 	"svix-poc/app/webhook"
 	webhookv1 "svix-poc/app/webhook/api/v1"
 	"svix-poc/package/app"
@@ -16,36 +12,8 @@ import (
 
 type Handler struct {
 	webhook.Dependencies
-	l net.Listener
+	server *http.Server
 	*app.BaseActor
-}
-
-// Lifecycle
-
-func (h *Handler) Start(ctx context.Context) (first bool, err error) {
-	if first, err = h.BaseActor.Start(ctx); !first || err != nil {
-		return first, err
-	}
-	host := string(ProvideHost())
-	if h.l, err = net.Listen("tcp", host); err != nil {
-		return true, err
-	}
-	go func() {
-		if strings.HasPrefix(host, ":") {
-			host = "localhost" + host
-		}
-		log.Println("webhook api listening on http://" + host)
-		if err := http.Serve(h.l, webhookv1.Handler(h)); err != nil {
-			log.Println(err)
-		}
-	}()
-	return true, nil
-}
-func (h *Handler) Stop(ctx context.Context) (last bool, err error) {
-	if last, err = h.BaseActor.Stop(ctx); !last || err != nil {
-		return last, err
-	}
-	return true, h.l.Close()
 }
 
 // Create

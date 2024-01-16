@@ -1,4 +1,4 @@
-package cmd
+package demo
 
 import (
 	"errors"
@@ -15,7 +15,16 @@ import (
 	svix "github.com/svix/svix-webhooks/go"
 )
 
-var Demo = cmd.New("demo",
+type App struct {
+	Def       svix.ApplicationIn
+	Endpoints []svix.EndpointIn
+}
+type Config struct {
+	Apps   []App
+	Events []svix.EventTypeIn
+}
+
+var Root = cmd.New("demo",
 	cmd.Alias("d"),
 	cmd.Run(runDemo),
 	cmd.Flags(

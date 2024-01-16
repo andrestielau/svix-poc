@@ -1,50 +1,22 @@
 package routertopic
 
 import (
-	"context"
 	"log"
 	"svix-poc/app/router"
 	"svix-poc/app/router/repo"
 	"svix-poc/package/app"
 	"svix-poc/package/topic"
-	"svix-poc/package/topic/gps"
-	"time"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
-	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
-	"github.com/samber/lo"
 )
 
 type Handler struct {
 	router.Dependencies
 	*app.BaseActor
-}
-
-// TODO make dynamic
-func Handle() {
-	logger := watermill.NewStdLogger(true, false)
-	router := lo.Must(message.NewRouter(message.RouterConfig{}, logger))
-	router.AddMiddleware(
-		middleware.CorrelationID,
-		middleware.Retry{
-			MaxRetries:      3,
-			InitialInterval: 100 * time.Millisecond,
-			Logger:          logger,
-		}.Middleware,
-		middleware.Recoverer,
-	)
-	// Pubsub
-	pub := lo.Must(gps.NewPublisher(logger))
-	sub := lo.Must(gps.NewSubscriber(logger))
-	// (Inbound) Internal Event Handlers
-	(&EventNotificationHandler{Topic: "example_topic1", Key: "example1"}).Add(router, sub, pub)
-	(&EventNotificationHandler{Topic: "example_topic2", Key: "example2"}).Add(router, sub, pub)
-	(&EventNotificationHandler{Topic: "example_topic3", Key: "example3"}).Add(router, sub, pub)
-	// (Outboud) Notification Provider Handlers
-	(&NotificationProviderHandler{Topic: "webhooks_topic", Key: "webhook"}).Add(router, sub, pub)
-	(&NotificationProviderHandler{Topic: "emails_topic", Key: "email"}).Add(router, sub, pub)
-	lo.Must0(router.Run(context.Background()))
+	router     *message.Router
+	publisher  message.Publisher
+	subscriber message.Subscriber
 }
 
 type NotificationProviderHandler struct {

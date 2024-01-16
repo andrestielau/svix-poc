@@ -1,21 +1,13 @@
 package cmd
 
 import (
+	"svix-poc/cmd/demo"
 	"svix-poc/cmd/serve"
+	"svix-poc/cmd/topic"
 	"svix-poc/package/app/cmd"
-
-	svix "github.com/svix/svix-webhooks/go"
 )
 
 var Root = cmd.New("svix-poc",
-	cmd.Add(Demo, Mock, serve.Root),
+	cmd.Add(serve.Root, topic.Root,
+		demo.Root, demo.Mock),
 )
-
-type App struct {
-	Def       svix.ApplicationIn
-	Endpoints []svix.EndpointIn
-}
-type Config struct {
-	Apps   []App
-	Events []svix.EventTypeIn
-}

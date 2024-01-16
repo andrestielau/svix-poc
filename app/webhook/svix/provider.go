@@ -19,6 +19,7 @@ func Provide() *SvixClient {
 		BaseActor: app.NewActor(nil),
 	}
 }
+
 func (p *SvixClient) Start(ctx context.Context) (first bool, err error) {
 	p.Lock.Lock()
 	defer p.Lock.Unlock()

@@ -67,53 +67,53 @@ func StringAP[T ~string](p *[]T, name string, value []T, sh, usage string) func(
 	}
 }
 
-func castStringString[K, V ~string](in map[K]V) map[string]string {
+func castStringString[M ~map[K]V, K, V ~string](in M) map[string]string {
 	out := map[string]string{}
 	for k, v := range in {
 		out[string(k)] = string(v)
 	}
 	return out
 }
-func castStringInt[K ~string, V ~int](in map[K]V) map[string]int {
+func castStringInt[M ~map[K]V, K ~string, V ~int](in M) map[string]int {
 	out := map[string]int{}
 	for k, v := range in {
 		out[string(k)] = int(v)
 	}
 	return out
 }
-func castStringInt64[K ~string, V ~int64](in map[K]V) map[string]int64 {
+func castStringInt64[M ~map[K]V, K ~string, V ~int64](in M) map[string]int64 {
 	out := map[string]int64{}
 	for k, v := range in {
 		out[string(k)] = int64(v)
 	}
 	return out
 }
-func StringToString[K, V ~string](p *map[K]V, name string, value map[K]V, usage string) func(*pflag.FlagSet) {
+func StringToString[M ~map[K]V, K, V ~string](p *M, name string, value M, usage string) func(*pflag.FlagSet) {
 	return func(fs *pflag.FlagSet) {
 		fs.StringToStringVar((*map[string]string)(unsafe.Pointer(p)), name, castStringString(value), usage)
 	}
 }
-func StringToStringP[K, V ~string](p *map[K]V, name string, value map[K]V, sh, usage string) func(*pflag.FlagSet) {
+func StringToStringP[M ~map[K]V, K, V ~string](p *M, name string, value M, sh, usage string) func(*pflag.FlagSet) {
 	return func(fs *pflag.FlagSet) {
 		fs.StringToStringVarP((*map[string]string)(unsafe.Pointer(p)), name, sh, castStringString(value), usage)
 	}
 }
-func StringToInt[K ~string, V ~int](p *map[K]V, name string, value map[K]V, usage string) func(*pflag.FlagSet) {
+func StringToInt[M ~map[K]V, K ~string, V ~int](p *M, name string, value M, usage string) func(*pflag.FlagSet) {
 	return func(fs *pflag.FlagSet) {
 		fs.StringToIntVar((*map[string]int)(unsafe.Pointer(p)), name, castStringInt(value), usage)
 	}
 }
-func StringToIntP[K ~string, V ~int](p *map[K]V, name string, value map[K]V, sh, usage string) func(*pflag.FlagSet) {
+func StringToIntP[M ~map[K]V, K ~string, V ~int](p *M, name string, value M, sh, usage string) func(*pflag.FlagSet) {
 	return func(fs *pflag.FlagSet) {
 		fs.StringToIntVarP((*map[string]int)(unsafe.Pointer(p)), name, sh, castStringInt(value), usage)
 	}
 }
-func StringToInt64[K ~string, V ~int64](p *map[K]V, name string, value map[K]V, usage string) func(*pflag.FlagSet) {
+func StringToInt64[M ~map[K]V, K ~string, V ~int64](p *M, name string, value M, usage string) func(*pflag.FlagSet) {
 	return func(fs *pflag.FlagSet) {
 		fs.StringToInt64Var((*map[string]int64)(unsafe.Pointer(p)), name, castStringInt64(value), usage)
 	}
 }
-func StringToInt64P[K ~string, V ~int64](p *map[K]V, name string, value map[K]V, sh, usage string) func(*pflag.FlagSet) {
+func StringToInt64P[M ~map[K]V, K ~string, V ~int64](p *M, name string, value M, sh, usage string) func(*pflag.FlagSet) {
 	return func(fs *pflag.FlagSet) {
 		fs.StringToInt64VarP((*map[string]int64)(unsafe.Pointer(p)), name, sh, castStringInt64(value), usage)
 	}

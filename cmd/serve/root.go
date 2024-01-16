@@ -3,6 +3,7 @@ package serve
 import (
 	"errors"
 	"fmt"
+	"os"
 	"svix-poc/app/router"
 	routerapi "svix-poc/app/router/api"
 	routergrpc "svix-poc/app/router/grpc"
@@ -42,11 +43,13 @@ func runServe(cmd *cobra.Command, modules []string) {
 			apps[module] = provider()
 		}
 	}
+	os.Setenv("PUBSUB_EMULATOR_HOST", "localhost:8085") // TODO: google black magic requires this or an actual env
 	sys := app.NewActor(apps)
 	ctx := cmd.Context()
 	defer sys.Stop(ctx)
-	lo.Must(sys.Start(ctx))
-	<-utils.WaitSigs(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+	_, err := sys.Start(ctx)
+	lo.Must0(err)
+	<-utils.WaitSigs(syscall.SIGINT, syscall.SIGTERM)
 }
 
 var appProviders = map[string]func() app.Actor{

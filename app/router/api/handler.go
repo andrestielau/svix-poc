@@ -1,11 +1,7 @@
 package routerapi
 
 import (
-	"context"
-	"log"
-	"net"
 	"net/http"
-	"strings"
 	"svix-poc/app/router"
 	eventsv1 "svix-poc/app/router/api/v1"
 	"svix-poc/package/app"
@@ -19,39 +15,8 @@ var _ eventsv1.ServerInterface = &Handler{}
 
 type Handler struct {
 	router.Dependencies
-	l net.Listener
+	server *http.Server
 	*app.BaseActor
-}
-
-// Lifecycle
-
-func (h *Handler) Start(ctx context.Context) (first bool, err error) {
-	if first, err = h.BaseActor.Start(ctx); !first || err != nil {
-		return first, err
-	}
-	host := string(ProvideHost())
-	if h.l, err = net.Listen("tcp", host); err != nil {
-		return true, err
-	}
-	go func() {
-		if strings.HasPrefix(host, ":") {
-			host = "localhost" + host
-		}
-		log.Println("router api listening on http://" + host)
-		if err := http.Serve(h.l, eventsv1.Handler(h)); err != nil {
-			log.Println(err)
-		}
-	}()
-	return true, nil
-}
-func (h *Handler) Stop(ctx context.Context) (last bool, err error) {
-	if last, err = h.BaseActor.Stop(ctx); !last || err != nil {
-		return last, err
-	}
-	if h.l == nil {
-		return false, nil
-	}
-	return true, h.l.Close()
 }
 
 const DefaultLimit = 100
