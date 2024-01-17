@@ -27,12 +27,10 @@ func RouterApp() app.Actor {
 	dependencies := router.Dependencies{
 		Repository: repository,
 	}
-	handler := routerapi.Provide(dependencies)
-	routergrpcHandler := &routergrpc.Handler{
-		Dependencies: dependencies,
-	}
-	routertopicHandler := routertopic.Provide(dependencies)
-	actor := NewRouterApp(handler, routergrpcHandler, routertopicHandler, dependencies)
+	adapter := routerapi.Provide(dependencies)
+	serverAdapter := routergrpc.Provide(dependencies)
+	routertopicAdapter := routertopic.Provide(dependencies)
+	actor := NewRouterApp(adapter, serverAdapter, routertopicAdapter, dependencies)
 	return actor
 }
 
@@ -41,11 +39,9 @@ func WebHookApp() app.Actor {
 	dependencies := webhook.Dependencies{
 		SvixClient: svixClient,
 	}
-	handler := webhookapi.Provide(dependencies)
-	webhookgrpcHandler := &webhookgrpc.Handler{
-		Dependencies: dependencies,
-	}
-	webhooktopicHandler := webhooktopic.Provide(dependencies)
-	actor := NewWebHookApp(handler, webhookgrpcHandler, webhooktopicHandler, dependencies)
+	adapter := webhookapi.Provide(dependencies)
+	serverAdapter := webhookgrpc.Provide(dependencies)
+	webhooktopicAdapter := webhooktopic.Provide(dependencies)
+	actor := NewWebHookApp(adapter, serverAdapter, webhooktopicAdapter, dependencies)
 	return actor
 }

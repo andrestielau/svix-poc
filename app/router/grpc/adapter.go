@@ -23,7 +23,7 @@ func ProvideHost() Host {
 	return DefaultHost
 }
 
-func Provide(h *Handler, d router.Dependencies) *server.Adapter {
+func Provide(d router.Dependencies) *server.Adapter {
 	return server.NewAdapter(server.AdapterOptions{
 		Addr: string(ProvideHost()),
 		Register: func(s *grpc.Server) {
