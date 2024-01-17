@@ -2,15 +2,17 @@ package tests_test
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	webhooksv1 "svix-poc/app/webhook/api/v1"
-	svixclient "svix-poc/app/webhook/svix"
+	webhooksgrpc "svix-poc/app/webhook/grpc/v1"
 	"testing"
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
-	svix "github.com/svix/svix-webhooks/go"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func TestApi(t *testing.T) {
@@ -24,14 +26,21 @@ func TestApi(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
+			tenantId := uuid.NewString()
 			ctx := context.Background()
-			client := lo.Must(webhooksv1.NewClient(""))
+			client := lo.Must(webhooksv1.NewClient("localhost:4315"))
+			grpcClient := webhooksgrpc.NewWebHookServiceClient(lo.Must(grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))))
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			}))
-			appReq := &svix.ApplicationIn{Name: "App_" + tt.uid}
-			appReq.SetUid(tt.uid)
-			lo.Must(svixclient.Client.Application.Create(ctx, appReq))             // Create App
+			res := lo.Must(grpcClient.CreateApps(ctx, &webhooksgrpc.CreateAppsRequest{
+				Data: []*webhooksgrpc.App{{
+					Uid:  tenantId,
+					Name: "Test App-" + tenantId,
+				}},
+			}))
+			log.Println(res)
+
 			lo.Must(client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsParams{ // Create Endpoint
 				TenantId: tt.uid,
 			}, []webhooksv1.NewEndpoint{{

@@ -1,8 +1,11 @@
 package call
 
 import (
+	"log"
+	webhooksv1 "svix-poc/app/webhook/api/v1"
 	"svix-poc/lib/app/cmd"
 
+	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 )
 
@@ -12,12 +15,17 @@ var Endpoint = cmd.New("endpoint", cmd.Add(
 	cmd.New("create", cmd.Alias("c"), cmd.Run(runCreateEndpoints)),
 ))
 
-func runGetEndpoint(_ *cobra.Command, _ []string) {
-
+func runGetEndpoint(cmd *cobra.Command, ids []string) {
+	for _, id := range ids {
+		res := lo.Must(client.GetEndpointWithResponse(cmd.Context(), id, &webhooksv1.GetEndpointParams{}))
+		log.Println(res)
+	}
 }
-func runListEndpoints(_ *cobra.Command, _ []string) {
-
+func runListEndpoints(cmd *cobra.Command, _ []string) {
+	res := lo.Must(client.ListEndpointsWithResponse(cmd.Context(), &webhooksv1.ListEndpointsParams{}))
+	log.Println(res)
 }
-func runCreateEndpoints(_ *cobra.Command, _ []string) {
-
+func runCreateEndpoints(cmd *cobra.Command, _ []string) {
+	res := lo.Must(client.CreateEndpointsWithResponse(cmd.Context(), &webhooksv1.CreateEndpointsParams{}, []webhooksv1.NewEndpoint{}))
+	log.Println(res)
 }

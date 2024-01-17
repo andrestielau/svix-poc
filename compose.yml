@@ -78,10 +78,15 @@ services:
       dockerfile: ./Dockerfile
       context: .
     command: ["/app/poc", "serve", "webhook"]
+    environment:
+      PUBSUB_EMULATOR_HOST: http://pubsub:8085
+      SVIX_AUTH_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU1MDAwNzgsImV4cCI6MjAyMDg2MDA3OCwibmJmIjoxNzA1NTAwMDc4LCJpc3MiOiJzdml4LXNlcnZlciIsInN1YiI6Im9yZ18yM3JiOFlkR3FNVDBxSXpwZ0d3ZFhmSGlyTXUifQ.oLsliORi4Q8tq6lYK6fiV7w3eAzALsZrjBteD_DQDu0
+      SVIX_URL: http://svix:8071
     depends_on:
       - svix
       - pubsub
     ports:
+      - '2635:2635'
       - '4315:4315'
 #volumes:
   # postgres-data:

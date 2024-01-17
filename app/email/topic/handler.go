@@ -17,7 +17,7 @@ type Handler struct {
 func Provide(d email.Dependencies) *Handler {
 	return &Handler{
 		Dependencies: d,
-		BaseActor:    app.NewActor(),
+		BaseActor:    app.NewActor(nil),
 	}
 }
 

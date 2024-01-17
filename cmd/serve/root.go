@@ -3,6 +3,7 @@ package serve
 import (
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"svix-poc/app/router"
 	routertopic "svix-poc/app/router/topic"
@@ -41,12 +42,17 @@ func runServe(cmd *cobra.Command, modules []string) {
 			apps[module] = provider()
 		}
 	}
-	os.Setenv("PUBSUB_EMULATOR_HOST", "localhost:8085") // TODO: google black magic requires this or an actual env
+	if os.Getenv("PUBSUB_EMULATOR_HOST") == "" {
+		os.Setenv("PUBSUB_EMULATOR_HOST", "localhost:8085") // TODO: google black magic requires this or an actual env
+	}
 	sys := app.NewActor(apps)
 	ctx := cmd.Context()
-	defer sys.Stop(ctx)
-	_, err := sys.Start(ctx)
-	lo.Must0(err)
+	defer func() {
+		if _, err := sys.Stop(ctx); err != nil {
+			log.Println(err)
+		}
+	}()
+	lo.Must(sys.Start(ctx))
 	<-utils.WaitSigs(syscall.SIGINT, syscall.SIGTERM)
 }
 

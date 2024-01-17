@@ -12,6 +12,7 @@ import (
 	"github.com/ThreeDotsLabs/watermill-googlecloud/pkg/googlecloud"
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/google/wire"
+	"google.golang.org/api/option"
 )
 
 const SubscriberKey = "webhook_subscriber"
@@ -42,6 +43,9 @@ func (p *Adapter) Start(ctx context.Context) (first bool, err error) {
 				return "test-sub_" + topic // TODO: make configurable
 			},
 			ProjectID: "demo", // TODO: make configurable
+			ClientOptions: []option.ClientOption{
+				option.WithEndpoint("pubsub:8085"),
+			},
 		},
 		watermill.NewStdLogger(true, false),
 	)
