@@ -3,7 +3,7 @@ package emailtopic
 import (
 	"svix-poc/app/email"
 	"svix-poc/app/email/smtp"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/google/wire"

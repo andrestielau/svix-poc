@@ -8,8 +8,8 @@ import (
 	"os"
 	"os/signal"
 	"strings"
-	"svix-poc/package/app/cfg"
-	"svix-poc/package/app/cmd"
+	"svix-poc/lib/app/cfg"
+	"svix-poc/lib/app/cmd"
 	"sync"
 	"syscall"
 

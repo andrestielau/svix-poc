@@ -55,8 +55,8 @@ services:
   redis:
     image: "redis:7-alpine"
     command: "--save 60 500 --appendonly yes --appendfsync everysec"
-    volumes:
-      - "redis-data:/data"
+    #volumes:
+    #  - "redis-data:/data"
     ports:
       - "8078:6379" # Needed for sqlx
 
@@ -73,6 +73,16 @@ services:
       - '127.0.0.1:1025:1025'
       - '8025:8025'
 
-volumes:
+  webhooks:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    command: ["/app/poc", "serve", "webhook"]
+    depends_on:
+      - svix
+      - pubsub
+    ports:
+      - '4315:4315'
+#volumes:
   # postgres-data:
-  redis-data:
+  # redis-data:

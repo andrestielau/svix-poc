@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             (unknown)
-// source: package/schema/grpc/v1/schema.proto
+// source: lib/schema/grpc/v1/schema.proto
 
 package schemav1
 
@@ -60,5 +60,5 @@ var SchemaService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SchemaServiceServer)(nil),
 	Methods:     []grpc.MethodDesc{},
 	Streams:     []grpc.StreamDesc{},
-	Metadata:    "package/schema/grpc/v1/schema.proto",
+	Metadata:    "lib/schema/grpc/v1/schema.proto",
 }

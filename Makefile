@@ -1,5 +1,7 @@
 all: db/up gen
 
+run: docker-compose up -d
+
 gen/api: oapi.yml app/router/api/v1/event.yml app/webhook/api/v1/webhook.yml
 	@echo Generating OAPI
 	@cd app/router/api/v1 && oapi-codegen -config ../../../../oapi.yml -package eventsv1 event.yml > event.gen.go

@@ -2,7 +2,7 @@ package svixclient
 
 import (
 	"context"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	svix "github.com/svix/svix-webhooks/go"
 )

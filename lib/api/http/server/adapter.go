@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 )
 
 type AdapterOptions struct {

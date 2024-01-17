@@ -2,7 +2,7 @@ package app
 
 import (
 	"context"
-	"svix-poc/package/utils"
+	"svix-poc/lib/utils"
 	"sync"
 )
 

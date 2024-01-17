@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package schema.v1;
-option go_package = "svix-poc/package/schema/grpc/v1;schemav1";
+option go_package = "svix-poc/lib/schema/grpc/v1;schemav1";
 
 service SchemaService {
 }

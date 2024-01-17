@@ -23,6 +23,7 @@ create table evnt.provider (
     uid uuid unique not null default uuid_generate_v4(),
     created_at timestamptz not null default now(),
     name text unique not null,
+    key text unique not null,
     id serial primary key
 );
 create type evnt.new_notification_type AS (

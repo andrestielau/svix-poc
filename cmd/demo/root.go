@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 	webhooks "svix-poc/app/webhook/svix"
-	"svix-poc/package/app/cfg"
-	"svix-poc/package/app/cmd"
-	"svix-poc/package/app/flag"
+	"svix-poc/lib/app/cfg"
+	"svix-poc/lib/app/cmd"
+	"svix-poc/lib/app/flag"
 
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"

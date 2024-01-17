@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 	"net"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	"google.golang.org/grpc"
 )

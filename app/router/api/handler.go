@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"svix-poc/app/router"
 	eventsv1 "svix-poc/app/router/api/v1"
-	"svix-poc/package/utils"
+	"svix-poc/lib/utils"
 	"time"
 
 	"github.com/samber/lo"

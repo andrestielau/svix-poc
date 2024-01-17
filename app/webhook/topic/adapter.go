@@ -6,7 +6,7 @@ import (
 	"os"
 	"svix-poc/app/webhook"
 	svixclient "svix-poc/app/webhook/svix"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-googlecloud/pkg/googlecloud"

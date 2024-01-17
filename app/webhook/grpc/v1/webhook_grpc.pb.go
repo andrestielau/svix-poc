@@ -19,14 +19,28 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WebHookService_CreateApps_FullMethodName = "/webhooks.v1.WebHookService/CreateApps"
+	WebHookService_ListApps_FullMethodName         = "/webhooks.v1.WebHookService/ListApps"
+	WebHookService_CreateApps_FullMethodName       = "/webhooks.v1.WebHookService/CreateApps"
+	WebHookService_ListEndpoints_FullMethodName    = "/webhooks.v1.WebHookService/ListEndpoints"
+	WebHookService_CreateEndpoints_FullMethodName  = "/webhooks.v1.WebHookService/CreateEndpoints"
+	WebHookService_ListMessages_FullMethodName     = "/webhooks.v1.WebHookService/ListMessages"
+	WebHookService_CreateMessages_FullMethodName   = "/webhooks.v1.WebHookService/CreateMessages"
+	WebHookService_ListEventTypes_FullMethodName   = "/webhooks.v1.WebHookService/ListEventTypes"
+	WebHookService_CreateEventTypes_FullMethodName = "/webhooks.v1.WebHookService/CreateEventTypes"
 )
 
 // WebHookServiceClient is the client API for WebHookService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WebHookServiceClient interface {
+	ListApps(ctx context.Context, in *ListAppsRequest, opts ...grpc.CallOption) (*ListAppsResponse, error)
 	CreateApps(ctx context.Context, in *CreateAppsRequest, opts ...grpc.CallOption) (*CreateAppsResponse, error)
+	ListEndpoints(ctx context.Context, in *ListEndpointsRequest, opts ...grpc.CallOption) (*ListEndpointsResponse, error)
+	CreateEndpoints(ctx context.Context, in *CreateEndpointsRequest, opts ...grpc.CallOption) (*CreateEndpointsResponse, error)
+	ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error)
+	CreateMessages(ctx context.Context, in *CreateMessagesRequest, opts ...grpc.CallOption) (*CreateMessagesResponse, error)
+	ListEventTypes(ctx context.Context, in *ListEventTypesRequest, opts ...grpc.CallOption) (*ListEventTypesResponse, error)
+	CreateEventTypes(ctx context.Context, in *CreateEventTypesRequest, opts ...grpc.CallOption) (*CreateEventTypesResponse, error)
 }
 
 type webHookServiceClient struct {
@@ -35,6 +49,15 @@ type webHookServiceClient struct {
 
 func NewWebHookServiceClient(cc grpc.ClientConnInterface) WebHookServiceClient {
 	return &webHookServiceClient{cc}
+}
+
+func (c *webHookServiceClient) ListApps(ctx context.Context, in *ListAppsRequest, opts ...grpc.CallOption) (*ListAppsResponse, error) {
+	out := new(ListAppsResponse)
+	err := c.cc.Invoke(ctx, WebHookService_ListApps_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *webHookServiceClient) CreateApps(ctx context.Context, in *CreateAppsRequest, opts ...grpc.CallOption) (*CreateAppsResponse, error) {
@@ -46,19 +69,101 @@ func (c *webHookServiceClient) CreateApps(ctx context.Context, in *CreateAppsReq
 	return out, nil
 }
 
+func (c *webHookServiceClient) ListEndpoints(ctx context.Context, in *ListEndpointsRequest, opts ...grpc.CallOption) (*ListEndpointsResponse, error) {
+	out := new(ListEndpointsResponse)
+	err := c.cc.Invoke(ctx, WebHookService_ListEndpoints_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *webHookServiceClient) CreateEndpoints(ctx context.Context, in *CreateEndpointsRequest, opts ...grpc.CallOption) (*CreateEndpointsResponse, error) {
+	out := new(CreateEndpointsResponse)
+	err := c.cc.Invoke(ctx, WebHookService_CreateEndpoints_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *webHookServiceClient) ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error) {
+	out := new(ListMessagesResponse)
+	err := c.cc.Invoke(ctx, WebHookService_ListMessages_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *webHookServiceClient) CreateMessages(ctx context.Context, in *CreateMessagesRequest, opts ...grpc.CallOption) (*CreateMessagesResponse, error) {
+	out := new(CreateMessagesResponse)
+	err := c.cc.Invoke(ctx, WebHookService_CreateMessages_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *webHookServiceClient) ListEventTypes(ctx context.Context, in *ListEventTypesRequest, opts ...grpc.CallOption) (*ListEventTypesResponse, error) {
+	out := new(ListEventTypesResponse)
+	err := c.cc.Invoke(ctx, WebHookService_ListEventTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *webHookServiceClient) CreateEventTypes(ctx context.Context, in *CreateEventTypesRequest, opts ...grpc.CallOption) (*CreateEventTypesResponse, error) {
+	out := new(CreateEventTypesResponse)
+	err := c.cc.Invoke(ctx, WebHookService_CreateEventTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WebHookServiceServer is the server API for WebHookService service.
 // All implementations should embed UnimplementedWebHookServiceServer
 // for forward compatibility
 type WebHookServiceServer interface {
+	ListApps(context.Context, *ListAppsRequest) (*ListAppsResponse, error)
 	CreateApps(context.Context, *CreateAppsRequest) (*CreateAppsResponse, error)
+	ListEndpoints(context.Context, *ListEndpointsRequest) (*ListEndpointsResponse, error)
+	CreateEndpoints(context.Context, *CreateEndpointsRequest) (*CreateEndpointsResponse, error)
+	ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error)
+	CreateMessages(context.Context, *CreateMessagesRequest) (*CreateMessagesResponse, error)
+	ListEventTypes(context.Context, *ListEventTypesRequest) (*ListEventTypesResponse, error)
+	CreateEventTypes(context.Context, *CreateEventTypesRequest) (*CreateEventTypesResponse, error)
 }
 
 // UnimplementedWebHookServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedWebHookServiceServer struct {
 }
 
+func (UnimplementedWebHookServiceServer) ListApps(context.Context, *ListAppsRequest) (*ListAppsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListApps not implemented")
+}
 func (UnimplementedWebHookServiceServer) CreateApps(context.Context, *CreateAppsRequest) (*CreateAppsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateApps not implemented")
+}
+func (UnimplementedWebHookServiceServer) ListEndpoints(context.Context, *ListEndpointsRequest) (*ListEndpointsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListEndpoints not implemented")
+}
+func (UnimplementedWebHookServiceServer) CreateEndpoints(context.Context, *CreateEndpointsRequest) (*CreateEndpointsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEndpoints not implemented")
+}
+func (UnimplementedWebHookServiceServer) ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMessages not implemented")
+}
+func (UnimplementedWebHookServiceServer) CreateMessages(context.Context, *CreateMessagesRequest) (*CreateMessagesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMessages not implemented")
+}
+func (UnimplementedWebHookServiceServer) ListEventTypes(context.Context, *ListEventTypesRequest) (*ListEventTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListEventTypes not implemented")
+}
+func (UnimplementedWebHookServiceServer) CreateEventTypes(context.Context, *CreateEventTypesRequest) (*CreateEventTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEventTypes not implemented")
 }
 
 // UnsafeWebHookServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -70,6 +175,24 @@ type UnsafeWebHookServiceServer interface {
 
 func RegisterWebHookServiceServer(s grpc.ServiceRegistrar, srv WebHookServiceServer) {
 	s.RegisterService(&WebHookService_ServiceDesc, srv)
+}
+
+func _WebHookService_ListApps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAppsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).ListApps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_ListApps_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).ListApps(ctx, req.(*ListAppsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _WebHookService_CreateApps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -90,6 +213,114 @@ func _WebHookService_CreateApps_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WebHookService_ListEndpoints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEndpointsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).ListEndpoints(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_ListEndpoints_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).ListEndpoints(ctx, req.(*ListEndpointsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WebHookService_CreateEndpoints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEndpointsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).CreateEndpoints(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_CreateEndpoints_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).CreateEndpoints(ctx, req.(*CreateEndpointsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WebHookService_ListMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMessagesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).ListMessages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_ListMessages_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).ListMessages(ctx, req.(*ListMessagesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WebHookService_CreateMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMessagesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).CreateMessages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_CreateMessages_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).CreateMessages(ctx, req.(*CreateMessagesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WebHookService_ListEventTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEventTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).ListEventTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_ListEventTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).ListEventTypes(ctx, req.(*ListEventTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WebHookService_CreateEventTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEventTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WebHookServiceServer).CreateEventTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WebHookService_CreateEventTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WebHookServiceServer).CreateEventTypes(ctx, req.(*CreateEventTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WebHookService_ServiceDesc is the grpc.ServiceDesc for WebHookService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,8 +329,36 @@ var WebHookService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*WebHookServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "ListApps",
+			Handler:    _WebHookService_ListApps_Handler,
+		},
+		{
 			MethodName: "CreateApps",
 			Handler:    _WebHookService_CreateApps_Handler,
+		},
+		{
+			MethodName: "ListEndpoints",
+			Handler:    _WebHookService_ListEndpoints_Handler,
+		},
+		{
+			MethodName: "CreateEndpoints",
+			Handler:    _WebHookService_CreateEndpoints_Handler,
+		},
+		{
+			MethodName: "ListMessages",
+			Handler:    _WebHookService_ListMessages_Handler,
+		},
+		{
+			MethodName: "CreateMessages",
+			Handler:    _WebHookService_CreateMessages_Handler,
+		},
+		{
+			MethodName: "ListEventTypes",
+			Handler:    _WebHookService_ListEventTypes_Handler,
+		},
+		{
+			MethodName: "CreateEventTypes",
+			Handler:    _WebHookService_CreateEventTypes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

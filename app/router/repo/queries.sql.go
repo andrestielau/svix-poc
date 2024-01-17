@@ -253,6 +253,7 @@ func PrepareAllQueries(ctx context.Context, p preparer) error {
 // NewEventType represents the Postgres composite type "new_event_type".
 type NewEventType struct {
 	Name   string       `json:"name"`
+	Key    string       `json:"key"`
 	Schema pgtype.JSONB `json:"schema"`
 }
 
@@ -367,6 +368,7 @@ func (tr *typeResolver) newNewEventType() pgtype.ValueTranscoder {
 	return tr.newCompositeValue(
 		"new_event_type",
 		compositeField{name: "name", typeName: "text", defaultVal: &pgtype.Text{}},
+		compositeField{name: "key", typeName: "text", defaultVal: &pgtype.Text{}},
 		compositeField{name: "schema", typeName: "jsonb", defaultVal: &pgtype.JSONB{}},
 	)
 }
@@ -376,6 +378,7 @@ func (tr *typeResolver) newNewEventType() pgtype.ValueTranscoder {
 func (tr *typeResolver) newNewEventTypeRaw(v NewEventType) []interface{} {
 	return []interface{}{
 		v.Name,
+		v.Key,
 		v.Schema,
 	}
 }

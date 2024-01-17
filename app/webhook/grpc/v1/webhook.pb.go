@@ -20,6 +20,310 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ListAppsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListAppsRequest) Reset() {
+	*x = ListAppsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListAppsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAppsRequest) ProtoMessage() {}
+
+func (x *ListAppsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAppsRequest.ProtoReflect.Descriptor instead.
+func (*ListAppsRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{0}
+}
+
+type ListAppsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListAppsResponse) Reset() {
+	*x = ListAppsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListAppsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAppsResponse) ProtoMessage() {}
+
+func (x *ListAppsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAppsResponse.ProtoReflect.Descriptor instead.
+func (*ListAppsResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{1}
+}
+
+type ListEndpointsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListEndpointsRequest) Reset() {
+	*x = ListEndpointsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListEndpointsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEndpointsRequest) ProtoMessage() {}
+
+func (x *ListEndpointsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEndpointsRequest.ProtoReflect.Descriptor instead.
+func (*ListEndpointsRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{2}
+}
+
+type ListEndpointsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListEndpointsResponse) Reset() {
+	*x = ListEndpointsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListEndpointsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEndpointsResponse) ProtoMessage() {}
+
+func (x *ListEndpointsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEndpointsResponse.ProtoReflect.Descriptor instead.
+func (*ListEndpointsResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{3}
+}
+
+type ListMessagesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListMessagesRequest) Reset() {
+	*x = ListMessagesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListMessagesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessagesRequest) ProtoMessage() {}
+
+func (x *ListMessagesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessagesRequest.ProtoReflect.Descriptor instead.
+func (*ListMessagesRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{4}
+}
+
+type ListMessagesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListMessagesResponse) Reset() {
+	*x = ListMessagesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListMessagesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessagesResponse) ProtoMessage() {}
+
+func (x *ListMessagesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessagesResponse.ProtoReflect.Descriptor instead.
+func (*ListMessagesResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{5}
+}
+
+type ListEventTypesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListEventTypesRequest) Reset() {
+	*x = ListEventTypesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListEventTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEventTypesRequest) ProtoMessage() {}
+
+func (x *ListEventTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEventTypesRequest.ProtoReflect.Descriptor instead.
+func (*ListEventTypesRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{6}
+}
+
+type ListEventTypesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListEventTypesResponse) Reset() {
+	*x = ListEventTypesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListEventTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEventTypesResponse) ProtoMessage() {}
+
+func (x *ListEventTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEventTypesResponse.ProtoReflect.Descriptor instead.
+func (*ListEventTypesResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{7}
+}
+
 type CreateAppsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -29,7 +333,7 @@ type CreateAppsRequest struct {
 func (x *CreateAppsRequest) Reset() {
 	*x = CreateAppsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[0]
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -42,7 +346,7 @@ func (x *CreateAppsRequest) String() string {
 func (*CreateAppsRequest) ProtoMessage() {}
 
 func (x *CreateAppsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[0]
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +359,7 @@ func (x *CreateAppsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAppsRequest.ProtoReflect.Descriptor instead.
 func (*CreateAppsRequest) Descriptor() ([]byte, []int) {
-	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{0}
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{8}
 }
 
 type CreateAppsResponse struct {
@@ -67,7 +371,7 @@ type CreateAppsResponse struct {
 func (x *CreateAppsResponse) Reset() {
 	*x = CreateAppsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[1]
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -80,7 +384,7 @@ func (x *CreateAppsResponse) String() string {
 func (*CreateAppsResponse) ProtoMessage() {}
 
 func (x *CreateAppsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[1]
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -93,7 +397,235 @@ func (x *CreateAppsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAppsResponse.ProtoReflect.Descriptor instead.
 func (*CreateAppsResponse) Descriptor() ([]byte, []int) {
-	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{1}
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{9}
+}
+
+type CreateEndpointsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateEndpointsRequest) Reset() {
+	*x = CreateEndpointsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateEndpointsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEndpointsRequest) ProtoMessage() {}
+
+func (x *CreateEndpointsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEndpointsRequest.ProtoReflect.Descriptor instead.
+func (*CreateEndpointsRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{10}
+}
+
+type CreateEndpointsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateEndpointsResponse) Reset() {
+	*x = CreateEndpointsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateEndpointsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEndpointsResponse) ProtoMessage() {}
+
+func (x *CreateEndpointsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEndpointsResponse.ProtoReflect.Descriptor instead.
+func (*CreateEndpointsResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{11}
+}
+
+type CreateMessagesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateMessagesRequest) Reset() {
+	*x = CreateMessagesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateMessagesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateMessagesRequest) ProtoMessage() {}
+
+func (x *CreateMessagesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateMessagesRequest.ProtoReflect.Descriptor instead.
+func (*CreateMessagesRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{12}
+}
+
+type CreateMessagesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateMessagesResponse) Reset() {
+	*x = CreateMessagesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateMessagesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateMessagesResponse) ProtoMessage() {}
+
+func (x *CreateMessagesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateMessagesResponse.ProtoReflect.Descriptor instead.
+func (*CreateMessagesResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{13}
+}
+
+type CreateEventTypesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateEventTypesRequest) Reset() {
+	*x = CreateEventTypesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateEventTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEventTypesRequest) ProtoMessage() {}
+
+func (x *CreateEventTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEventTypesRequest.ProtoReflect.Descriptor instead.
+func (*CreateEventTypesRequest) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{14}
+}
+
+type CreateEventTypesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateEventTypesResponse) Reset() {
+	*x = CreateEventTypesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateEventTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEventTypesResponse) ProtoMessage() {}
+
+func (x *CreateEventTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_webhook_grpc_v1_webhook_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEventTypesResponse.ProtoReflect.Descriptor instead.
+func (*CreateEventTypesResponse) Descriptor() ([]byte, []int) {
+	return file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP(), []int{15}
 }
 
 var File_app_webhook_grpc_v1_webhook_proto protoreflect.FileDescriptor
@@ -102,18 +634,79 @@ var file_app_webhook_grpc_v1_webhook_proto_rawDesc = []byte{
 	0x0a, 0x21, 0x61, 0x70, 0x70, 0x2f, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x2f, 0x67, 0x72,
 	0x70, 0x63, 0x2f, 0x76, 0x31, 0x2f, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31,
-	0x22, 0x13, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x14, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41,
-	0x70, 0x70, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x5f, 0x0a, 0x0e, 0x57,
-	0x65, 0x62, 0x48, 0x6f, 0x6f, 0x6b, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4d, 0x0a,
-	0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x12, 0x1e, 0x2e, 0x77, 0x65,
-	0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x77, 0x65,
-	0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x29, 0x5a, 0x27,
-	0x73, 0x76, 0x69, 0x78, 0x2d, 0x70, 0x6f, 0x63, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x77, 0x65, 0x62,
-	0x68, 0x6f, 0x6f, 0x6b, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x76, 0x31, 0x3b, 0x77, 0x65, 0x62,
-	0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x11, 0x0a, 0x0f, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x22, 0x12, 0x0a, 0x10, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x70, 0x70, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x16, 0x0a, 0x14, 0x4c, 0x69, 0x73, 0x74, 0x45,
+	0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22,
+	0x17, 0x0a, 0x15, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x15, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22,
+	0x16, 0x0a, 0x14, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x17, 0x0a, 0x15, 0x4c, 0x69, 0x73, 0x74, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x22, 0x18, 0x0a, 0x16, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70,
+	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x13, 0x0a, 0x11, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22,
+	0x14, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x18, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45,
+	0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22,
+	0x19, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e,
+	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x17, 0x0a, 0x15, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x22, 0x18, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x19, 0x0a,
+	0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x1a, 0x0a, 0x18, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x32, 0xca, 0x05, 0x0a, 0x0e, 0x57, 0x65, 0x62, 0x48, 0x6f, 0x6f, 0x6b,
+	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x47, 0x0a, 0x08, 0x4c, 0x69, 0x73, 0x74, 0x41,
+	0x70, 0x70, 0x73, 0x12, 0x1c, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x1d, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x4c, 0x69, 0x73, 0x74, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x4d, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x12, 0x1e,
+	0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f,
+	0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x56, 0x0a, 0x0d, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73,
+	0x12, 0x21, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x5c, 0x0a, 0x0f, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x12, 0x23, 0x2e, 0x77, 0x65, 0x62,
+	0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45,
+	0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x24, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x53, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x73, 0x12, 0x20, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f,
+	0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x59, 0x0a, 0x0e, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x12, 0x22, 0x2e, 0x77,
+	0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x23, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x59, 0x0a, 0x0e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x22, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f,
+	0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54,
+	0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x77, 0x65,
+	0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x5f, 0x0a, 0x10, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54,
+	0x79, 0x70, 0x65, 0x73, 0x12, 0x24, 0x2e, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79,
+	0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x77, 0x65, 0x62,
+	0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x42, 0x29, 0x5a, 0x27, 0x73, 0x76, 0x69, 0x78, 0x2d, 0x70, 0x6f, 0x63, 0x2f, 0x61, 0x70,
+	0x70, 0x2f, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x76,
+	0x31, 0x3b, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x73, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -128,19 +721,47 @@ func file_app_webhook_grpc_v1_webhook_proto_rawDescGZIP() []byte {
 	return file_app_webhook_grpc_v1_webhook_proto_rawDescData
 }
 
-var file_app_webhook_grpc_v1_webhook_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_app_webhook_grpc_v1_webhook_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_app_webhook_grpc_v1_webhook_proto_goTypes = []interface{}{
-	(*CreateAppsRequest)(nil),  // 0: webhooks.v1.CreateAppsRequest
-	(*CreateAppsResponse)(nil), // 1: webhooks.v1.CreateAppsResponse
+	(*ListAppsRequest)(nil),          // 0: webhooks.v1.ListAppsRequest
+	(*ListAppsResponse)(nil),         // 1: webhooks.v1.ListAppsResponse
+	(*ListEndpointsRequest)(nil),     // 2: webhooks.v1.ListEndpointsRequest
+	(*ListEndpointsResponse)(nil),    // 3: webhooks.v1.ListEndpointsResponse
+	(*ListMessagesRequest)(nil),      // 4: webhooks.v1.ListMessagesRequest
+	(*ListMessagesResponse)(nil),     // 5: webhooks.v1.ListMessagesResponse
+	(*ListEventTypesRequest)(nil),    // 6: webhooks.v1.ListEventTypesRequest
+	(*ListEventTypesResponse)(nil),   // 7: webhooks.v1.ListEventTypesResponse
+	(*CreateAppsRequest)(nil),        // 8: webhooks.v1.CreateAppsRequest
+	(*CreateAppsResponse)(nil),       // 9: webhooks.v1.CreateAppsResponse
+	(*CreateEndpointsRequest)(nil),   // 10: webhooks.v1.CreateEndpointsRequest
+	(*CreateEndpointsResponse)(nil),  // 11: webhooks.v1.CreateEndpointsResponse
+	(*CreateMessagesRequest)(nil),    // 12: webhooks.v1.CreateMessagesRequest
+	(*CreateMessagesResponse)(nil),   // 13: webhooks.v1.CreateMessagesResponse
+	(*CreateEventTypesRequest)(nil),  // 14: webhooks.v1.CreateEventTypesRequest
+	(*CreateEventTypesResponse)(nil), // 15: webhooks.v1.CreateEventTypesResponse
 }
 var file_app_webhook_grpc_v1_webhook_proto_depIdxs = []int32{
-	0, // 0: webhooks.v1.WebHookService.CreateApps:input_type -> webhooks.v1.CreateAppsRequest
-	1, // 1: webhooks.v1.WebHookService.CreateApps:output_type -> webhooks.v1.CreateAppsResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: webhooks.v1.WebHookService.ListApps:input_type -> webhooks.v1.ListAppsRequest
+	8,  // 1: webhooks.v1.WebHookService.CreateApps:input_type -> webhooks.v1.CreateAppsRequest
+	2,  // 2: webhooks.v1.WebHookService.ListEndpoints:input_type -> webhooks.v1.ListEndpointsRequest
+	10, // 3: webhooks.v1.WebHookService.CreateEndpoints:input_type -> webhooks.v1.CreateEndpointsRequest
+	4,  // 4: webhooks.v1.WebHookService.ListMessages:input_type -> webhooks.v1.ListMessagesRequest
+	12, // 5: webhooks.v1.WebHookService.CreateMessages:input_type -> webhooks.v1.CreateMessagesRequest
+	6,  // 6: webhooks.v1.WebHookService.ListEventTypes:input_type -> webhooks.v1.ListEventTypesRequest
+	14, // 7: webhooks.v1.WebHookService.CreateEventTypes:input_type -> webhooks.v1.CreateEventTypesRequest
+	1,  // 8: webhooks.v1.WebHookService.ListApps:output_type -> webhooks.v1.ListAppsResponse
+	9,  // 9: webhooks.v1.WebHookService.CreateApps:output_type -> webhooks.v1.CreateAppsResponse
+	3,  // 10: webhooks.v1.WebHookService.ListEndpoints:output_type -> webhooks.v1.ListEndpointsResponse
+	11, // 11: webhooks.v1.WebHookService.CreateEndpoints:output_type -> webhooks.v1.CreateEndpointsResponse
+	5,  // 12: webhooks.v1.WebHookService.ListMessages:output_type -> webhooks.v1.ListMessagesResponse
+	13, // 13: webhooks.v1.WebHookService.CreateMessages:output_type -> webhooks.v1.CreateMessagesResponse
+	7,  // 14: webhooks.v1.WebHookService.ListEventTypes:output_type -> webhooks.v1.ListEventTypesResponse
+	15, // 15: webhooks.v1.WebHookService.CreateEventTypes:output_type -> webhooks.v1.CreateEventTypesResponse
+	8,  // [8:16] is the sub-list for method output_type
+	0,  // [0:8] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_app_webhook_grpc_v1_webhook_proto_init() }
@@ -150,7 +771,7 @@ func file_app_webhook_grpc_v1_webhook_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_app_webhook_grpc_v1_webhook_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateAppsRequest); i {
+			switch v := v.(*ListAppsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -162,7 +783,175 @@ func file_app_webhook_grpc_v1_webhook_proto_init() {
 			}
 		}
 		file_app_webhook_grpc_v1_webhook_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAppsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListEndpointsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListEndpointsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListMessagesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListMessagesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListEventTypesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListEventTypesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateAppsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateAppsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEndpointsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEndpointsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateMessagesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateMessagesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEventTypesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_webhook_grpc_v1_webhook_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEventTypesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -180,7 +969,7 @@ func file_app_webhook_grpc_v1_webhook_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_app_webhook_grpc_v1_webhook_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

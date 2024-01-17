@@ -2,7 +2,7 @@ package emailapi
 
 import (
 	"svix-poc/app/email"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	"github.com/google/wire"
 )

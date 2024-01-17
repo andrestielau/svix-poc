@@ -4,5 +4,32 @@ package events.v1;
 option go_package = "svix-poc/app/router/grpc/v1;eventsv1";
 
 service EventService {
+    rpc ListEventTypes(ListEventTypesRequest) returns (ListEventTypesResponse);
+    rpc CreateEventTypes(CreateEventTypesRequest) returns (CreateEventTypesResponse);
+    rpc ListSubscriptions(ListSubscriptionsRequest) returns (ListSubscriptionsResponse);
+    rpc CreateSubscriptions(CreateSubscriptionsRequest) returns (CreateSubscriptionsResponse);
+}
+message ListEventTypesRequest {
+    
+}
+message ListEventTypesResponse {
+    
+}
+message CreateEventTypesRequest {
+    
+}
+message CreateEventTypesResponse {
+    
+}
+message ListSubscriptionsRequest {
+    
+}
+message ListSubscriptionsResponse {
+    
+}
+message CreateSubscriptionsRequest {
+    
+}
+message CreateSubscriptionsResponse {
     
 }

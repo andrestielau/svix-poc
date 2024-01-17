@@ -12,7 +12,7 @@ import (
 	webhookapi "svix-poc/app/webhook/api"
 	webhookgrpc "svix-poc/app/webhook/grpc"
 	webhooktopic "svix-poc/app/webhook/topic"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	"github.com/google/wire"
 )

@@ -4,13 +4,61 @@ package webhooks.v1;
 option go_package = "svix-poc/app/webhook/grpc/v1;webhooksv1";
 
 service WebHookService {
+    rpc ListApps(ListAppsRequest) returns (ListAppsResponse);
     rpc CreateApps(CreateAppsRequest) returns (CreateAppsResponse);
+    rpc ListEndpoints(ListEndpointsRequest) returns (ListEndpointsResponse);
+    rpc CreateEndpoints(CreateEndpointsRequest) returns (CreateEndpointsResponse);
+    rpc ListMessages(ListMessagesRequest) returns (ListMessagesResponse);
+    rpc CreateMessages(CreateMessagesRequest) returns (CreateMessagesResponse);
+    rpc ListEventTypes(ListEventTypesRequest) returns (ListEventTypesResponse);
+    rpc CreateEventTypes(CreateEventTypesRequest) returns (CreateEventTypesResponse);
 }
 
+message ListAppsRequest {
+
+}
+message ListAppsResponse {
+    
+}
+message ListEndpointsRequest {
+
+}
+message ListEndpointsResponse {
+    
+}
+message ListMessagesRequest {
+
+}
+message ListMessagesResponse {
+    
+}
+message ListEventTypesRequest {
+
+}
+message ListEventTypesResponse {
+    
+}
 message CreateAppsRequest {
 
 }
-
 message CreateAppsResponse {
+    
+}
+message CreateEndpointsRequest {
+
+}
+message CreateEndpointsResponse {
+    
+}
+message CreateMessagesRequest {
+
+}
+message CreateMessagesResponse {
+    
+}
+message CreateEventTypesRequest {
+
+}
+message CreateEventTypesResponse {
     
 }

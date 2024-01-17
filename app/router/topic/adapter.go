@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"svix-poc/app/router"
 	"svix-poc/app/router/repo"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 	"time"
 
 	"github.com/ThreeDotsLabs/watermill"

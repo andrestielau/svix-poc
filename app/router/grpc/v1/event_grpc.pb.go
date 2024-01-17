@@ -7,7 +7,10 @@
 package eventsv1
 
 import (
+	context "context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -15,12 +18,21 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-const ()
+const (
+	EventService_ListEventTypes_FullMethodName      = "/events.v1.EventService/ListEventTypes"
+	EventService_CreateEventTypes_FullMethodName    = "/events.v1.EventService/CreateEventTypes"
+	EventService_ListSubscriptions_FullMethodName   = "/events.v1.EventService/ListSubscriptions"
+	EventService_CreateSubscriptions_FullMethodName = "/events.v1.EventService/CreateSubscriptions"
+)
 
 // EventServiceClient is the client API for EventService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EventServiceClient interface {
+	ListEventTypes(ctx context.Context, in *ListEventTypesRequest, opts ...grpc.CallOption) (*ListEventTypesResponse, error)
+	CreateEventTypes(ctx context.Context, in *CreateEventTypesRequest, opts ...grpc.CallOption) (*CreateEventTypesResponse, error)
+	ListSubscriptions(ctx context.Context, in *ListSubscriptionsRequest, opts ...grpc.CallOption) (*ListSubscriptionsResponse, error)
+	CreateSubscriptions(ctx context.Context, in *CreateSubscriptionsRequest, opts ...grpc.CallOption) (*CreateSubscriptionsResponse, error)
 }
 
 type eventServiceClient struct {
@@ -31,14 +43,67 @@ func NewEventServiceClient(cc grpc.ClientConnInterface) EventServiceClient {
 	return &eventServiceClient{cc}
 }
 
+func (c *eventServiceClient) ListEventTypes(ctx context.Context, in *ListEventTypesRequest, opts ...grpc.CallOption) (*ListEventTypesResponse, error) {
+	out := new(ListEventTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_ListEventTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventServiceClient) CreateEventTypes(ctx context.Context, in *CreateEventTypesRequest, opts ...grpc.CallOption) (*CreateEventTypesResponse, error) {
+	out := new(CreateEventTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_CreateEventTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventServiceClient) ListSubscriptions(ctx context.Context, in *ListSubscriptionsRequest, opts ...grpc.CallOption) (*ListSubscriptionsResponse, error) {
+	out := new(ListSubscriptionsResponse)
+	err := c.cc.Invoke(ctx, EventService_ListSubscriptions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventServiceClient) CreateSubscriptions(ctx context.Context, in *CreateSubscriptionsRequest, opts ...grpc.CallOption) (*CreateSubscriptionsResponse, error) {
+	out := new(CreateSubscriptionsResponse)
+	err := c.cc.Invoke(ctx, EventService_CreateSubscriptions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EventServiceServer is the server API for EventService service.
 // All implementations should embed UnimplementedEventServiceServer
 // for forward compatibility
 type EventServiceServer interface {
+	ListEventTypes(context.Context, *ListEventTypesRequest) (*ListEventTypesResponse, error)
+	CreateEventTypes(context.Context, *CreateEventTypesRequest) (*CreateEventTypesResponse, error)
+	ListSubscriptions(context.Context, *ListSubscriptionsRequest) (*ListSubscriptionsResponse, error)
+	CreateSubscriptions(context.Context, *CreateSubscriptionsRequest) (*CreateSubscriptionsResponse, error)
 }
 
 // UnimplementedEventServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedEventServiceServer struct {
+}
+
+func (UnimplementedEventServiceServer) ListEventTypes(context.Context, *ListEventTypesRequest) (*ListEventTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListEventTypes not implemented")
+}
+func (UnimplementedEventServiceServer) CreateEventTypes(context.Context, *CreateEventTypesRequest) (*CreateEventTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEventTypes not implemented")
+}
+func (UnimplementedEventServiceServer) ListSubscriptions(context.Context, *ListSubscriptionsRequest) (*ListSubscriptionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSubscriptions not implemented")
+}
+func (UnimplementedEventServiceServer) CreateSubscriptions(context.Context, *CreateSubscriptionsRequest) (*CreateSubscriptionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSubscriptions not implemented")
 }
 
 // UnsafeEventServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -52,13 +117,102 @@ func RegisterEventServiceServer(s grpc.ServiceRegistrar, srv EventServiceServer)
 	s.RegisterService(&EventService_ServiceDesc, srv)
 }
 
+func _EventService_ListEventTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEventTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).ListEventTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_ListEventTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).ListEventTypes(ctx, req.(*ListEventTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EventService_CreateEventTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEventTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).CreateEventTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_CreateEventTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).CreateEventTypes(ctx, req.(*CreateEventTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EventService_ListSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSubscriptionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).ListSubscriptions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_ListSubscriptions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).ListSubscriptions(ctx, req.(*ListSubscriptionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EventService_CreateSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSubscriptionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).CreateSubscriptions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_CreateSubscriptions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).CreateSubscriptions(ctx, req.(*CreateSubscriptionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EventService_ServiceDesc is the grpc.ServiceDesc for EventService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var EventService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "events.v1.EventService",
 	HandlerType: (*EventServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "app/router/grpc/v1/event.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListEventTypes",
+			Handler:    _EventService_ListEventTypes_Handler,
+		},
+		{
+			MethodName: "CreateEventTypes",
+			Handler:    _EventService_CreateEventTypes_Handler,
+		},
+		{
+			MethodName: "ListSubscriptions",
+			Handler:    _EventService_ListSubscriptions_Handler,
+		},
+		{
+			MethodName: "CreateSubscriptions",
+			Handler:    _EventService_CreateSubscriptions_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "app/router/grpc/v1/event.proto",
 }

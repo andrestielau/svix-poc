@@ -5,8 +5,8 @@ import (
 	"svix-poc/app/webhook"
 	webhooksv1 "svix-poc/app/webhook/api/v1"
 	svixclient "svix-poc/app/webhook/svix"
-	"svix-poc/package/api/http/server"
-	"svix-poc/package/app"
+	"svix-poc/lib/api/http/server"
+	"svix-poc/lib/app"
 
 	"github.com/google/wire"
 )

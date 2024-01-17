@@ -5,8 +5,8 @@ import (
 	"svix-poc/app/router"
 	eventsv1 "svix-poc/app/router/grpc/v1"
 	"svix-poc/app/router/repo"
-	"svix-poc/package/api/grpc/server"
-	"svix-poc/package/app"
+	"svix-poc/lib/api/grpc/server"
+	"svix-poc/lib/app"
 
 	"github.com/google/wire"
 	"google.golang.org/grpc"

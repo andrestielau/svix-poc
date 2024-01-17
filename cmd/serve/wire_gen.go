@@ -17,7 +17,7 @@ import (
 	"svix-poc/app/webhook/grpc"
 	"svix-poc/app/webhook/svix"
 	"svix-poc/app/webhook/topic"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 )
 
 // Injectors from wire.go:

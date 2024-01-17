@@ -3,7 +3,7 @@ package repo
 import (
 	"context"
 	"os"
-	"svix-poc/package/app"
+	"svix-poc/lib/app"
 
 	"github.com/jackc/pgx/v4"
 )

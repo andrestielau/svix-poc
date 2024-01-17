@@ -5,8 +5,8 @@ import (
 	"svix-poc/app/router"
 	eventsv1 "svix-poc/app/router/api/v1"
 	"svix-poc/app/router/repo"
-	"svix-poc/package/api/http/server"
-	"svix-poc/package/app"
+	"svix-poc/lib/api/http/server"
+	"svix-poc/lib/app"
 
 	"github.com/google/wire"
 )

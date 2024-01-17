@@ -4,8 +4,8 @@ import (
 	"errors"
 	"log"
 	"os"
-	"svix-poc/package/app/cmd"
-	"svix-poc/package/app/flag"
+	"svix-poc/lib/app/cmd"
+	"svix-poc/lib/app/flag"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/ThreeDotsLabs/watermill"

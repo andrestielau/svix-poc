@@ -2,8 +2,8 @@ package svix
 
 import (
 	svixclient "svix-poc/app/webhook/svix"
-	"svix-poc/package/app/cmd"
-	"svix-poc/package/app/flag"
+	"svix-poc/lib/app/cmd"
+	"svix-poc/lib/app/flag"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"

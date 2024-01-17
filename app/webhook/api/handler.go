@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"svix-poc/app/webhook"
 	webhookv1 "svix-poc/app/webhook/api/v1"
-	"svix-poc/package/utils"
+	"svix-poc/lib/utils"
 
 	svix "github.com/svix/svix-webhooks/go"
 )

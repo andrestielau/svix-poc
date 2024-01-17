@@ -5,8 +5,8 @@ import (
 	"svix-poc/app/webhook"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
 	svixclient "svix-poc/app/webhook/svix"
-	"svix-poc/package/api/grpc/server"
-	"svix-poc/package/app"
+	"svix-poc/lib/api/grpc/server"
+	"svix-poc/lib/app"
 
 	"github.com/google/wire"
 	"google.golang.org/grpc"

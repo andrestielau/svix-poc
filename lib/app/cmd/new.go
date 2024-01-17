@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"svix-poc/package/app/flag"
-	"svix-poc/package/utils"
+	"svix-poc/lib/app/flag"
+	"svix-poc/lib/utils"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
