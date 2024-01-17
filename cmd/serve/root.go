@@ -57,9 +57,9 @@ var appProviders = map[string]func() app.Actor{
 	"router":  RouterApp,
 }
 
-func NewRouterApp(a *routerapi.Handler, g *routergrpc.Handler, t *routertopic.Handler, d router.Dependencies) app.Actor {
+func NewRouterApp(a *routerapi.Adapter, g *routergrpc.Adapter, t *routertopic.Adapter, d router.Dependencies) app.Actor {
 	return app.NewActor(app.Actors{"api": a, "grpc": g, "topic": t})
 }
-func NewWebHookApp(a *webhookapi.Handler, g *webhookgrpc.Handler, t *webhooktopic.Handler, d webhook.Dependencies) app.Actor {
+func NewWebHookApp(a *webhookapi.Adapter, g *webhookgrpc.Adapter, t *webhooktopic.Adapter, d webhook.Dependencies) app.Actor {
 	return app.NewActor(app.Actors{"api": a, "grpc": g, "topic": t})
 }

@@ -10,24 +10,32 @@ import (
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-googlecloud/pkg/googlecloud"
+	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/google/wire"
 )
 
 const SubscriberKey = "webhook_subscriber"
 
-func Provide(d webhook.Dependencies) *Handler {
-	return &Handler{
-		Dependencies: d,
+type Adapter struct {
+	*app.BaseActor
+	h          *Handler
+	subscriber message.Subscriber
+	closer     chan struct{}
+}
+
+func Provide(h *Handler, d webhook.Dependencies) *Adapter {
+	return &Adapter{
 		BaseActor: app.NewActor(app.Actors{
 			svixclient.SingletonKey: d.SvixClient,
 		}),
 	}
 }
-func (h *Handler) Start(ctx context.Context) (first bool, err error) {
-	if first, err = h.BaseActor.Start(ctx); !first || err != nil {
+
+func (p *Adapter) Start(ctx context.Context) (first bool, err error) {
+	if first, err = p.BaseActor.Start(ctx); !first || err != nil {
 		return first, err
 	}
-	h.subscriber, err = googlecloud.NewSubscriber(
+	p.subscriber, err = googlecloud.NewSubscriber(
 		googlecloud.SubscriberConfig{
 			GenerateSubscriptionName: func(topic string) string {
 				return "test-sub_" + topic // TODO: make configurable
@@ -41,24 +49,22 @@ func (h *Handler) Start(ctx context.Context) (first bool, err error) {
 	}
 	topic := string(ProvideTopic())
 	log.Println("subscribed to topic: " + topic)
-	if h.ch, err = h.subscriber.Subscribe(ctx, topic); err != nil {
+	ch, err := p.subscriber.Subscribe(ctx, topic)
+	if err != nil {
 		return true, err
 	}
-	go h.start()
-	return true, nil
-}
-func (h *Handler) start() {
-	for msg := range h.ch {
+	defer close(p.closer)
+	for msg := range ch {
 		if msg == nil {
 			break
-		}
-		if err := h.Handle(msg); err != nil {
+		} else if err := p.h.Handle(msg); err != nil {
 			log.Println(err)
 		}
 	}
-	close(h.closer)
+	return true, nil
 }
-func (h *Handler) Stop(ctx context.Context) (last bool, err error) {
+
+func (h *Adapter) Stop(ctx context.Context) (last bool, err error) {
 	if last, err = h.BaseActor.Stop(ctx); !last || err != nil {
 		return last, err
 	}

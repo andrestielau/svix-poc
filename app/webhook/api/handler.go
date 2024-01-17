@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"svix-poc/app/webhook"
 	webhookv1 "svix-poc/app/webhook/api/v1"
-	"svix-poc/package/app"
 	"svix-poc/package/utils"
 
 	svix "github.com/svix/svix-webhooks/go"
@@ -12,8 +11,6 @@ import (
 
 type Handler struct {
 	webhook.Dependencies
-	server *http.Server
-	*app.BaseActor
 }
 
 // Create

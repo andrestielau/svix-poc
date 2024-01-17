@@ -3,7 +3,6 @@ package webhooktopic
 import (
 	"encoding/json"
 	"svix-poc/app/webhook"
-	"svix-poc/package/app"
 
 	"github.com/ThreeDotsLabs/watermill/message"
 	svix "github.com/svix/svix-webhooks/go"
@@ -11,10 +10,6 @@ import (
 
 type Handler struct {
 	webhook.Dependencies
-	*app.BaseActor
-	subscriber message.Subscriber
-	ch         <-chan *message.Message
-	closer     chan struct{}
 }
 
 func (h *Handler) Handle(msg *message.Message) error {

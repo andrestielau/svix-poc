@@ -4,25 +4,15 @@ import (
 	"log"
 	"svix-poc/app/router"
 	"svix-poc/app/router/repo"
-	"svix-poc/package/app"
-	"svix-poc/package/topic"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
 )
 
-type Handler struct {
-	router.Dependencies
-	*app.BaseActor
-	router     *message.Router
-	publisher  message.Publisher
-	subscriber message.Subscriber
-}
-
 type NotificationProviderHandler struct {
+	router.Dependencies
 	Topic string
 	Key   string
-	topic.Transformer
 }
 
 func (h *NotificationProviderHandler) Add(router *message.Router, sub message.Subscriber, pub message.Publisher) {

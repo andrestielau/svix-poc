@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"svix-poc/app/router"
 	eventsv1 "svix-poc/app/router/api/v1"
-	"svix-poc/package/app"
 	"svix-poc/package/utils"
 	"time"
 
@@ -15,8 +14,6 @@ var _ eventsv1.ServerInterface = &Handler{}
 
 type Handler struct {
 	router.Dependencies
-	server *http.Server
-	*app.BaseActor
 }
 
 const DefaultLimit = 100

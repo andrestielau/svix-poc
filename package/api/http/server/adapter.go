@@ -1,4 +1,4 @@
-package http
+package server
 
 import (
 	"context"
@@ -23,6 +23,7 @@ func NewAdapter(opts AdapterOptions, children app.Actors) *Adapter {
 		BaseActor:      app.NewActor(children),
 	}
 }
+
 func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	if first, err = h.BaseActor.Start(ctx); !first || err != nil {
 		return first, err
