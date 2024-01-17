@@ -3,6 +3,8 @@ syntax = "proto3";
 package webhooks.v1;
 option go_package = "svix-poc/app/webhook/grpc/v1;webhooksv1";
 
+import "google/protobuf/any.proto";
+
 service WebHookService {
     rpc GetApps(GetAppsRequest) returns (GetAppsResponse);
     rpc ListApps(ListAppsRequest) returns (ListAppsResponse);
@@ -35,6 +37,9 @@ message Endpoint {
 }
 message Message {
     string id = 1;
+    string event_type = 2;
+    bytes payload = 3;
+    string event_id = 4;
 }
 message Attempt {
     string id = 1;

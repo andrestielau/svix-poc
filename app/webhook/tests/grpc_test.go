@@ -2,6 +2,7 @@ package tests_test
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
@@ -52,13 +53,18 @@ func TestGrpc(t *testing.T) {
 			res3, err := client.CreateMessages(ctx, &webhooksv1.CreateMessagesRequest{
 				TenantId: tenantId,
 				Data: []*webhooksv1.Message{{
-					Id: "asd",
+					EventType: "foo",
+					Id:        "asd",
+					EventId:   "asdadsdas",
+					Payload: lo.Must(json.Marshal(map[string]any{
+						"foo": "bar",
+					})),
 				}},
 			})
 			require.NoError(t, err)
 			t.Log(res3)
 			// Wait a bit
-			time.Sleep(5 * time.Second)
+			time.Sleep(5 * time.Minute)
 		})
 	}
 }

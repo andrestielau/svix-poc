@@ -1,6 +1,8 @@
 package webhookgrpc
 
 import (
+	"encoding/json"
+	"log"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
 
 	"github.com/samber/lo"
@@ -78,19 +80,33 @@ func MessageFromProto(v *webhooksv1.Message) *svix.MessageIn {
 	if v == nil {
 		return nil
 	}
-	return &svix.MessageIn{
-		Channels:               []string{},
-		EventType:              "",
-		Payload:                map[string]any{},
-		PayloadRetentionPeriod: lo.EmptyableToPtr[int64](0),
-		Tags:                   []string{},
+	var payload map[string]any
+	if len(v.Payload) > 0 {
+		if err := json.Unmarshal(v.Payload, &payload); err != nil {
+			log.Println(err)
+		}
 	}
+	m := &svix.MessageIn{
+		EventType:              v.EventType,
+		Payload:                payload,
+		PayloadRetentionPeriod: lo.EmptyableToPtr[int64](0),
+	}
+	if v.EventId != "" {
+		m.SetEventId(v.EventId)
+	}
+	return m
 }
 func MessageToProto(v *svix.MessageOut) *webhooksv1.Message {
 	if v == nil {
 		return nil
 	}
+	payload, err := json.Marshal(v.Payload)
+	if err != nil {
+		log.Println(err)
+	}
 	return &webhooksv1.Message{
-		Id: v.Id,
+		Id:        v.Id,
+		EventType: v.EventType,
+		Payload:   payload,
 	}
 }
