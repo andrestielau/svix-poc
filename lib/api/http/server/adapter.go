@@ -34,14 +34,16 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	}
 	go func() {
 		if err := h.s.ListenAndServe(); err != nil {
-			log.Println(err)
+			log.Println("Http Adapter", h.Addr, h.Handler, err)
 		}
 	}()
 	return true, nil
 }
 func (h *Adapter) Stop(ctx context.Context) (last bool, err error) {
+	log.Println("Stop http request")
 	if last, err = h.BaseActor.Stop(ctx); !last || err != nil {
 		return last, err
 	}
+	log.Println("Stop http")
 	return true, h.s.Close()
 }

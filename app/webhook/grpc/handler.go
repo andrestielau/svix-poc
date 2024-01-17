@@ -35,7 +35,7 @@ func (h *Handler) CreateApps(ctx context.Context, req *webhooksv1.CreateAppsRequ
 // CreateEndpoints implements webhooksv1.WebHookServiceServer.
 func (h *Handler) CreateEndpoints(ctx context.Context, req *webhooksv1.CreateEndpointsRequest) (*webhooksv1.CreateEndpointsResponse, error) {
 	ret, errs := Batch(req.Data, func(in *webhooksv1.Endpoint, i int) (*webhooksv1.Endpoint, *webhooksv1.Error) {
-		res, err := h.Endpoint.Create(ctx, "", EndpointFromProto(in))
+		res, err := h.Endpoint.Create(ctx, req.TenantId, EndpointFromProto(in))
 		if err != nil {
 			return nil, Err(err, i)
 		}
@@ -59,7 +59,7 @@ func (h *Handler) CreateEventTypes(ctx context.Context, req *webhooksv1.CreateEv
 // CreateMessages implements webhooksv1.WebHookServiceServer.
 func (h *Handler) CreateMessages(ctx context.Context, req *webhooksv1.CreateMessagesRequest) (*webhooksv1.CreateMessagesResponse, error) {
 	ret, errs := Batch(req.Data, func(in *webhooksv1.Message, i int) (*webhooksv1.Message, *webhooksv1.Error) {
-		res, err := h.Message.Create(ctx, "", MessageFromProto(in))
+		res, err := h.Message.Create(ctx, req.TenantId, MessageFromProto(in))
 		if err != nil {
 			return nil, Err(err, i)
 		}

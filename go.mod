@@ -19,6 +19,7 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.15.0
+	github.com/stretchr/testify v1.8.4
 	github.com/svix/svix-webhooks v1.15.0
 	github.com/testcontainers/testcontainers-go/modules/compose v0.27.0
 	google.golang.org/api v0.126.0
@@ -167,7 +168,6 @@ require (
 	github.com/spf13/afero v1.10.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/testcontainers/testcontainers-go v0.27.0 // indirect
 	github.com/theupdateframework/notary v0.7.0 // indirect

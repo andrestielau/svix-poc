@@ -16,6 +16,11 @@ func TestMain(m *testing.M) { os.Exit(run(m)) }
 func run(m *testing.M) int {
 	cli := lo.Must(client.NewClientWithOpts())
 	defer cli.Close()
+
+	if os.Getenv("PUBSUB_EMULATOR_HOST") == "" {
+		os.Setenv("PUBSUB_EMULATOR_HOST", "localhost:8085") // TODO: google black magic requires this or an actual env
+	}
+
 	if isIntegration() { // TODO: make these compatible with local testing
 		ctx := context.Background()
 		compose := lo.Must(tc.NewDockerCompose("../../../compose.yml"))

@@ -37,7 +37,7 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	}
 	go func() {
 		if err := h.s.Serve(l); err != nil {
-			log.Println(err)
+			log.Println("Grpc Adapter", err)
 		}
 	}()
 	return true, nil

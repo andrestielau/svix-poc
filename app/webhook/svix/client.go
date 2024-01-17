@@ -14,6 +14,7 @@ func New(u URL, token AuthToken) (*svix.Svix, error) {
 	}
 	return svix.New(string(token), &svix.SvixOptions{
 		ServerUrl: serverUrl,
+		Debug:     true,
 	}), nil
 }
 

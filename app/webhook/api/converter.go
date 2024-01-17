@@ -95,8 +95,8 @@ func EndpointResultToJson(in []svix.EndpointOut, errs []webhookv1.Error) webhook
 
 func NewMessageFromJson(in webhookv1.NewMessage) *svix.MessageIn {
 	ret := &svix.MessageIn{
-		Tags:      *in.Tags,
-		Channels:  *in.Channels,
+		Tags:      lo.FromPtr(in.Tags),
+		Channels:  lo.FromPtr(in.Channels),
 		EventType: in.EventType,
 	}
 	if in.EventId != nil {

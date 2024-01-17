@@ -34,14 +34,16 @@ func EndpointFromProto(v *webhooksv1.Endpoint) *svix.EndpointIn {
 	if v == nil {
 		return nil
 	}
-	return &svix.EndpointIn{
-		Url:         "",
-		Channels:    []string{},
+	m := &svix.EndpointIn{
+		Url:         v.Url,
 		Description: lo.EmptyableToPtr(""),
 		Disabled:    lo.ToPtr(false),
-		FilterTypes: []string{},
 		Metadata:    lo.EmptyableToPtr(map[string]string{}),
 	}
+	if v.Uid != "" {
+		m.SetUid(v.Uid)
+	}
+	return m
 }
 func EndpointToProto(v *svix.EndpointOut) *webhooksv1.Endpoint {
 	if v == nil {

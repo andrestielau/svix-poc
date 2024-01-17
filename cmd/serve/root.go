@@ -49,7 +49,7 @@ func runServe(cmd *cobra.Command, modules []string) {
 	ctx := cmd.Context()
 	defer func() {
 		if _, err := sys.Stop(ctx); err != nil {
-			log.Println(err)
+			log.Println("Sys err", err)
 		}
 	}()
 	lo.Must(sys.Start(ctx))
