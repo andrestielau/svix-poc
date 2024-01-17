@@ -23,11 +23,11 @@ func ProvideHost() Host {
 	return DefaultHost
 }
 
-func Provide(h *Handler, d webhook.Dependencies) *server.Adapter {
+func Provide(d webhook.Dependencies) *server.Adapter {
 	return server.NewAdapter(server.AdapterOptions{
 		Addr: string(ProvideHost()),
 		Register: func(s *grpc.Server) {
-			webhooksv1.RegisterWebHookServiceServer(s, h)
+			webhooksv1.RegisterWebHookServiceServer(s, &Handler{Dependencies: d})
 		},
 	}, app.Actors{
 		svixclient.SingletonKey: d.SvixClient,

@@ -5,13 +5,11 @@ import (
 	"fmt"
 	"os"
 	"svix-poc/app/router"
-	routerapi "svix-poc/app/router/api"
-	routergrpc "svix-poc/app/router/grpc"
 	routertopic "svix-poc/app/router/topic"
 	"svix-poc/app/webhook"
-	webhookapi "svix-poc/app/webhook/api"
-	webhookgrpc "svix-poc/app/webhook/grpc"
 	webhooktopic "svix-poc/app/webhook/topic"
+	grpcserver "svix-poc/package/api/grpc/server"
+	httpserver "svix-poc/package/api/http/server"
 	"svix-poc/package/app"
 	"svix-poc/package/app/cmd"
 	"svix-poc/package/utils"
@@ -57,9 +55,9 @@ var appProviders = map[string]func() app.Actor{
 	"router":  RouterApp,
 }
 
-func NewRouterApp(a *routerapi.Adapter, g *routergrpc.Adapter, t *routertopic.Adapter, d router.Dependencies) app.Actor {
+func NewRouterApp(a *httpserver.Adapter, g *grpcserver.Adapter, t *routertopic.Adapter, d router.Dependencies) app.Actor {
 	return app.NewActor(app.Actors{"api": a, "grpc": g, "topic": t})
 }
-func NewWebHookApp(a *webhookapi.Adapter, g *webhookgrpc.Adapter, t *webhooktopic.Adapter, d webhook.Dependencies) app.Actor {
+func NewWebHookApp(a *httpserver.Adapter, g *grpcserver.Adapter, t *webhooktopic.Adapter, d webhook.Dependencies) app.Actor {
 	return app.NewActor(app.Actors{"api": a, "grpc": g, "topic": t})
 }

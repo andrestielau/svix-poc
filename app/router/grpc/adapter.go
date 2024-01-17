@@ -27,7 +27,7 @@ func Provide(h *Handler, d router.Dependencies) *server.Adapter {
 	return server.NewAdapter(server.AdapterOptions{
 		Addr: string(ProvideHost()),
 		Register: func(s *grpc.Server) {
-			eventsv1.RegisterEventServiceServer(s, h)
+			eventsv1.RegisterEventServiceServer(s, &Handler{Dependencies: d})
 		},
 	}, app.Actors{
 		repo.SingletonKey: d.Repository,

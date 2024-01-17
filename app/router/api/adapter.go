@@ -11,10 +11,10 @@ import (
 	"github.com/google/wire"
 )
 
-func Provide(h *Handler, d router.Dependencies) *server.Adapter {
+func Provide(d router.Dependencies) *server.Adapter {
 	return server.NewAdapter(server.AdapterOptions{
+		Handler: eventsv1.Handler(&Handler{Dependencies: d}),
 		Addr:    string(ProvideHost()),
-		Handler: eventsv1.Handler(h),
 	}, app.Actors{
 		repo.SingletonKey: d.Repository,
 	})

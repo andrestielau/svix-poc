@@ -72,40 +72,6 @@ services:
     ports:
       - '127.0.0.1:1025:1025'
       - '8025:8025'
-  
-  mock:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    command: ["/app/poc", "mock"]
-    ports:
-      - "3428:3428"
-      - "2574:2574"
-      - "3526:3526"
-
-  webhooks:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    command: ["/app/poc", "serve", "webhooks"]
-    ports:
-      - "4010:4010"
-
-  router:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    command: ["/app/poc", "mock", "router"]
-    ports:
-      - "4020:4020"
-
-  email:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    command: ["/app/poc", "mock", "emails"]
-    ports:
-      - "4030:4030"
 
 volumes:
   # postgres-data:

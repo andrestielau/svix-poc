@@ -23,8 +23,9 @@ type Adapter struct {
 	closer     chan struct{}
 }
 
-func Provide(h *Handler, d webhook.Dependencies) *Adapter {
+func Provide(d webhook.Dependencies) *Adapter {
 	return &Adapter{
+		h: &Handler{Dependencies: d},
 		BaseActor: app.NewActor(app.Actors{
 			svixclient.SingletonKey: d.SvixClient,
 		}),

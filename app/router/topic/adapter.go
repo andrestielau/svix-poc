@@ -16,7 +16,7 @@ import (
 	"github.com/google/wire"
 )
 
-type Provider struct {
+type Adapter struct {
 	router.Dependencies
 	*app.BaseActor
 	router     *message.Router
@@ -24,8 +24,8 @@ type Provider struct {
 	subscriber message.Subscriber
 }
 
-func Provide(d router.Dependencies) *Provider {
-	return &Provider{
+func Provide(d router.Dependencies) *Adapter {
+	return &Adapter{
 		Dependencies: d,
 		BaseActor: app.NewActor(app.Actors{
 			repo.SingletonKey: d.Repository,
@@ -33,7 +33,7 @@ func Provide(d router.Dependencies) *Provider {
 	}
 }
 
-func (h *Provider) Start(ctx context.Context) (first bool, err error) {
+func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	if first, err = h.BaseActor.Start(ctx); !first || err != nil {
 		return first, err
 	}
@@ -83,7 +83,7 @@ func (h *Provider) Start(ctx context.Context) (first bool, err error) {
 	return true, nil
 }
 
-func (h *Provider) Stop(ctx context.Context) (last bool, err error) {
+func (h *Adapter) Stop(ctx context.Context) (last bool, err error) {
 	if last, err = h.BaseActor.Stop(ctx); !last || err != nil {
 		return last, err
 	}

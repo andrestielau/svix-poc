@@ -11,10 +11,10 @@ import (
 	"github.com/google/wire"
 )
 
-func Provide(h *Handler, d webhook.Dependencies) *server.Adapter {
+func Provide(d webhook.Dependencies) *server.Adapter {
 	return server.NewAdapter(server.AdapterOptions{
+		Handler: webhooksv1.Handler(&Handler{Dependencies: d}),
 		Addr:    string(ProvideHost()),
-		Handler: webhooksv1.Handler(h),
 	}, app.Actors{
 		svixclient.SingletonKey: d.SvixClient,
 	})
