@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strconv"
 	webhookv1 "svix-poc/app/webhook/api/v1"
 
 	"github.com/samber/lo"
@@ -261,7 +262,19 @@ type SvixCursor interface {
 func Batch[F, T any](t []F, fn func(F) (*T, error)) (ret []T, errs []webhookv1.Error) {
 	for i := range t {
 		if r, err := fn(t[i]); err != nil {
-			errs = append(errs, webhookv1.Error{})
+			if serr, ok := ErrAs[svix.Error](err); ok {
+				errs = append(errs, webhookv1.Error{
+					Index:  lo.ToPtr(strconv.Itoa(i)),
+					Reason: lo.ToPtr(serr.Error()),
+					Code:   lo.ToPtr(serr.Status()),
+				})
+			} else {
+				errs = append(errs, webhookv1.Error{
+					Index:  lo.ToPtr(strconv.Itoa(i)),
+					Reason: lo.ToPtr(err.Error()),
+					Code:   lo.ToPtr(500),
+				})
+			}
 		} else if r != nil {
 			ret = append(ret, *r)
 		}
@@ -273,11 +286,18 @@ func SetStatus(w http.ResponseWriter, err error) bool {
 	if err == nil {
 		return true
 	}
-	var serr svix.Error
-	if errors.As(err, &serr) {
+	if serr, ok := ErrAs[svix.Error](err); ok {
 		http.Error(w, serr.Error(), serr.Status())
 		return false
 	}
 	http.Error(w, err.Error(), http.StatusInternalServerError)
 	return false
+}
+
+func ErrAs[T any](err error) (T, bool) {
+	var serr T
+	if errors.As(err, &serr) {
+		return serr, true
+	}
+	return serr, false
 }

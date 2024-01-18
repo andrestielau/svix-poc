@@ -41,7 +41,7 @@ func isIntegration() bool {
 
 func CheckReceived(t *testing.T, eventId string) {
 	time.Sleep(10 * time.Second)
-	res4, err := http.Get("http://localhost:8081/history?filter=/" + eventId)
+	res4, err := http.Get("http://localhost:3000/history?filter=/" + eventId)
 	require.NoError(t, err)
 	defer res4.Body.Close()
 	var data []any

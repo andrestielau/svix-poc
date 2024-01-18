@@ -5,6 +5,7 @@ import (
 	webhooksv1 "svix-poc/app/webhook/api/v1"
 	webhooksgrpc "svix-poc/app/webhook/grpc/v1"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
@@ -48,7 +49,8 @@ func TestApi(t *testing.T) {
 				TenantId: tenantId,
 			}, []webhooksv1.NewMessage{{
 				EventType: "asd",
-				Payload:   `{ "foo": "bar" }`,
+				EventId:   lo.ToPtr(eventId),
+				Payload:   `{ "foo": "` + time.Now().String() + `" }`,
 			}})
 			require.NoError(t, err)
 			CheckReceived(t, eventId)

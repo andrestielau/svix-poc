@@ -19,13 +19,13 @@ var Root = cmd.New("mock", cmd.Add(
 ))
 
 func runResetMocks(_ *cobra.Command, _ []string) {
-	res := lo.Must(http.Post("http://localhost:8081/reset", "", nil))
+	res := lo.Must(http.Post("http://localhost:3000/reset", "", nil))
 	defer res.Body.Close()
 	log.Println(string(lo.Must(io.ReadAll(res.Body))))
 }
 
 func runListMocks(_ *cobra.Command, _ []string) {
-	res := lo.Must(http.Get("http://localhost:8081/mocks"))
+	res := lo.Must(http.Get("http://localhost:3000/mocks"))
 	defer res.Body.Close()
 	log.Println(string(lo.Must(io.ReadAll(res.Body))))
 }
@@ -38,7 +38,7 @@ func runCreateMocks(_ *cobra.Command, files []string) {
 			defer wg.Done()
 			if f, err := os.Open(file); err != nil {
 				log.Println(err)
-			} else if res, err := http.Post("http://localhost:8081/mocks", "application/x-yaml", f); err != nil {
+			} else if res, err := http.Post("http://localhost:3000/mocks", "application/x-yaml", f); err != nil {
 				log.Println(err)
 			} else {
 				log.Println(string(lo.Must(io.ReadAll(res.Body))))
