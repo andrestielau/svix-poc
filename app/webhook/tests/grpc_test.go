@@ -35,20 +35,21 @@ func TestGrpc(t *testing.T) {
 			})
 			require.NoError(t, err)
 			CheckErr(t, res.Errors)
+			eventId := uuid.NewString()
 			res2, err := client.CreateEventTypes(ctx, &webhooksv1.CreateEventTypesRequest{
 				Data: []*webhooksv1.EventType{{
-					Name: "asd",
+					Name: "asd" + eventId,
 				}},
 			})
 			require.NoError(t, err)
 			CheckErr(t, res2.Errors)
-			eventId := uuid.NewString()
 			endpointId := uuid.NewString()
 			res3, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
 				TenantId: tenantId,
 				Data: []*webhooksv1.Endpoint{{
-					Uid: endpointId,
-					Url: "http://smocker:8080/" + eventId,
+					Uid:         endpointId,
+					Url:         "http://smocker:8080/" + eventId,
+					FilterTypes: []string{"asd" + eventId},
 				}},
 			})
 			require.NoError(t, err)
@@ -57,7 +58,7 @@ func TestGrpc(t *testing.T) {
 				TenantId: tenantId,
 				Data: []*webhooksv1.Message{{
 					EventType: "foo",
-					Id:        "asd",
+					Id:        "asd" + eventId,
 					EventId:   "asdadsdas",
 					Payload: lo.Must(json.Marshal(map[string]any{
 						"foo": "bar",

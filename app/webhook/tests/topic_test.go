@@ -37,20 +37,21 @@ func TestTopic(t *testing.T) {
 			})
 			require.NoError(t, err)
 			CheckErr(t, res.Errors)
+			eventId := uuid.NewString()
 			res2, err := client.CreateEventTypes(ctx, &webhooksv1.CreateEventTypesRequest{
 				Data: []*webhooksv1.EventType{{
-					Name: "asd",
+					Name: "asd" + eventId,
 				}},
 			})
 			require.NoError(t, err)
 			CheckErr(t, res2.Errors)
-			eventId := uuid.NewString()
 			endpointId := uuid.NewString()
 			res3, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
 				TenantId: tenantId,
 				Data: []*webhooksv1.Endpoint{{
 					Uid: endpointId,
 					Url: "http://smocker:8080/" + eventId,
+					FilterTypes: []string{"asd" + eventId},
 				}},
 			})
 			require.NoError(t, err)
@@ -63,7 +64,7 @@ func TestTopic(t *testing.T) {
 			err = publisher.Publish("webhook", &message.Message{
 				Metadata: map[string]string{
 					"app":       tenantId,
-					"EventType": "asd",
+					"EventType": "asd" + eventId,
 				},
 				Payload: []byte(`{ "foo": "bar" }`),
 			})

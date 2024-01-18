@@ -28,27 +28,35 @@ func TestApi(t *testing.T) {
 			conn, err := grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))
 			require.NoError(t, err)
 			grpcClient := webhooksgrpc.NewWebHookServiceClient(conn)
-
-			_, err = grpcClient.CreateApps(ctx, &webhooksgrpc.CreateAppsRequest{
+			res, err := grpcClient.CreateApps(ctx, &webhooksgrpc.CreateAppsRequest{
 				Data: []*webhooksgrpc.App{{
 					Uid:  tenantId,
 					Name: "Test App-" + tenantId,
 				}},
 			})
 			require.NoError(t, err)
+			CheckErr(t, res.Errors)
 			eventId := uuid.NewString()
+			res2, err := grpcClient.CreateEventTypes(ctx, &webhooksgrpc.CreateEventTypesRequest{
+				Data: []*webhooksgrpc.EventType{{
+					Name: "asd" + eventId,
+				}},
+			})
+			require.NoError(t, err)
+			CheckErr(t, res2.Errors)
 			endpointId := uuid.NewString()
 			_, err = client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsParams{ // Create Endpoint
 				TenantId: tenantId,
 			}, []webhooksv1.NewEndpoint{{
-				Uid: lo.ToPtr(endpointId),
-				Url: "http://smocker:8080/" + eventId,
+				Uid:         lo.ToPtr(endpointId),
+				FilterTypes: lo.ToPtr([]string{"asd" + eventId}),
+				Url:         "http://smocker:8080/" + eventId,
 			}})
 			require.NoError(t, err)
 			_, err = client.CreateMessages(ctx, &webhooksv1.CreateMessagesParams{ // Send Message
 				TenantId: tenantId,
 			}, []webhooksv1.NewMessage{{
-				EventType: "asd",
+				EventType: "asd" + eventId,
 				EventId:   lo.ToPtr(eventId),
 				Payload:   `{ "foo": "` + time.Now().String() + `" }`,
 			}})
