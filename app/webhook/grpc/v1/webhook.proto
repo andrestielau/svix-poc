@@ -48,10 +48,10 @@ message Endpoint {
 }
 message Message {
     string id = 1;
-    string event_type = 2;
-    bytes payload = 3;
-    string event_id = 4;
-    string timestamp = 5;
+    string event_id = 2;
+    string event_type = 3;
+    string timestamp = 4;
+    bytes payload = 5;
     repeated string tags = 6;
     repeated string channels = 7;
 }

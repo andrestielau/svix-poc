@@ -49,8 +49,8 @@ func TestTopic(t *testing.T) {
 			res3, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
 				TenantId: tenantId,
 				Data: []*webhooksv1.Endpoint{{
-					Uid: endpointId,
-					Url: "http://smocker:8080/" + eventId,
+					Uid:         endpointId,
+					Url:         "http://smocker:8080/" + eventId,
 					FilterTypes: []string{"asd" + eventId},
 				}},
 			})
