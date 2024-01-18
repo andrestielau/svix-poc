@@ -57,8 +57,8 @@ func TestGrpc(t *testing.T) {
 			res4, err := client.CreateMessages(ctx, &webhooksv1.CreateMessagesRequest{
 				TenantId: tenantId,
 				Data: []*webhooksv1.Message{{
-					EventType: "foo",
-					EventId:   "asd" + eventId,
+					EventType: "asd" + eventId,
+					EventId:   eventId,
 					Payload: lo.Must(json.Marshal(map[string]any{
 						"foo": "bar",
 					})),
