@@ -29,7 +29,8 @@ func TestApi(t *testing.T) {
 			eventId := uuid.NewString()
 			_, err := grpcClient.CreateEventTypes(ctx, &eventsgrpc.CreateEventTypesRequest{
 				Data: []*eventsgrpc.EventType{{
-					Id: "dsa" + eventId,
+					Id:     "dsa" + eventId,
+					Schema: []byte(`{}`),
 				}},
 			})
 			require.NoError(t, err)

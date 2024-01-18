@@ -21,7 +21,7 @@ func (h *NotificationProviderHandler) Add(router *message.Router, sub message.Su
 
 func (h *NotificationProviderHandler) Handle(msg *message.Message) ([]*message.Message, error) {
 	// Check Metadata if should be skipped
-	log.Println("structHandler received message", msg.UUID)
+	log.Println(h.Key, " received message", msg.UUID)
 	msg = message.NewMessage(watermill.NewUUID(), []byte("message produced by provider handler: "+h.Key))
 	return message.Messages{msg}, nil
 }

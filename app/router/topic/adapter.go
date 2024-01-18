@@ -69,12 +69,28 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 		middleware.Recoverer,
 	)
 	// (Inbound) Internal Event Handlers
-	(&EventNotificationHandler{Topic: "example1", Key: "example1"}).Add(h.router, h.subscriber, h.publisher)
-	(&EventNotificationHandler{Topic: "example2", Key: "example2"}).Add(h.router, h.subscriber, h.publisher)
-	(&EventNotificationHandler{Topic: "example3", Key: "example3"}).Add(h.router, h.subscriber, h.publisher)
+	(&EventNotificationHandler{
+		Dependencies: h.Dependencies,
+		Topic:        "example1", Key: "example1",
+	}).Add(h.router, h.subscriber, h.publisher)
+	(&EventNotificationHandler{
+		Dependencies: h.Dependencies,
+		Topic:        "example2", Key: "example2",
+	}).Add(h.router, h.subscriber, h.publisher)
+	(&EventNotificationHandler{
+		Dependencies: h.Dependencies,
+		Topic:        "example3",
+		Key:          "example3",
+	}).Add(h.router, h.subscriber, h.publisher)
 	// (Outboud) Notification Provider Handlers
-	(&NotificationProviderHandler{Topic: "webhook", Key: "webhook"}).Add(h.router, h.subscriber, h.publisher)
-	(&NotificationProviderHandler{Topic: "email", Key: "email"}).Add(h.router, h.subscriber, h.publisher)
+	(&NotificationProviderHandler{
+		Dependencies: h.Dependencies,
+		Topic:        "webhook", Key: "webhook",
+	}).Add(h.router, h.subscriber, h.publisher)
+	(&NotificationProviderHandler{
+		Dependencies: h.Dependencies,
+		Topic:        "email", Key: "email",
+	}).Add(h.router, h.subscriber, h.publisher)
 	go func() {
 		if err := h.router.Run(ctx); err != nil {
 			log.Println("Router:", err)
