@@ -37,6 +37,7 @@ func (h *EventNotificationHandler) Add(router *message.Router, sub message.Subsc
 }
 
 func (h *EventNotificationHandler) Handle(msg *message.Message) ([]*message.Message, error) {
+	log.Println(msg, h.Querier)
 	subscriptions, err := h.ListEventSubscriptions(msg.Context(), repo.ListEventSubscriptionsParams{ // Get Subscriptions
 		Event: msg.Metadata["EventType"],
 	})

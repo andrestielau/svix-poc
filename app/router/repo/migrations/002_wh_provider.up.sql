@@ -1,1 +1,1 @@
-insert into evnt.provider (name, key) values ('Webhooks', 'webhook');
+insert into evnt.provider (id) values ('webhook');

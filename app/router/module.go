@@ -7,7 +7,7 @@ import (
 )
 
 type Dependencies struct {
-	*repo.Repository
+	*repo.Provider
 }
 
 var Set = wire.NewSet(

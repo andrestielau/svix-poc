@@ -18,8 +18,10 @@ type Handler struct {
 
 const DefaultLimit = 100
 
+// Make tenented
+
 // CreateSubscriptions implements eventsv1.ServerInterface.
-func (h *Handler) CreateSubscriptions(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateSubscriptions(w http.ResponseWriter, r *http.Request, params eventsv1.CreateSubscriptionsParams) {
 	if req, err := utils.JsonReq[eventsv1.NewSubscriptions](w, r); err == nil {
 	} else if res, err := h.Repository.CreateSubscriptions(r.Context(), NewSubscriptionsFromJson(req)); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -29,7 +31,7 @@ func (h *Handler) CreateSubscriptions(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeleteSubscription implements eventsv1.ServerInterface.
-func (h *Handler) DeleteSubscription(w http.ResponseWriter, r *http.Request, subscriptionId string) {
+func (h *Handler) DeleteSubscription(w http.ResponseWriter, r *http.Request, subscriptionId string, params eventsv1.DeleteSubscriptionParams) {
 	if res, err := h.Repository.DeleteSubscription(r.Context(), []string{subscriptionId}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else if res.RowsAffected() == 0 {

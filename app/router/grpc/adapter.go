@@ -12,6 +12,17 @@ import (
 	"google.golang.org/grpc"
 )
 
+func Provide(d router.Dependencies) *server.Adapter {
+	return server.NewAdapter(server.AdapterOptions{
+		Addr: string(ProvideHost()),
+		Register: func(s *grpc.Server) {
+			eventsv1.RegisterEventServiceServer(s, &Handler{Dependencies: d})
+		},
+	}, app.Actors{
+		repo.SingletonKey: d.Provider,
+	})
+}
+
 type Host string
 
 var DefaultHost Host = ":2573"
@@ -21,17 +32,6 @@ func ProvideHost() Host {
 		return url
 	}
 	return DefaultHost
-}
-
-func Provide(d router.Dependencies) *server.Adapter {
-	return server.NewAdapter(server.AdapterOptions{
-		Addr: string(ProvideHost()),
-		Register: func(s *grpc.Server) {
-			eventsv1.RegisterEventServiceServer(s, &Handler{Dependencies: d})
-		},
-	}, app.Actors{
-		repo.SingletonKey: d.Repository,
-	})
 }
 
 var Set = wire.NewSet(

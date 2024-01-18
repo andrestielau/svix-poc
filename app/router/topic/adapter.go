@@ -28,7 +28,7 @@ func Provide(d router.Dependencies) *Adapter {
 	return &Adapter{
 		Dependencies: d,
 		BaseActor: app.NewActor(app.Actors{
-			repo.SingletonKey: d.Repository,
+			repo.SingletonKey: d.Provider,
 		}),
 	}
 }
@@ -39,7 +39,7 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	}
 	logger := watermill.NewStdLogger(true, false)
 	var i int
-	if h.subscriber, err = googlecloud.NewSubscriber(
+	if h.subscriber, err = googlecloud.NewSubscriber( // TODO: make a dependency
 		googlecloud.SubscriberConfig{
 			GenerateSubscriptionName: func(topic string) string {
 				i++
@@ -51,7 +51,7 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	); err != nil {
 		return true, err
 	}
-	if h.publisher, err = googlecloud.NewPublisher(googlecloud.PublisherConfig{
+	if h.publisher, err = googlecloud.NewPublisher(googlecloud.PublisherConfig{ // TODO: make a dependency
 		ProjectID: "demo",
 	}, logger); err != nil {
 		return true, err
@@ -77,7 +77,7 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 	(&NotificationProviderHandler{Topic: "email", Key: "email"}).Add(h.router, h.subscriber, h.publisher)
 	go func() {
 		if err := h.router.Run(ctx); err != nil {
-			log.Println(err)
+			log.Println("Router:", err)
 		}
 	}()
 	return true, nil
@@ -86,6 +86,8 @@ func (h *Adapter) Start(ctx context.Context) (first bool, err error) {
 func (h *Adapter) Stop(ctx context.Context) (last bool, err error) {
 	if last, err = h.BaseActor.Stop(ctx); !last || err != nil {
 		return last, err
+	} else if h.router == nil {
+		return true, nil
 	}
 	return true, h.router.Close()
 }

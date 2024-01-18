@@ -9,8 +9,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 func TestGrpc(t *testing.T) {
@@ -24,43 +22,15 @@ func TestGrpc(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tenantId := uuid.NewString()
 			ctx := context.Background()
-			conn, err := grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))
-			require.NoError(t, err)
-			client := webhooksv1.NewWebHookServiceClient(conn)
-			res, err := client.CreateApps(ctx, &webhooksv1.CreateAppsRequest{
-				Data: []*webhooksv1.App{{
-					Uid:  tenantId,
-					Name: "Test App-" + tenantId,
-				}},
-			})
-			require.NoError(t, err)
-			CheckErr(t, res.Errors)
 			eventId := uuid.NewString()
-			res2, err := client.CreateEventTypes(ctx, &webhooksv1.CreateEventTypesRequest{
-				Data: []*webhooksv1.EventType{{
-					Name: "asd" + eventId,
-				}},
-			})
-			require.NoError(t, err)
-			CheckErr(t, res2.Errors)
-			endpointId := uuid.NewString()
-			res3, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
-				TenantId: tenantId,
-				Data: []*webhooksv1.Endpoint{{
-					Uid:         endpointId,
-					Url:         "http://smocker:8080/" + eventId,
-					FilterTypes: []string{"asd" + eventId},
-				}},
-			})
-			require.NoError(t, err)
-			CheckErr(t, res3.Errors)
-			res4, err := client.CreateMessages(ctx, &webhooksv1.CreateMessagesRequest{
+			Setup(t, ctx, eventId)
+			res4, err := grpcClient.CreateMessages(ctx, &webhooksv1.CreateMessagesRequest{
 				TenantId: tenantId,
 				Data: []*webhooksv1.Message{{
 					EventType: "asd" + eventId,
 					EventId:   eventId,
 					Payload: lo.Must(json.Marshal(map[string]any{
-						"foo": "bar",
+						"foo": "grpc",
 					})),
 				}},
 			})

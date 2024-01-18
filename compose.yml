@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  token:
+  token: # TODO: send to make as docker run
     image: svix/svix-server:latest
     environment:
       WAIT_FOR: "true"  # We want to wait for the default services
@@ -88,6 +88,21 @@ services:
     ports:
       - '2635:2635'
       - '4315:4315'
+  
+  router:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    command: ["/app/poc", "serve", "router"]
+    environment:
+      PUBSUB_EMULATOR_HOST: pubsub:8085
+      ROUTER_DB_URL: postgres://postgres:postgres@postgres:5432?sslmode=disable
+    depends_on:
+      - postgres
+      - pubsub
+    ports:
+      - '2573:2573'
+      - '3524:3524'
       
   smocker:
     image: thiht/smocker

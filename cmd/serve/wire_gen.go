@@ -23,9 +23,9 @@ import (
 // Injectors from wire.go:
 
 func RouterApp() app.Actor {
-	repository := repo.Provide()
+	provider := repo.Provide()
 	dependencies := router.Dependencies{
-		Repository: repository,
+		Provider: provider,
 	}
 	adapter := routerapi.Provide(dependencies)
 	serverAdapter := routergrpc.Provide(dependencies)

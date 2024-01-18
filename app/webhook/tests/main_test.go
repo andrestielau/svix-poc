@@ -5,38 +5,38 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
-	"strings"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
 	"testing"
 	"time"
 
-	"github.com/docker/docker/client"
+	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
-	tc "github.com/testcontainers/testcontainers-go/modules/compose"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func TestMain(m *testing.M) { os.Exit(run(m)) }
+
+var grpcClient webhooksv1.WebHookServiceClient
 
 func run(m *testing.M) int {
 	if os.Getenv("PUBSUB_EMULATOR_HOST") == "" {
 		os.Setenv("PUBSUB_EMULATOR_HOST", "localhost:8085") // TODO: google black magic requires this or an actual env
 	}
 
-	if isIntegration() { // TODO: make these compatible with local testing
-		cli := lo.Must(client.NewClientWithOpts())
-		defer cli.Close()
-		ctx := context.Background()
-		compose := lo.Must(tc.NewDockerCompose("../../../compose.yml"))
-		defer compose.Down(ctx, tc.RemoveOrphans(true), tc.RemoveVolumes(true), tc.RemoveImagesLocal)
-		lo.Must0(compose.Up(ctx, tc.RunServices("postgres", "pgbouncer", "redis", "svix", "pubsub", "webhooks")))
-	}
-	return m.Run()
-}
+	conn := lo.Must(grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials())))
+	grpcClient = webhooksv1.NewWebHookServiceClient(conn)
+	defer conn.Close()
 
-func isIntegration() bool {
-	ev := strings.ToLower(os.Getenv("INTEGRATION_TEST"))
-	return ev == "true" || ev == "t" || ev == "1"
+	lo.Must(grpcClient.CreateApps(context.Background(), &webhooksv1.CreateAppsRequest{
+		Data: []*webhooksv1.App{{
+			Uid:  tenantId,
+			Name: "Test App-" + tenantId,
+		}},
+	}))
+
+	return m.Run()
 }
 
 func CheckReceived(t *testing.T, eventId string) {
@@ -57,4 +57,25 @@ func CheckErr(t *testing.T, errs []*webhooksv1.Error) {
 			require.Equal(t, []*webhooksv1.Error(nil), errs)
 		}
 	}
+}
+
+func Setup(t *testing.T, ctx context.Context, eventId string) {
+	res, err := grpcClient.CreateEventTypes(ctx, &webhooksv1.CreateEventTypesRequest{
+		Data: []*webhooksv1.EventType{{
+			Name: "asd" + eventId,
+		}},
+	})
+	require.NoError(t, err)
+	CheckErr(t, res.Errors)
+	endpointId := uuid.NewString()
+	res2, err := grpcClient.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
+		TenantId: tenantId,
+		Data: []*webhooksv1.Endpoint{{
+			Uid:         endpointId,
+			Url:         "http://smocker:8080/" + eventId,
+			FilterTypes: []string{"asd" + eventId},
+		}},
+	})
+	require.NoError(t, err)
+	CheckErr(t, res2.Errors)
 }

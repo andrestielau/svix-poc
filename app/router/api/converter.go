@@ -23,14 +23,13 @@ func SubscriptionResultsToJson(in []repo.CreateSubscriptionsRow, errs []eventsv1
 func NewSubscriptionsFromJson(in []eventsv1.NewSubscription) []repo.NewSubscription {
 	return lo.Map(in, func(item eventsv1.NewSubscription, _ int) repo.NewSubscription {
 		return repo.NewSubscription{
-			NotificationTypeUid: item.EventTypeId,
+			NotificationType: item.EventTypeId,
 		}
 	})
 }
-func ProviderToJson(in repo.GetProvidersRow) eventsv1.Provider {
+func ProviderToJson(in string) eventsv1.Provider {
 	return eventsv1.Provider{
-		Id:   in.Uid,
-		Name: in.Name,
+		Id: in,
 	}
 }
 func SubscriptionToJson(in repo.GetSubscriptionsRow) eventsv1.Subscription {
@@ -43,8 +42,7 @@ func ListEventTypesToJson(in []repo.ListNotificationTypesRow) eventsv1.EventType
 	return eventsv1.EventTypeList{
 		Data: lo.Map(in, func(item repo.ListNotificationTypesRow, _ int) eventsv1.EventType {
 			return eventsv1.EventType{
-				Id:   item.Uid,
-				Name: item.Name,
+				Id: item.ID,
 			}
 		}),
 		Cursor: eventsv1.PageInfo{},
@@ -54,8 +52,7 @@ func ListProvidersToJson(in []repo.ListProvidersRow) eventsv1.ProviderList {
 	return eventsv1.ProviderList{
 		Data: lo.Map(in, func(item repo.ListProvidersRow, _ int) eventsv1.Provider {
 			return eventsv1.Provider{
-				Id:   item.Uid,
-				Name: item.Name,
+				Id: item.ID,
 			}
 		}),
 		Cursor: eventsv1.PageInfo{},

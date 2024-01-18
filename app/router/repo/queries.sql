@@ -1,49 +1,32 @@
 -- CreateEventTypes inserts event types into the database
 -- name: CreateEventTypes :many
 INSERT INTO evnt.event_type (
-  name
+  schema,
+  id
 ) 
 SELECT 
-  name
+  schema,
+  id
 FROM unnest(pggen.arg('event_types')::evnt.new_event_type[])
 ON CONFLICT DO NOTHING
 RETURNING 
   id,
-  uid,
-  name,
+  schema,
   created_at;
 
 -- CreateNotificationTypes inserts notification types into the database
 -- name: CreateNotificationTypes :many
 INSERT INTO evnt.notification_type (
-  name,
-  provider_id
+  id,
+  provider
 ) 
 SELECT 
-  u.name,
-  p.id
-FROM unnest(pggen.arg('notification_types')::evnt.new_notification_type[]) u
-JOIN evnt.provider p ON p.uid = u.provider_uid 
+  id,
+  provider
+FROM unnest(pggen.arg('notification_types')::evnt.new_notification_type[])
 ON CONFLICT DO NOTHING
 RETURNING 
   id,
-  uid,
-  name,
-  created_at;
-
--- CreateProviders inserts providers into the database
--- name: CreateProviders :many
-INSERT INTO evnt.provider (
-  name
-) 
-SELECT 
-  name
-FROM unnest(pggen.arg('providers')::evnt.new_provider[])
-ON CONFLICT DO NOTHING
-RETURNING 
-  id,
-  uid,
-  name,
   created_at;
 
 -- CreateSubscriptions inserts subscriptions into the database
@@ -51,14 +34,13 @@ RETURNING
 INSERT INTO evnt.subscription (
   tenant_id,
   metadata,
-  notification_type_id
+  notification_type
 ) 
 SELECT 
-  u.tenant_id,
-  u.metadata,
-  n.id
+  tenant_id,
+  metadata,
+  notification_type
 FROM unnest(pggen.arg('subscriptions')::evnt.new_subscription[]) u
-JOIN evnt.notification_type n ON n.uid = u.notification_type_uid 
 ON CONFLICT DO NOTHING
 RETURNING 
   uid,
@@ -66,7 +48,7 @@ RETURNING
   metadata,
   created_at,
   updated_at,
-  notification_type_id;
+  notification_type;
 
 -- DeleteSubscription deletes subscriptions TODO - soft delete 
 -- name: DeleteSubscription :exec
@@ -78,30 +60,25 @@ WHERE uid = ANY(pggen.arg('ids')::uuid[]);
 -- name: GetEventTypes :many
 SELECT 
   id,
-  uid,
-  name,
+  schema,
   created_at
 FROM evnt.event_type
-WHERE uid = ANY(pggen.arg('ids')::uuid[]);
+WHERE id = ANY(pggen.arg('ids')::text[]);
 
 -- GetNotificationTypes fetches a batch of event types by id
 -- name: GetNotificationTypes :many
 SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.notification_type
-WHERE uid = ANY(pggen.arg('ids')::uuid[]);
+WHERE id = ANY(pggen.arg('ids')::text[]);
 
 -- GetProviders fetches a batch of providers by id
 -- name: GetProviders :many
 SELECT 
-  id,
-  uid,
-  name
+  id
 FROM evnt.provider
-WHERE uid = ANY(pggen.arg('ids')::uuid[]);
+WHERE id = ANY(pggen.arg('ids')::text[]);
 
 -- GetSubscriptions fetches a batch of subscriptions by id
 -- name: GetSubscriptions :many
@@ -111,7 +88,7 @@ SELECT
   metadata,
   created_at,
   updated_at,
-  notification_type_id
+  notification_type
 FROM evnt.subscription
 WHERE uid = ANY(pggen.arg('ids')::uuid[]);
 
@@ -119,8 +96,6 @@ WHERE uid = ANY(pggen.arg('ids')::uuid[]);
 -- name: ListEventTypes :many
 SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.event_type
 WHERE pggen.arg('created_after')::timestamptz IS NULL 
@@ -132,8 +107,6 @@ LIMIT pggen.arg('limit');
 -- name: ListNotificationTypes :many
 SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.notification_type
 WHERE pggen.arg('created_after')::timestamptz IS NULL 
@@ -145,8 +118,6 @@ LIMIT pggen.arg('limit');
 -- name: ListProviders :many
 SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.provider
 WHERE pggen.arg('created_after')::timestamptz IS NULL 
@@ -163,7 +134,7 @@ SELECT
   metadata,
   created_at,
   updated_at,
-  notification_type_id
+  notification_type
 FROM evnt.subscription
 WHERE pggen.arg('created_after')::timestamptz IS NULL 
   OR created_at > pggen.arg('created_after')
@@ -176,17 +147,15 @@ WITH filtered AS (
   SELECT 
     s.uid,
     en.transform,
-    e.id  AS event_type_id,
-    e.uid AS event_type_uid,
-    n.uid AS notification_type_uid
+    e.id AS event_type
   FROM evnt.event_type e
   LEFT JOIN evnt.event_notification en
-    ON en.event_type_id = e.id
+    ON en.event_type = e.id
   LEFT JOIN evnt.notification_type n
-    ON en.notification_type_id = n.id
+    ON en.notification_type = n.id
   LEFT JOIN evnt.subscription s
-    ON n.id = s.notification_type_id
-  WHERE e.uid = pggen.arg('event')
+    ON n.id = s.notification_type
+  WHERE e.id = pggen.arg('event')
     AND (pggen.arg('tenant_id') = '' 
       OR s.tenant_id = pggen.arg('tenant_id'))
 ) SELECT 
@@ -195,11 +164,9 @@ WITH filtered AS (
   s.metadata,
   s.created_at,
   s.updated_at,
-  s.notification_type_id,
+  s.notification_type,
   f.transform,
-  f.event_type_id,
-  f.event_type_uid,
-  f.notification_type_uid
+  f.event_type
 FROM evnt.subscription s 
 INNER JOIN filtered f
   ON s.uid = f.uid

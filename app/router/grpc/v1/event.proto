@@ -4,32 +4,101 @@ package events.v1;
 option go_package = "svix-poc/app/router/grpc/v1;eventsv1";
 
 service EventService {
+    rpc GetProviders(GetProvidersRequest) returns (GetProvidersResponse);
+    rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
+    rpc GetEventTypes(GetEventTypesRequest) returns (GetEventTypesResponse);
     rpc ListEventTypes(ListEventTypesRequest) returns (ListEventTypesResponse);
     rpc CreateEventTypes(CreateEventTypesRequest) returns (CreateEventTypesResponse);
+    rpc GetSubscriptions(GetSubscriptionsRequest) returns (GetSubscriptionsResponse);
     rpc ListSubscriptions(ListSubscriptionsRequest) returns (ListSubscriptionsResponse);
     rpc CreateSubscriptions(CreateSubscriptionsRequest) returns (CreateSubscriptionsResponse);
 }
+
+message EventType {
+    string id = 1;
+    bytes schema = 2;
+}
+message Provider {
+    string id = 1;
+}
+message Subscription {
+    string tenant_id = 1;
+    string id = 2;
+    string notification = 3;
+    bytes metadata = 4;
+}
+
+message GetEventTypesRequest {
+    repeated string ids = 1; 
+}
+message GetEventTypesResponse {
+    map<string, EventType> data = 1;
+    repeated Error errors = 2;
+}
+message GetProvidersRequest {
+    string tenant_id = 1;
+    repeated string ids = 2; 
+}
+message GetProvidersResponse {
+    map<string, Provider> data = 1;
+    repeated Error errors = 2;
+}
+message GetSubscriptionsRequest {
+    string tenant_id = 1;
+    repeated string ids = 2; 
+}
+message GetSubscriptionsResponse {
+    map<string, Subscription> data = 1;
+    repeated Error errors = 2;
+}
 message ListEventTypesRequest {
-    
+    PageRequest page = 1;
 }
 message ListEventTypesResponse {
-    
-}
-message CreateEventTypesRequest {
-    
-}
-message CreateEventTypesResponse {
-    
+    repeated EventType data = 1;
+    PageResponse page = 2;
 }
 message ListSubscriptionsRequest {
-    
+    PageRequest page = 1;
 }
 message ListSubscriptionsResponse {
-    
+    repeated Subscription data = 1;
+    PageResponse page = 2;
+}
+message ListProvidersRequest {
+    PageRequest page = 1;
+}
+message ListProvidersResponse {
+    repeated Provider data = 1;
+    PageResponse page = 2;
+}
+message CreateEventTypesRequest {
+    repeated EventType data = 1;
+}
+message CreateEventTypesResponse {
+    repeated EventType data = 1;
+    repeated Error errors = 2;
 }
 message CreateSubscriptionsRequest {
-    
+    repeated Subscription data = 1;
 }
 message CreateSubscriptionsResponse {
-    
+    repeated Subscription data = 1;
+    repeated Error errors = 2;
+}
+
+message PageRequest {
+    int32 limit = 1;
+    string cursor = 2;
+    bool desc = 3;
+}
+message PageResponse {
+    string next = 1;
+    string prev = 2;
+    bool done = 3;
+}
+message Error {
+    int32 code = 1;
+    string index = 2;
+    string reason = 3;
 }

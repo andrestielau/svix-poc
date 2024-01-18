@@ -16,7 +16,7 @@ func Provide(d router.Dependencies) *server.Adapter {
 		Handler: eventsv1.Handler(&Handler{Dependencies: d}),
 		Addr:    string(ProvideHost()),
 	}, app.Actors{
-		repo.SingletonKey: d.Repository,
+		repo.SingletonKey: d.Provider,
 	})
 }
 

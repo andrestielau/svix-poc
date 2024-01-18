@@ -20,9 +20,9 @@ import (
 
 // Error defines model for Error.
 type Error struct {
-	Code   *int    `json:"code,omitempty"`
-	Index  *string `json:"index,omitempty"`
-	Reason *string `json:"reason,omitempty"`
+	Code   int    `json:"code"`
+	Index  string `json:"index"`
+	Reason string `json:"reason"`
 }
 
 // EventType defines model for EventType.
@@ -124,6 +124,16 @@ type ListSubscriptionsParams struct {
 // CreateSubscriptionsJSONBody defines parameters for CreateSubscriptions.
 type CreateSubscriptionsJSONBody = []NewSubscription
 
+// CreateSubscriptionsParams defines parameters for CreateSubscriptions.
+type CreateSubscriptionsParams struct {
+	TenantId TenantId `json:"tenantId"`
+}
+
+// DeleteSubscriptionParams defines parameters for DeleteSubscription.
+type DeleteSubscriptionParams struct {
+	TenantId TenantId `json:"tenantId"`
+}
+
 // GetSubscriptionParams defines parameters for GetSubscription.
 type GetSubscriptionParams struct {
 	TenantId TenantId `json:"tenantId"`
@@ -222,12 +232,12 @@ type ClientInterface interface {
 	ListSubscriptions(ctx context.Context, params *ListSubscriptionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreateSubscriptionsWithBody request with any body
-	CreateSubscriptionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	CreateSubscriptionsWithBody(ctx context.Context, params *CreateSubscriptionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	CreateSubscriptions(ctx context.Context, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	CreateSubscriptions(ctx context.Context, params *CreateSubscriptionsParams, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteSubscription request
-	DeleteSubscription(ctx context.Context, subscriptionId SubscriptionId, reqEditors ...RequestEditorFn) (*http.Response, error)
+	DeleteSubscription(ctx context.Context, subscriptionId SubscriptionId, params *DeleteSubscriptionParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetSubscription request
 	GetSubscription(ctx context.Context, subscriptionId SubscriptionId, params *GetSubscriptionParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -272,8 +282,8 @@ func (c *Client) ListSubscriptions(ctx context.Context, params *ListSubscription
 	return c.Client.Do(req)
 }
 
-func (c *Client) CreateSubscriptionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateSubscriptionsRequestWithBody(c.Server, contentType, body)
+func (c *Client) CreateSubscriptionsWithBody(ctx context.Context, params *CreateSubscriptionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateSubscriptionsRequestWithBody(c.Server, params, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -284,8 +294,8 @@ func (c *Client) CreateSubscriptionsWithBody(ctx context.Context, contentType st
 	return c.Client.Do(req)
 }
 
-func (c *Client) CreateSubscriptions(ctx context.Context, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateSubscriptionsRequest(c.Server, body)
+func (c *Client) CreateSubscriptions(ctx context.Context, params *CreateSubscriptionsParams, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateSubscriptionsRequest(c.Server, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -296,8 +306,8 @@ func (c *Client) CreateSubscriptions(ctx context.Context, body CreateSubscriptio
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteSubscription(ctx context.Context, subscriptionId SubscriptionId, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteSubscriptionRequest(c.Server, subscriptionId)
+func (c *Client) DeleteSubscription(ctx context.Context, subscriptionId SubscriptionId, params *DeleteSubscriptionParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteSubscriptionRequest(c.Server, subscriptionId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -536,18 +546,18 @@ func NewListSubscriptionsRequest(server string, params *ListSubscriptionsParams)
 }
 
 // NewCreateSubscriptionsRequest calls the generic CreateSubscriptions builder with application/json body
-func NewCreateSubscriptionsRequest(server string, body CreateSubscriptionsJSONRequestBody) (*http.Request, error) {
+func NewCreateSubscriptionsRequest(server string, params *CreateSubscriptionsParams, body CreateSubscriptionsJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewCreateSubscriptionsRequestWithBody(server, "application/json", bodyReader)
+	return NewCreateSubscriptionsRequestWithBody(server, params, "application/json", bodyReader)
 }
 
 // NewCreateSubscriptionsRequestWithBody generates requests for CreateSubscriptions with any type of body
-func NewCreateSubscriptionsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+func NewCreateSubscriptionsRequestWithBody(server string, params *CreateSubscriptionsParams, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -572,11 +582,24 @@ func NewCreateSubscriptionsRequestWithBody(server string, contentType string, bo
 
 	req.Header.Add("Content-Type", contentType)
 
+	if params != nil {
+
+		var headerParam0 string
+
+		headerParam0, err = runtime.StyleParamWithLocation("simple", false, "tenantId", runtime.ParamLocationHeader, params.TenantId)
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("tenantId", headerParam0)
+
+	}
+
 	return req, nil
 }
 
 // NewDeleteSubscriptionRequest generates requests for DeleteSubscription
-func NewDeleteSubscriptionRequest(server string, subscriptionId SubscriptionId) (*http.Request, error) {
+func NewDeleteSubscriptionRequest(server string, subscriptionId SubscriptionId, params *DeleteSubscriptionParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -604,6 +627,19 @@ func NewDeleteSubscriptionRequest(server string, subscriptionId SubscriptionId) 
 	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+
+		var headerParam0 string
+
+		headerParam0, err = runtime.StyleParamWithLocation("simple", false, "tenantId", runtime.ParamLocationHeader, params.TenantId)
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("tenantId", headerParam0)
+
 	}
 
 	return req, nil
@@ -787,12 +823,12 @@ type ClientWithResponsesInterface interface {
 	ListSubscriptionsWithResponse(ctx context.Context, params *ListSubscriptionsParams, reqEditors ...RequestEditorFn) (*ListSubscriptionsResponse, error)
 
 	// CreateSubscriptionsWithBodyWithResponse request with any body
-	CreateSubscriptionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error)
+	CreateSubscriptionsWithBodyWithResponse(ctx context.Context, params *CreateSubscriptionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error)
 
-	CreateSubscriptionsWithResponse(ctx context.Context, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error)
+	CreateSubscriptionsWithResponse(ctx context.Context, params *CreateSubscriptionsParams, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error)
 
 	// DeleteSubscriptionWithResponse request
-	DeleteSubscriptionWithResponse(ctx context.Context, subscriptionId SubscriptionId, reqEditors ...RequestEditorFn) (*DeleteSubscriptionResponse, error)
+	DeleteSubscriptionWithResponse(ctx context.Context, subscriptionId SubscriptionId, params *DeleteSubscriptionParams, reqEditors ...RequestEditorFn) (*DeleteSubscriptionResponse, error)
 
 	// GetSubscriptionWithResponse request
 	GetSubscriptionWithResponse(ctx context.Context, subscriptionId SubscriptionId, params *GetSubscriptionParams, reqEditors ...RequestEditorFn) (*GetSubscriptionResponse, error)
@@ -982,16 +1018,16 @@ func (c *ClientWithResponses) ListSubscriptionsWithResponse(ctx context.Context,
 }
 
 // CreateSubscriptionsWithBodyWithResponse request with arbitrary body returning *CreateSubscriptionsResponse
-func (c *ClientWithResponses) CreateSubscriptionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error) {
-	rsp, err := c.CreateSubscriptionsWithBody(ctx, contentType, body, reqEditors...)
+func (c *ClientWithResponses) CreateSubscriptionsWithBodyWithResponse(ctx context.Context, params *CreateSubscriptionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error) {
+	rsp, err := c.CreateSubscriptionsWithBody(ctx, params, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
 	return ParseCreateSubscriptionsResponse(rsp)
 }
 
-func (c *ClientWithResponses) CreateSubscriptionsWithResponse(ctx context.Context, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error) {
-	rsp, err := c.CreateSubscriptions(ctx, body, reqEditors...)
+func (c *ClientWithResponses) CreateSubscriptionsWithResponse(ctx context.Context, params *CreateSubscriptionsParams, body CreateSubscriptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSubscriptionsResponse, error) {
+	rsp, err := c.CreateSubscriptions(ctx, params, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -999,8 +1035,8 @@ func (c *ClientWithResponses) CreateSubscriptionsWithResponse(ctx context.Contex
 }
 
 // DeleteSubscriptionWithResponse request returning *DeleteSubscriptionResponse
-func (c *ClientWithResponses) DeleteSubscriptionWithResponse(ctx context.Context, subscriptionId SubscriptionId, reqEditors ...RequestEditorFn) (*DeleteSubscriptionResponse, error) {
-	rsp, err := c.DeleteSubscription(ctx, subscriptionId, reqEditors...)
+func (c *ClientWithResponses) DeleteSubscriptionWithResponse(ctx context.Context, subscriptionId SubscriptionId, params *DeleteSubscriptionParams, reqEditors ...RequestEditorFn) (*DeleteSubscriptionResponse, error) {
+	rsp, err := c.DeleteSubscription(ctx, subscriptionId, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -1210,10 +1246,10 @@ type ServerInterface interface {
 	ListSubscriptions(w http.ResponseWriter, r *http.Request, params ListSubscriptionsParams)
 	// Subscribe
 	// (POST /subscriptions)
-	CreateSubscriptions(w http.ResponseWriter, r *http.Request)
+	CreateSubscriptions(w http.ResponseWriter, r *http.Request, params CreateSubscriptionsParams)
 	// Unsubscribe
 	// (DELETE /subscriptions/{subscriptionId})
-	DeleteSubscription(w http.ResponseWriter, r *http.Request, subscriptionId SubscriptionId)
+	DeleteSubscription(w http.ResponseWriter, r *http.Request, subscriptionId SubscriptionId, params DeleteSubscriptionParams)
 	// Get Subscription
 	// (GET /subscriptions/{subscriptionId})
 	GetSubscription(w http.ResponseWriter, r *http.Request, subscriptionId SubscriptionId, params GetSubscriptionParams)
@@ -1246,13 +1282,13 @@ func (_ Unimplemented) ListSubscriptions(w http.ResponseWriter, r *http.Request,
 
 // Subscribe
 // (POST /subscriptions)
-func (_ Unimplemented) CreateSubscriptions(w http.ResponseWriter, r *http.Request) {
+func (_ Unimplemented) CreateSubscriptions(w http.ResponseWriter, r *http.Request, params CreateSubscriptionsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Unsubscribe
 // (DELETE /subscriptions/{subscriptionId})
-func (_ Unimplemented) DeleteSubscription(w http.ResponseWriter, r *http.Request, subscriptionId SubscriptionId) {
+func (_ Unimplemented) DeleteSubscription(w http.ResponseWriter, r *http.Request, subscriptionId SubscriptionId, params DeleteSubscriptionParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -1457,8 +1493,38 @@ func (siw *ServerInterfaceWrapper) ListSubscriptions(w http.ResponseWriter, r *h
 func (siw *ServerInterfaceWrapper) CreateSubscriptions(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params CreateSubscriptionsParams
+
+	headers := r.Header
+
+	// ------------- Required header parameter "tenantId" -------------
+	if valueList, found := headers[http.CanonicalHeaderKey("tenantId")]; found {
+		var TenantId TenantId
+		n := len(valueList)
+		if n != 1 {
+			siw.ErrorHandlerFunc(w, r, &TooManyValuesForParamError{ParamName: "tenantId", Count: n})
+			return
+		}
+
+		err = runtime.BindStyledParameterWithLocation("simple", false, "tenantId", runtime.ParamLocationHeader, valueList[0], &TenantId)
+		if err != nil {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "tenantId", Err: err})
+			return
+		}
+
+		params.TenantId = TenantId
+
+	} else {
+		err := fmt.Errorf("Header parameter tenantId is required, but not found")
+		siw.ErrorHandlerFunc(w, r, &RequiredHeaderError{ParamName: "tenantId", Err: err})
+		return
+	}
+
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.CreateSubscriptions(w, r)
+		siw.Handler.CreateSubscriptions(w, r, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1483,8 +1549,36 @@ func (siw *ServerInterfaceWrapper) DeleteSubscription(w http.ResponseWriter, r *
 		return
 	}
 
+	// Parameter object where we will unmarshal all parameters from the context
+	var params DeleteSubscriptionParams
+
+	headers := r.Header
+
+	// ------------- Required header parameter "tenantId" -------------
+	if valueList, found := headers[http.CanonicalHeaderKey("tenantId")]; found {
+		var TenantId TenantId
+		n := len(valueList)
+		if n != 1 {
+			siw.ErrorHandlerFunc(w, r, &TooManyValuesForParamError{ParamName: "tenantId", Count: n})
+			return
+		}
+
+		err = runtime.BindStyledParameterWithLocation("simple", false, "tenantId", runtime.ParamLocationHeader, valueList[0], &TenantId)
+		if err != nil {
+			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "tenantId", Err: err})
+			return
+		}
+
+		params.TenantId = TenantId
+
+	} else {
+		err := fmt.Errorf("Header parameter tenantId is required, but not found")
+		siw.ErrorHandlerFunc(w, r, &RequiredHeaderError{ParamName: "tenantId", Err: err})
+		return
+	}
+
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteSubscription(w, r, subscriptionId)
+		siw.Handler.DeleteSubscription(w, r, subscriptionId, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {

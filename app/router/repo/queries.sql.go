@@ -33,14 +33,6 @@ type Querier interface {
 	// CreateNotificationTypesScan scans the result of an executed CreateNotificationTypesBatch query.
 	CreateNotificationTypesScan(results pgx.BatchResults) ([]CreateNotificationTypesRow, error)
 
-	// CreateProviders inserts providers into the database
-	CreateProviders(ctx context.Context, providers []NewProvider) ([]CreateProvidersRow, error)
-	// CreateProvidersBatch enqueues a CreateProviders query into batch to be executed
-	// later by the batch.
-	CreateProvidersBatch(batch genericBatch, providers []NewProvider)
-	// CreateProvidersScan scans the result of an executed CreateProvidersBatch query.
-	CreateProvidersScan(results pgx.BatchResults) ([]CreateProvidersRow, error)
-
 	// CreateSubscriptions inserts subscriptions into the database
 	CreateSubscriptions(ctx context.Context, subscriptions []NewSubscription) ([]CreateSubscriptionsRow, error)
 	// CreateSubscriptionsBatch enqueues a CreateSubscriptions query into batch to be executed
@@ -74,12 +66,12 @@ type Querier interface {
 	GetNotificationTypesScan(results pgx.BatchResults) ([]GetNotificationTypesRow, error)
 
 	// GetProviders fetches a batch of providers by id
-	GetProviders(ctx context.Context, ids []string) ([]GetProvidersRow, error)
+	GetProviders(ctx context.Context, ids []string) ([]string, error)
 	// GetProvidersBatch enqueues a GetProviders query into batch to be executed
 	// later by the batch.
 	GetProvidersBatch(batch genericBatch, ids []string)
 	// GetProvidersScan scans the result of an executed GetProvidersBatch query.
-	GetProvidersScan(results pgx.BatchResults) ([]GetProvidersRow, error)
+	GetProvidersScan(results pgx.BatchResults) ([]string, error)
 
 	// GetSubscriptions fetches a batch of subscriptions by id
 	GetSubscriptions(ctx context.Context, ids []string) ([]GetSubscriptionsRow, error)
@@ -211,9 +203,6 @@ func PrepareAllQueries(ctx context.Context, p preparer) error {
 	if _, err := p.Prepare(ctx, createNotificationTypesSQL, createNotificationTypesSQL); err != nil {
 		return fmt.Errorf("prepare query 'CreateNotificationTypes': %w", err)
 	}
-	if _, err := p.Prepare(ctx, createProvidersSQL, createProvidersSQL); err != nil {
-		return fmt.Errorf("prepare query 'CreateProviders': %w", err)
-	}
 	if _, err := p.Prepare(ctx, createSubscriptionsSQL, createSubscriptionsSQL); err != nil {
 		return fmt.Errorf("prepare query 'CreateSubscriptions': %w", err)
 	}
@@ -252,28 +241,22 @@ func PrepareAllQueries(ctx context.Context, p preparer) error {
 
 // NewEventType represents the Postgres composite type "new_event_type".
 type NewEventType struct {
-	Name   string       `json:"name"`
-	Key    string       `json:"key"`
+	ID     string       `json:"id"`
 	Schema pgtype.JSONB `json:"schema"`
 }
 
 // NewNotificationType represents the Postgres composite type "new_notification_type".
 type NewNotificationType struct {
-	ProviderUid string       `json:"provider_uid"`
-	Metadata    pgtype.JSONB `json:"metadata"`
-	Name        string       `json:"name"`
-}
-
-// NewProvider represents the Postgres composite type "new_provider".
-type NewProvider struct {
-	Name string `json:"name"`
+	Provider string       `json:"provider"`
+	Metadata pgtype.JSONB `json:"metadata"`
+	ID       string       `json:"id"`
 }
 
 // NewSubscription represents the Postgres composite type "new_subscription".
 type NewSubscription struct {
-	NotificationTypeUid string       `json:"notification_type_uid"`
-	TenantID            string       `json:"tenant_id"`
-	Metadata            pgtype.JSONB `json:"metadata"`
+	NotificationType string       `json:"notification_type"`
+	TenantID         string       `json:"tenant_id"`
+	Metadata         pgtype.JSONB `json:"metadata"`
 }
 
 // typeResolver looks up the pgtype.ValueTranscoder by Postgres type name.
@@ -367,8 +350,7 @@ func (tr *typeResolver) newArrayValue(name, elemName string, defaultVal func() p
 func (tr *typeResolver) newNewEventType() pgtype.ValueTranscoder {
 	return tr.newCompositeValue(
 		"new_event_type",
-		compositeField{name: "name", typeName: "text", defaultVal: &pgtype.Text{}},
-		compositeField{name: "key", typeName: "text", defaultVal: &pgtype.Text{}},
+		compositeField{name: "id", typeName: "text", defaultVal: &pgtype.Text{}},
 		compositeField{name: "schema", typeName: "jsonb", defaultVal: &pgtype.JSONB{}},
 	)
 }
@@ -377,8 +359,7 @@ func (tr *typeResolver) newNewEventType() pgtype.ValueTranscoder {
 // type 'new_event_type' as a slice of interface{} to encode query parameters.
 func (tr *typeResolver) newNewEventTypeRaw(v NewEventType) []interface{} {
 	return []interface{}{
-		v.Name,
-		v.Key,
+		v.ID,
 		v.Schema,
 	}
 }
@@ -388,9 +369,9 @@ func (tr *typeResolver) newNewEventTypeRaw(v NewEventType) []interface{} {
 func (tr *typeResolver) newNewNotificationType() pgtype.ValueTranscoder {
 	return tr.newCompositeValue(
 		"new_notification_type",
-		compositeField{name: "provider_uid", typeName: "uuid", defaultVal: &pgtype.UUID{}},
+		compositeField{name: "provider", typeName: "text", defaultVal: &pgtype.Text{}},
 		compositeField{name: "metadata", typeName: "jsonb", defaultVal: &pgtype.JSONB{}},
-		compositeField{name: "name", typeName: "text", defaultVal: &pgtype.Text{}},
+		compositeField{name: "id", typeName: "text", defaultVal: &pgtype.Text{}},
 	)
 }
 
@@ -398,26 +379,9 @@ func (tr *typeResolver) newNewNotificationType() pgtype.ValueTranscoder {
 // type 'new_notification_type' as a slice of interface{} to encode query parameters.
 func (tr *typeResolver) newNewNotificationTypeRaw(v NewNotificationType) []interface{} {
 	return []interface{}{
-		v.ProviderUid,
+		v.Provider,
 		v.Metadata,
-		v.Name,
-	}
-}
-
-// newNewProvider creates a new pgtype.ValueTranscoder for the Postgres
-// composite type 'new_provider'.
-func (tr *typeResolver) newNewProvider() pgtype.ValueTranscoder {
-	return tr.newCompositeValue(
-		"new_provider",
-		compositeField{name: "name", typeName: "text", defaultVal: &pgtype.Text{}},
-	)
-}
-
-// newNewProviderRaw returns all composite fields for the Postgres composite
-// type 'new_provider' as a slice of interface{} to encode query parameters.
-func (tr *typeResolver) newNewProviderRaw(v NewProvider) []interface{} {
-	return []interface{}{
-		v.Name,
+		v.ID,
 	}
 }
 
@@ -426,7 +390,7 @@ func (tr *typeResolver) newNewProviderRaw(v NewProvider) []interface{} {
 func (tr *typeResolver) newNewSubscription() pgtype.ValueTranscoder {
 	return tr.newCompositeValue(
 		"new_subscription",
-		compositeField{name: "notification_type_uid", typeName: "uuid", defaultVal: &pgtype.UUID{}},
+		compositeField{name: "notification_type", typeName: "text", defaultVal: &pgtype.Text{}},
 		compositeField{name: "tenant_id", typeName: "text", defaultVal: &pgtype.Text{}},
 		compositeField{name: "metadata", typeName: "jsonb", defaultVal: &pgtype.JSONB{}},
 	)
@@ -436,7 +400,7 @@ func (tr *typeResolver) newNewSubscription() pgtype.ValueTranscoder {
 // type 'new_subscription' as a slice of interface{} to encode query parameters.
 func (tr *typeResolver) newNewSubscriptionRaw(v NewSubscription) []interface{} {
 	return []interface{}{
-		v.NotificationTypeUid,
+		v.NotificationType,
 		v.TenantID,
 		v.Metadata,
 	}
@@ -494,32 +458,6 @@ func (tr *typeResolver) newNewNotificationTypeArrayRaw(vs []NewNotificationType)
 	return elems
 }
 
-// newNewProviderArray creates a new pgtype.ValueTranscoder for the Postgres
-// '_new_provider' array type.
-func (tr *typeResolver) newNewProviderArray() pgtype.ValueTranscoder {
-	return tr.newArrayValue("_new_provider", "new_provider", tr.newNewProvider)
-}
-
-// newNewProviderArrayInit creates an initialized pgtype.ValueTranscoder for the
-// Postgres array type '_new_provider' to encode query parameters.
-func (tr *typeResolver) newNewProviderArrayInit(ps []NewProvider) pgtype.ValueTranscoder {
-	dec := tr.newNewProviderArray()
-	if err := dec.Set(tr.newNewProviderArrayRaw(ps)); err != nil {
-		panic("encode []NewProvider: " + err.Error()) // should always succeed
-	}
-	return textPreferrer{ValueTranscoder: dec, typeName: "_new_provider"}
-}
-
-// newNewProviderArrayRaw returns all elements for the Postgres array type '_new_provider'
-// as a slice of interface{} for use with the pgtype.Value Set method.
-func (tr *typeResolver) newNewProviderArrayRaw(vs []NewProvider) []interface{} {
-	elems := make([]interface{}, len(vs))
-	for i, v := range vs {
-		elems[i] = tr.newNewProviderRaw(v)
-	}
-	return elems
-}
-
 // newNewSubscriptionArray creates a new pgtype.ValueTranscoder for the Postgres
 // '_new_subscription' array type.
 func (tr *typeResolver) newNewSubscriptionArray() pgtype.ValueTranscoder {
@@ -547,23 +485,23 @@ func (tr *typeResolver) newNewSubscriptionArrayRaw(vs []NewSubscription) []inter
 }
 
 const createEventTypesSQL = `INSERT INTO evnt.event_type (
-  name
+  schema,
+  id
 ) 
 SELECT 
-  name
+  schema,
+  id
 FROM unnest($1::evnt.new_event_type[])
 ON CONFLICT DO NOTHING
 RETURNING 
   id,
-  uid,
-  name,
+  schema,
   created_at;`
 
 type CreateEventTypesRow struct {
-	ID        int32     `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        string       `json:"id"`
+	Schema    pgtype.JSONB `json:"schema"`
+	CreatedAt time.Time    `json:"created_at"`
 }
 
 // CreateEventTypes implements Querier.CreateEventTypes.
@@ -577,7 +515,7 @@ func (q *DBQuerier) CreateEventTypes(ctx context.Context, eventTypes []NewEventT
 	items := []CreateEventTypesRow{}
 	for rows.Next() {
 		var item CreateEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan CreateEventTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -603,7 +541,7 @@ func (q *DBQuerier) CreateEventTypesScan(results pgx.BatchResults) ([]CreateEven
 	items := []CreateEventTypesRow{}
 	for rows.Next() {
 		var item CreateEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan CreateEventTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -615,25 +553,20 @@ func (q *DBQuerier) CreateEventTypesScan(results pgx.BatchResults) ([]CreateEven
 }
 
 const createNotificationTypesSQL = `INSERT INTO evnt.notification_type (
-  name,
-  provider_id
+  id,
+  provider
 ) 
 SELECT 
-  u.name,
-  p.id
-FROM unnest($1::evnt.new_notification_type[]) u
-JOIN evnt.provider p ON p.uid = u.provider_uid 
+  id,
+  provider
+FROM unnest($1::evnt.new_notification_type[])
 ON CONFLICT DO NOTHING
 RETURNING 
   id,
-  uid,
-  name,
   created_at;`
 
 type CreateNotificationTypesRow struct {
-	ID        int32     `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
+	ID        string    `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -648,7 +581,7 @@ func (q *DBQuerier) CreateNotificationTypes(ctx context.Context, notificationTyp
 	items := []CreateNotificationTypesRow{}
 	for rows.Next() {
 		var item CreateNotificationTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan CreateNotificationTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -674,7 +607,7 @@ func (q *DBQuerier) CreateNotificationTypesScan(results pgx.BatchResults) ([]Cre
 	items := []CreateNotificationTypesRow{}
 	for rows.Next() {
 		var item CreateNotificationTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan CreateNotificationTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -685,85 +618,16 @@ func (q *DBQuerier) CreateNotificationTypesScan(results pgx.BatchResults) ([]Cre
 	return items, err
 }
 
-const createProvidersSQL = `INSERT INTO evnt.provider (
-  name
-) 
-SELECT 
-  name
-FROM unnest($1::evnt.new_provider[])
-ON CONFLICT DO NOTHING
-RETURNING 
-  id,
-  uid,
-  name,
-  created_at;`
-
-type CreateProvidersRow struct {
-	ID        int32     `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
-// CreateProviders implements Querier.CreateProviders.
-func (q *DBQuerier) CreateProviders(ctx context.Context, providers []NewProvider) ([]CreateProvidersRow, error) {
-	ctx = context.WithValue(ctx, "pggen_query_name", "CreateProviders")
-	rows, err := q.conn.Query(ctx, createProvidersSQL, q.types.newNewProviderArrayInit(providers))
-	if err != nil {
-		return nil, fmt.Errorf("query CreateProviders: %w", err)
-	}
-	defer rows.Close()
-	items := []CreateProvidersRow{}
-	for rows.Next() {
-		var item CreateProvidersRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
-			return nil, fmt.Errorf("scan CreateProviders row: %w", err)
-		}
-		items = append(items, item)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("close CreateProviders rows: %w", err)
-	}
-	return items, err
-}
-
-// CreateProvidersBatch implements Querier.CreateProvidersBatch.
-func (q *DBQuerier) CreateProvidersBatch(batch genericBatch, providers []NewProvider) {
-	batch.Queue(createProvidersSQL, q.types.newNewProviderArrayInit(providers))
-}
-
-// CreateProvidersScan implements Querier.CreateProvidersScan.
-func (q *DBQuerier) CreateProvidersScan(results pgx.BatchResults) ([]CreateProvidersRow, error) {
-	rows, err := results.Query()
-	if err != nil {
-		return nil, fmt.Errorf("query CreateProvidersBatch: %w", err)
-	}
-	defer rows.Close()
-	items := []CreateProvidersRow{}
-	for rows.Next() {
-		var item CreateProvidersRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
-			return nil, fmt.Errorf("scan CreateProvidersBatch row: %w", err)
-		}
-		items = append(items, item)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("close CreateProvidersBatch rows: %w", err)
-	}
-	return items, err
-}
-
 const createSubscriptionsSQL = `INSERT INTO evnt.subscription (
   tenant_id,
   metadata,
-  notification_type_id
+  notification_type
 ) 
 SELECT 
-  u.tenant_id,
-  u.metadata,
-  n.id
+  tenant_id,
+  metadata,
+  notification_type
 FROM unnest($1::evnt.new_subscription[]) u
-JOIN evnt.notification_type n ON n.uid = u.notification_type_uid 
 ON CONFLICT DO NOTHING
 RETURNING 
   uid,
@@ -771,15 +635,15 @@ RETURNING
   metadata,
   created_at,
   updated_at,
-  notification_type_id;`
+  notification_type;`
 
 type CreateSubscriptionsRow struct {
-	Uid                string       `json:"uid"`
-	TenantID           string       `json:"tenant_id"`
-	Metadata           pgtype.JSONB `json:"metadata"`
-	CreatedAt          time.Time    `json:"created_at"`
-	UpdatedAt          time.Time    `json:"updated_at"`
-	NotificationTypeID int32        `json:"notification_type_id"`
+	Uid              string       `json:"uid"`
+	TenantID         string       `json:"tenant_id"`
+	Metadata         pgtype.JSONB `json:"metadata"`
+	CreatedAt        time.Time    `json:"created_at"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	NotificationType string       `json:"notification_type"`
 }
 
 // CreateSubscriptions implements Querier.CreateSubscriptions.
@@ -793,7 +657,7 @@ func (q *DBQuerier) CreateSubscriptions(ctx context.Context, subscriptions []New
 	items := []CreateSubscriptionsRow{}
 	for rows.Next() {
 		var item CreateSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType); err != nil {
 			return nil, fmt.Errorf("scan CreateSubscriptions row: %w", err)
 		}
 		items = append(items, item)
@@ -819,7 +683,7 @@ func (q *DBQuerier) CreateSubscriptionsScan(results pgx.BatchResults) ([]CreateS
 	items := []CreateSubscriptionsRow{}
 	for rows.Next() {
 		var item CreateSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType); err != nil {
 			return nil, fmt.Errorf("scan CreateSubscriptionsBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -859,17 +723,15 @@ func (q *DBQuerier) DeleteSubscriptionScan(results pgx.BatchResults) (pgconn.Com
 
 const getEventTypesSQL = `SELECT 
   id,
-  uid,
-  name,
+  schema,
   created_at
 FROM evnt.event_type
-WHERE uid = ANY($1::uuid[]);`
+WHERE id = ANY($1::text[]);`
 
 type GetEventTypesRow struct {
-	ID        *int32    `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        string       `json:"id"`
+	Schema    pgtype.JSONB `json:"schema"`
+	CreatedAt time.Time    `json:"created_at"`
 }
 
 // GetEventTypes implements Querier.GetEventTypes.
@@ -883,7 +745,7 @@ func (q *DBQuerier) GetEventTypes(ctx context.Context, ids []string) ([]GetEvent
 	items := []GetEventTypesRow{}
 	for rows.Next() {
 		var item GetEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan GetEventTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -909,7 +771,7 @@ func (q *DBQuerier) GetEventTypesScan(results pgx.BatchResults) ([]GetEventTypes
 	items := []GetEventTypesRow{}
 	for rows.Next() {
 		var item GetEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan GetEventTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -922,16 +784,12 @@ func (q *DBQuerier) GetEventTypesScan(results pgx.BatchResults) ([]GetEventTypes
 
 const getNotificationTypesSQL = `SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.notification_type
-WHERE uid = ANY($1::uuid[]);`
+WHERE id = ANY($1::text[]);`
 
 type GetNotificationTypesRow struct {
-	ID        *int32    `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
+	ID        string    `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -946,7 +804,7 @@ func (q *DBQuerier) GetNotificationTypes(ctx context.Context, ids []string) ([]G
 	items := []GetNotificationTypesRow{}
 	for rows.Next() {
 		var item GetNotificationTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan GetNotificationTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -972,7 +830,7 @@ func (q *DBQuerier) GetNotificationTypesScan(results pgx.BatchResults) ([]GetNot
 	items := []GetNotificationTypesRow{}
 	for rows.Next() {
 		var item GetNotificationTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan GetNotificationTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -984,30 +842,22 @@ func (q *DBQuerier) GetNotificationTypesScan(results pgx.BatchResults) ([]GetNot
 }
 
 const getProvidersSQL = `SELECT 
-  id,
-  uid,
-  name
+  id
 FROM evnt.provider
-WHERE uid = ANY($1::uuid[]);`
-
-type GetProvidersRow struct {
-	ID   *int32 `json:"id"`
-	Uid  string `json:"uid"`
-	Name string `json:"name"`
-}
+WHERE id = ANY($1::text[]);`
 
 // GetProviders implements Querier.GetProviders.
-func (q *DBQuerier) GetProviders(ctx context.Context, ids []string) ([]GetProvidersRow, error) {
+func (q *DBQuerier) GetProviders(ctx context.Context, ids []string) ([]string, error) {
 	ctx = context.WithValue(ctx, "pggen_query_name", "GetProviders")
 	rows, err := q.conn.Query(ctx, getProvidersSQL, ids)
 	if err != nil {
 		return nil, fmt.Errorf("query GetProviders: %w", err)
 	}
 	defer rows.Close()
-	items := []GetProvidersRow{}
+	items := []string{}
 	for rows.Next() {
-		var item GetProvidersRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name); err != nil {
+		var item string
+		if err := rows.Scan(&item); err != nil {
 			return nil, fmt.Errorf("scan GetProviders row: %w", err)
 		}
 		items = append(items, item)
@@ -1024,16 +874,16 @@ func (q *DBQuerier) GetProvidersBatch(batch genericBatch, ids []string) {
 }
 
 // GetProvidersScan implements Querier.GetProvidersScan.
-func (q *DBQuerier) GetProvidersScan(results pgx.BatchResults) ([]GetProvidersRow, error) {
+func (q *DBQuerier) GetProvidersScan(results pgx.BatchResults) ([]string, error) {
 	rows, err := results.Query()
 	if err != nil {
 		return nil, fmt.Errorf("query GetProvidersBatch: %w", err)
 	}
 	defer rows.Close()
-	items := []GetProvidersRow{}
+	items := []string{}
 	for rows.Next() {
-		var item GetProvidersRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name); err != nil {
+		var item string
+		if err := rows.Scan(&item); err != nil {
 			return nil, fmt.Errorf("scan GetProvidersBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -1050,17 +900,17 @@ const getSubscriptionsSQL = `SELECT
   metadata,
   created_at,
   updated_at,
-  notification_type_id
+  notification_type
 FROM evnt.subscription
 WHERE uid = ANY($1::uuid[]);`
 
 type GetSubscriptionsRow struct {
-	Uid                string       `json:"uid"`
-	TenantID           string       `json:"tenant_id"`
-	Metadata           pgtype.JSONB `json:"metadata"`
-	CreatedAt          time.Time    `json:"created_at"`
-	UpdatedAt          time.Time    `json:"updated_at"`
-	NotificationTypeID *int32       `json:"notification_type_id"`
+	Uid              string       `json:"uid"`
+	TenantID         string       `json:"tenant_id"`
+	Metadata         pgtype.JSONB `json:"metadata"`
+	CreatedAt        time.Time    `json:"created_at"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	NotificationType string       `json:"notification_type"`
 }
 
 // GetSubscriptions implements Querier.GetSubscriptions.
@@ -1074,7 +924,7 @@ func (q *DBQuerier) GetSubscriptions(ctx context.Context, ids []string) ([]GetSu
 	items := []GetSubscriptionsRow{}
 	for rows.Next() {
 		var item GetSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType); err != nil {
 			return nil, fmt.Errorf("scan GetSubscriptions row: %w", err)
 		}
 		items = append(items, item)
@@ -1100,7 +950,7 @@ func (q *DBQuerier) GetSubscriptionsScan(results pgx.BatchResults) ([]GetSubscri
 	items := []GetSubscriptionsRow{}
 	for rows.Next() {
 		var item GetSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType); err != nil {
 			return nil, fmt.Errorf("scan GetSubscriptionsBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -1113,8 +963,6 @@ func (q *DBQuerier) GetSubscriptionsScan(results pgx.BatchResults) ([]GetSubscri
 
 const listEventTypesSQL = `SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.event_type
 WHERE $1::timestamptz IS NULL 
@@ -1123,9 +971,7 @@ ORDER BY created_at
 LIMIT $2;`
 
 type ListEventTypesRow struct {
-	ID        *int32    `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
+	ID        string    `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -1140,7 +986,7 @@ func (q *DBQuerier) ListEventTypes(ctx context.Context, createdAfter time.Time, 
 	items := []ListEventTypesRow{}
 	for rows.Next() {
 		var item ListEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan ListEventTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -1166,7 +1012,7 @@ func (q *DBQuerier) ListEventTypesScan(results pgx.BatchResults) ([]ListEventTyp
 	items := []ListEventTypesRow{}
 	for rows.Next() {
 		var item ListEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan ListEventTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -1179,8 +1025,6 @@ func (q *DBQuerier) ListEventTypesScan(results pgx.BatchResults) ([]ListEventTyp
 
 const listNotificationTypesSQL = `SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.notification_type
 WHERE $1::timestamptz IS NULL 
@@ -1189,9 +1033,7 @@ ORDER BY created_at
 LIMIT $2;`
 
 type ListNotificationTypesRow struct {
-	ID        *int32    `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
+	ID        string    `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -1206,7 +1048,7 @@ func (q *DBQuerier) ListNotificationTypes(ctx context.Context, createdAfter time
 	items := []ListNotificationTypesRow{}
 	for rows.Next() {
 		var item ListNotificationTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan ListNotificationTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -1232,7 +1074,7 @@ func (q *DBQuerier) ListNotificationTypesScan(results pgx.BatchResults) ([]ListN
 	items := []ListNotificationTypesRow{}
 	for rows.Next() {
 		var item ListNotificationTypesRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan ListNotificationTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -1245,8 +1087,6 @@ func (q *DBQuerier) ListNotificationTypesScan(results pgx.BatchResults) ([]ListN
 
 const listProvidersSQL = `SELECT 
   id,
-  uid,
-  name,
   created_at
 FROM evnt.provider
 WHERE $1::timestamptz IS NULL 
@@ -1255,9 +1095,7 @@ ORDER BY created_at
 LIMIT $2;`
 
 type ListProvidersRow struct {
-	ID        *int32    `json:"id"`
-	Uid       string    `json:"uid"`
-	Name      string    `json:"name"`
+	ID        string    `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -1272,7 +1110,7 @@ func (q *DBQuerier) ListProviders(ctx context.Context, createdAfter time.Time, l
 	items := []ListProvidersRow{}
 	for rows.Next() {
 		var item ListProvidersRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan ListProviders row: %w", err)
 		}
 		items = append(items, item)
@@ -1298,7 +1136,7 @@ func (q *DBQuerier) ListProvidersScan(results pgx.BatchResults) ([]ListProviders
 	items := []ListProvidersRow{}
 	for rows.Next() {
 		var item ListProvidersRow
-		if err := rows.Scan(&item.ID, &item.Uid, &item.Name, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan ListProvidersBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -1315,7 +1153,7 @@ const listSubscriptionsSQL = `SELECT
   metadata,
   created_at,
   updated_at,
-  notification_type_id
+  notification_type
 FROM evnt.subscription
 WHERE $1::timestamptz IS NULL 
   OR created_at > $1
@@ -1323,12 +1161,12 @@ ORDER BY created_at
 LIMIT $2;`
 
 type ListSubscriptionsRow struct {
-	Uid                string       `json:"uid"`
-	TenantID           string       `json:"tenant_id"`
-	Metadata           pgtype.JSONB `json:"metadata"`
-	CreatedAt          time.Time    `json:"created_at"`
-	UpdatedAt          time.Time    `json:"updated_at"`
-	NotificationTypeID *int32       `json:"notification_type_id"`
+	Uid              string       `json:"uid"`
+	TenantID         string       `json:"tenant_id"`
+	Metadata         pgtype.JSONB `json:"metadata"`
+	CreatedAt        time.Time    `json:"created_at"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	NotificationType string       `json:"notification_type"`
 }
 
 // ListSubscriptions implements Querier.ListSubscriptions.
@@ -1342,7 +1180,7 @@ func (q *DBQuerier) ListSubscriptions(ctx context.Context, createdAfter time.Tim
 	items := []ListSubscriptionsRow{}
 	for rows.Next() {
 		var item ListSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType); err != nil {
 			return nil, fmt.Errorf("scan ListSubscriptions row: %w", err)
 		}
 		items = append(items, item)
@@ -1368,7 +1206,7 @@ func (q *DBQuerier) ListSubscriptionsScan(results pgx.BatchResults) ([]ListSubsc
 	items := []ListSubscriptionsRow{}
 	for rows.Next() {
 		var item ListSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType); err != nil {
 			return nil, fmt.Errorf("scan ListSubscriptionsBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -1383,17 +1221,15 @@ const listEventSubscriptionsSQL = `WITH filtered AS (
   SELECT 
     s.uid,
     en.transform,
-    e.id  AS event_type_id,
-    e.uid AS event_type_uid,
-    n.uid AS notification_type_uid
+    e.id AS event_type
   FROM evnt.event_type e
   LEFT JOIN evnt.event_notification en
-    ON en.event_type_id = e.id
+    ON en.event_type = e.id
   LEFT JOIN evnt.notification_type n
-    ON en.notification_type_id = n.id
+    ON en.notification_type = n.id
   LEFT JOIN evnt.subscription s
-    ON n.id = s.notification_type_id
-  WHERE e.uid = $1
+    ON n.id = s.notification_type
+  WHERE e.id = $1
     AND ($2 = '' 
       OR s.tenant_id = $2)
 ) SELECT 
@@ -1402,11 +1238,9 @@ const listEventSubscriptionsSQL = `WITH filtered AS (
   s.metadata,
   s.created_at,
   s.updated_at,
-  s.notification_type_id,
+  s.notification_type,
   f.transform,
-  f.event_type_id,
-  f.event_type_uid,
-  f.notification_type_uid
+  f.event_type
 FROM evnt.subscription s 
 INNER JOIN filtered f
   ON s.uid = f.uid
@@ -1422,16 +1256,14 @@ type ListEventSubscriptionsParams struct {
 }
 
 type ListEventSubscriptionsRow struct {
-	Uid                 string       `json:"uid"`
-	TenantID            string       `json:"tenant_id"`
-	Metadata            pgtype.JSONB `json:"metadata"`
-	CreatedAt           time.Time    `json:"created_at"`
-	UpdatedAt           time.Time    `json:"updated_at"`
-	NotificationTypeID  *int32       `json:"notification_type_id"`
-	Transform           string       `json:"transform"`
-	EventTypeID         *int32       `json:"event_type_id"`
-	EventTypeUid        string       `json:"event_type_uid"`
-	NotificationTypeUid string       `json:"notification_type_uid"`
+	Uid              string       `json:"uid"`
+	TenantID         string       `json:"tenant_id"`
+	Metadata         pgtype.JSONB `json:"metadata"`
+	CreatedAt        time.Time    `json:"created_at"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	NotificationType string       `json:"notification_type"`
+	Transform        string       `json:"transform"`
+	EventType        string       `json:"event_type"`
 }
 
 // ListEventSubscriptions implements Querier.ListEventSubscriptions.
@@ -1445,7 +1277,7 @@ func (q *DBQuerier) ListEventSubscriptions(ctx context.Context, params ListEvent
 	items := []ListEventSubscriptionsRow{}
 	for rows.Next() {
 		var item ListEventSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID, &item.Transform, &item.EventTypeID, &item.EventTypeUid, &item.NotificationTypeUid); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType, &item.Transform, &item.EventType); err != nil {
 			return nil, fmt.Errorf("scan ListEventSubscriptions row: %w", err)
 		}
 		items = append(items, item)
@@ -1471,7 +1303,7 @@ func (q *DBQuerier) ListEventSubscriptionsScan(results pgx.BatchResults) ([]List
 	items := []ListEventSubscriptionsRow{}
 	for rows.Next() {
 		var item ListEventSubscriptionsRow
-		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationTypeID, &item.Transform, &item.EventTypeID, &item.EventTypeUid, &item.NotificationTypeUid); err != nil {
+		if err := rows.Scan(&item.Uid, &item.TenantID, &item.Metadata, &item.CreatedAt, &item.UpdatedAt, &item.NotificationType, &item.Transform, &item.EventType); err != nil {
 			return nil, fmt.Errorf("scan ListEventSubscriptionsBatch row: %w", err)
 		}
 		items = append(items, item)

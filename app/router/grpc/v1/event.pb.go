@@ -20,16 +20,513 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type EventType struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id     string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Schema []byte `protobuf:"bytes,2,opt,name=schema,proto3" json:"schema,omitempty"`
+}
+
+func (x *EventType) Reset() {
+	*x = EventType{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EventType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EventType) ProtoMessage() {}
+
+func (x *EventType) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EventType.ProtoReflect.Descriptor instead.
+func (*EventType) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *EventType) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *EventType) GetSchema() []byte {
+	if x != nil {
+		return x.Schema
+	}
+	return nil
+}
+
+type Provider struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *Provider) Reset() {
+	*x = Provider{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Provider) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Provider) ProtoMessage() {}
+
+func (x *Provider) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Provider.ProtoReflect.Descriptor instead.
+func (*Provider) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Provider) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type Subscription struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TenantId     string `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Id           string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Notification string `protobuf:"bytes,3,opt,name=notification,proto3" json:"notification,omitempty"`
+	Metadata     []byte `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
+}
+
+func (x *Subscription) Reset() {
+	*x = Subscription{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Subscription) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Subscription) ProtoMessage() {}
+
+func (x *Subscription) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Subscription.ProtoReflect.Descriptor instead.
+func (*Subscription) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Subscription) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *Subscription) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Subscription) GetNotification() string {
+	if x != nil {
+		return x.Notification
+	}
+	return ""
+}
+
+func (x *Subscription) GetMetadata() []byte {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+type GetEventTypesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Ids []string `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
+}
+
+func (x *GetEventTypesRequest) Reset() {
+	*x = GetEventTypesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetEventTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEventTypesRequest) ProtoMessage() {}
+
+func (x *GetEventTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEventTypesRequest.ProtoReflect.Descriptor instead.
+func (*GetEventTypesRequest) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetEventTypesRequest) GetIds() []string {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
+type GetEventTypesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data   map[string]*EventType `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Errors []*Error              `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
+}
+
+func (x *GetEventTypesResponse) Reset() {
+	*x = GetEventTypesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetEventTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEventTypesResponse) ProtoMessage() {}
+
+func (x *GetEventTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEventTypesResponse.ProtoReflect.Descriptor instead.
+func (*GetEventTypesResponse) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetEventTypesResponse) GetData() map[string]*EventType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetEventTypesResponse) GetErrors() []*Error {
+	if x != nil {
+		return x.Errors
+	}
+	return nil
+}
+
+type GetProvidersRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TenantId string   `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Ids      []string `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids,omitempty"`
+}
+
+func (x *GetProvidersRequest) Reset() {
+	*x = GetProvidersRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProvidersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProvidersRequest) ProtoMessage() {}
+
+func (x *GetProvidersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProvidersRequest.ProtoReflect.Descriptor instead.
+func (*GetProvidersRequest) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetProvidersRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *GetProvidersRequest) GetIds() []string {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
+type GetProvidersResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data   map[string]*Provider `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Errors []*Error             `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
+}
+
+func (x *GetProvidersResponse) Reset() {
+	*x = GetProvidersResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProvidersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProvidersResponse) ProtoMessage() {}
+
+func (x *GetProvidersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProvidersResponse.ProtoReflect.Descriptor instead.
+func (*GetProvidersResponse) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetProvidersResponse) GetData() map[string]*Provider {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetProvidersResponse) GetErrors() []*Error {
+	if x != nil {
+		return x.Errors
+	}
+	return nil
+}
+
+type GetSubscriptionsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TenantId string   `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Ids      []string `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids,omitempty"`
+}
+
+func (x *GetSubscriptionsRequest) Reset() {
+	*x = GetSubscriptionsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSubscriptionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSubscriptionsRequest) ProtoMessage() {}
+
+func (x *GetSubscriptionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSubscriptionsRequest.ProtoReflect.Descriptor instead.
+func (*GetSubscriptionsRequest) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetSubscriptionsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *GetSubscriptionsRequest) GetIds() []string {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
+type GetSubscriptionsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data   map[string]*Subscription `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Errors []*Error                 `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
+}
+
+func (x *GetSubscriptionsResponse) Reset() {
+	*x = GetSubscriptionsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSubscriptionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSubscriptionsResponse) ProtoMessage() {}
+
+func (x *GetSubscriptionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSubscriptionsResponse.ProtoReflect.Descriptor instead.
+func (*GetSubscriptionsResponse) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetSubscriptionsResponse) GetData() map[string]*Subscription {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetSubscriptionsResponse) GetErrors() []*Error {
+	if x != nil {
+		return x.Errors
+	}
+	return nil
+}
+
 type ListEventTypesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Page *PageRequest `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`
 }
 
 func (x *ListEventTypesRequest) Reset() {
 	*x = ListEventTypesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[0]
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -42,7 +539,7 @@ func (x *ListEventTypesRequest) String() string {
 func (*ListEventTypesRequest) ProtoMessage() {}
 
 func (x *ListEventTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[0]
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,19 +552,29 @@ func (x *ListEventTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEventTypesRequest.ProtoReflect.Descriptor instead.
 func (*ListEventTypesRequest) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{0}
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ListEventTypesRequest) GetPage() *PageRequest {
+	if x != nil {
+		return x.Page
+	}
+	return nil
 }
 
 type ListEventTypesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Data []*EventType  `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Page *PageResponse `protobuf:"bytes,2,opt,name=page,proto3" json:"page,omitempty"`
 }
 
 func (x *ListEventTypesResponse) Reset() {
 	*x = ListEventTypesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[1]
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -80,7 +587,7 @@ func (x *ListEventTypesResponse) String() string {
 func (*ListEventTypesResponse) ProtoMessage() {}
 
 func (x *ListEventTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[1]
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -93,95 +600,35 @@ func (x *ListEventTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEventTypesResponse.ProtoReflect.Descriptor instead.
 func (*ListEventTypesResponse) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{1}
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{10}
 }
 
-type CreateEventTypesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *CreateEventTypesRequest) Reset() {
-	*x = CreateEventTypesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
+func (x *ListEventTypesResponse) GetData() []*EventType {
+	if x != nil {
+		return x.Data
 	}
+	return nil
 }
 
-func (x *CreateEventTypesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateEventTypesRequest) ProtoMessage() {}
-
-func (x *CreateEventTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+func (x *ListEventTypesResponse) GetPage() *PageResponse {
+	if x != nil {
+		return x.Page
 	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateEventTypesRequest.ProtoReflect.Descriptor instead.
-func (*CreateEventTypesRequest) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{2}
-}
-
-type CreateEventTypesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *CreateEventTypesResponse) Reset() {
-	*x = CreateEventTypesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CreateEventTypesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateEventTypesResponse) ProtoMessage() {}
-
-func (x *CreateEventTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateEventTypesResponse.ProtoReflect.Descriptor instead.
-func (*CreateEventTypesResponse) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{3}
+	return nil
 }
 
 type ListSubscriptionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Page *PageRequest `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`
 }
 
 func (x *ListSubscriptionsRequest) Reset() {
 	*x = ListSubscriptionsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[4]
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -194,7 +641,7 @@ func (x *ListSubscriptionsRequest) String() string {
 func (*ListSubscriptionsRequest) ProtoMessage() {}
 
 func (x *ListSubscriptionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[4]
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -207,19 +654,29 @@ func (x *ListSubscriptionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSubscriptionsRequest.ProtoReflect.Descriptor instead.
 func (*ListSubscriptionsRequest) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{4}
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListSubscriptionsRequest) GetPage() *PageRequest {
+	if x != nil {
+		return x.Page
+	}
+	return nil
 }
 
 type ListSubscriptionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Data []*Subscription `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Page *PageResponse   `protobuf:"bytes,2,opt,name=page,proto3" json:"page,omitempty"`
 }
 
 func (x *ListSubscriptionsResponse) Reset() {
 	*x = ListSubscriptionsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[5]
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -232,7 +689,7 @@ func (x *ListSubscriptionsResponse) String() string {
 func (*ListSubscriptionsResponse) ProtoMessage() {}
 
 func (x *ListSubscriptionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[5]
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -245,19 +702,239 @@ func (x *ListSubscriptionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSubscriptionsResponse.ProtoReflect.Descriptor instead.
 func (*ListSubscriptionsResponse) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{5}
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ListSubscriptionsResponse) GetData() []*Subscription {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *ListSubscriptionsResponse) GetPage() *PageResponse {
+	if x != nil {
+		return x.Page
+	}
+	return nil
+}
+
+type ListProvidersRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Page *PageRequest `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ListProvidersRequest) Reset() {
+	*x = ListProvidersRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListProvidersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListProvidersRequest) ProtoMessage() {}
+
+func (x *ListProvidersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListProvidersRequest.ProtoReflect.Descriptor instead.
+func (*ListProvidersRequest) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListProvidersRequest) GetPage() *PageRequest {
+	if x != nil {
+		return x.Page
+	}
+	return nil
+}
+
+type ListProvidersResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data []*Provider   `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Page *PageResponse `protobuf:"bytes,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ListProvidersResponse) Reset() {
+	*x = ListProvidersResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListProvidersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListProvidersResponse) ProtoMessage() {}
+
+func (x *ListProvidersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListProvidersResponse.ProtoReflect.Descriptor instead.
+func (*ListProvidersResponse) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListProvidersResponse) GetData() []*Provider {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *ListProvidersResponse) GetPage() *PageResponse {
+	if x != nil {
+		return x.Page
+	}
+	return nil
+}
+
+type CreateEventTypesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data []*EventType `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *CreateEventTypesRequest) Reset() {
+	*x = CreateEventTypesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateEventTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEventTypesRequest) ProtoMessage() {}
+
+func (x *CreateEventTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEventTypesRequest.ProtoReflect.Descriptor instead.
+func (*CreateEventTypesRequest) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *CreateEventTypesRequest) GetData() []*EventType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type CreateEventTypesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data   []*EventType `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Errors []*Error     `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
+}
+
+func (x *CreateEventTypesResponse) Reset() {
+	*x = CreateEventTypesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateEventTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEventTypesResponse) ProtoMessage() {}
+
+func (x *CreateEventTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEventTypesResponse.ProtoReflect.Descriptor instead.
+func (*CreateEventTypesResponse) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *CreateEventTypesResponse) GetData() []*EventType {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *CreateEventTypesResponse) GetErrors() []*Error {
+	if x != nil {
+		return x.Errors
+	}
+	return nil
 }
 
 type CreateSubscriptionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Data []*Subscription `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
 }
 
 func (x *CreateSubscriptionsRequest) Reset() {
 	*x = CreateSubscriptionsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[6]
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -270,7 +947,7 @@ func (x *CreateSubscriptionsRequest) String() string {
 func (*CreateSubscriptionsRequest) ProtoMessage() {}
 
 func (x *CreateSubscriptionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[6]
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -283,19 +960,29 @@ func (x *CreateSubscriptionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubscriptionsRequest.ProtoReflect.Descriptor instead.
 func (*CreateSubscriptionsRequest) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{6}
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *CreateSubscriptionsRequest) GetData() []*Subscription {
+	if x != nil {
+		return x.Data
+	}
+	return nil
 }
 
 type CreateSubscriptionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Data   []*Subscription `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Errors []*Error        `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
 }
 
 func (x *CreateSubscriptionsResponse) Reset() {
 	*x = CreateSubscriptionsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_router_grpc_v1_event_proto_msgTypes[7]
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -308,7 +995,7 @@ func (x *CreateSubscriptionsResponse) String() string {
 func (*CreateSubscriptionsResponse) ProtoMessage() {}
 
 func (x *CreateSubscriptionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_app_router_grpc_v1_event_proto_msgTypes[7]
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -321,7 +1008,210 @@ func (x *CreateSubscriptionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubscriptionsResponse.ProtoReflect.Descriptor instead.
 func (*CreateSubscriptionsResponse) Descriptor() ([]byte, []int) {
-	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{7}
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *CreateSubscriptionsResponse) GetData() []*Subscription {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *CreateSubscriptionsResponse) GetErrors() []*Error {
+	if x != nil {
+		return x.Errors
+	}
+	return nil
+}
+
+type PageRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Limit  int32  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	Cursor string `protobuf:"bytes,2,opt,name=cursor,proto3" json:"cursor,omitempty"`
+	Desc   bool   `protobuf:"varint,3,opt,name=desc,proto3" json:"desc,omitempty"`
+}
+
+func (x *PageRequest) Reset() {
+	*x = PageRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PageRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PageRequest) ProtoMessage() {}
+
+func (x *PageRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PageRequest.ProtoReflect.Descriptor instead.
+func (*PageRequest) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *PageRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *PageRequest) GetCursor() string {
+	if x != nil {
+		return x.Cursor
+	}
+	return ""
+}
+
+func (x *PageRequest) GetDesc() bool {
+	if x != nil {
+		return x.Desc
+	}
+	return false
+}
+
+type PageResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Next string `protobuf:"bytes,1,opt,name=next,proto3" json:"next,omitempty"`
+	Prev string `protobuf:"bytes,2,opt,name=prev,proto3" json:"prev,omitempty"`
+	Done bool   `protobuf:"varint,3,opt,name=done,proto3" json:"done,omitempty"`
+}
+
+func (x *PageResponse) Reset() {
+	*x = PageResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PageResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PageResponse) ProtoMessage() {}
+
+func (x *PageResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PageResponse.ProtoReflect.Descriptor instead.
+func (*PageResponse) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *PageResponse) GetNext() string {
+	if x != nil {
+		return x.Next
+	}
+	return ""
+}
+
+func (x *PageResponse) GetPrev() string {
+	if x != nil {
+		return x.Prev
+	}
+	return ""
+}
+
+func (x *PageResponse) GetDone() bool {
+	if x != nil {
+		return x.Done
+	}
+	return false
+}
+
+type Error struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code   int32  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Index  string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
+	Reason string `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+}
+
+func (x *Error) Reset() {
+	*x = Error{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_router_grpc_v1_event_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Error) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Error) ProtoMessage() {}
+
+func (x *Error) ProtoReflect() protoreflect.Message {
+	mi := &file_app_router_grpc_v1_event_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Error.ProtoReflect.Descriptor instead.
+func (*Error) Descriptor() ([]byte, []int) {
+	return file_app_router_grpc_v1_event_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *Error) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *Error) GetIndex() string {
+	if x != nil {
+		return x.Index
+	}
+	return ""
+}
+
+func (x *Error) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
 }
 
 var File_app_router_grpc_v1_event_proto protoreflect.FileDescriptor
@@ -329,49 +1219,193 @@ var File_app_router_grpc_v1_event_proto protoreflect.FileDescriptor
 var file_app_router_grpc_v1_event_proto_rawDesc = []byte{
 	0x0a, 0x1e, 0x61, 0x70, 0x70, 0x2f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x72, 0x2f, 0x67, 0x72, 0x70,
 	0x63, 0x2f, 0x76, 0x31, 0x2f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x22, 0x17, 0x0a, 0x15, 0x4c,
-	0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x22, 0x18, 0x0a, 0x16, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e,
-	0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x19,
-	0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70,
-	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x1a, 0x0a, 0x18, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x0a, 0x18, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62,
-	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x22, 0x1b, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69,
-	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1c,
-	0x0a, 0x1a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x1d, 0x0a, 0x1b,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x88, 0x03, 0x0a, 0x0c,
-	0x45, 0x76, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x55, 0x0a, 0x0e,
-	0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x20,
-	0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45,
+	0x12, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x22, 0x33, 0x0a, 0x09, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x63, 0x68, 0x65,
+	0x6d, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61,
+	0x22, 0x1a, 0x0a, 0x08, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x7b, 0x0a, 0x0c,
+	0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1b, 0x0a, 0x09,
+	0x74, 0x65, 0x6e, 0x61, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x08, 0x74, 0x65, 0x6e, 0x61, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x22, 0x0a, 0x0c, 0x6e, 0x6f, 0x74,
+	0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0c, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x0a,
+	0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0c, 0x52,
+	0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x22, 0x28, 0x0a, 0x14, 0x47, 0x65, 0x74,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x03,
+	0x69, 0x64, 0x73, 0x22, 0xd0, 0x01, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74,
+	0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3e, 0x0a,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74,
+	0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x44, 0x61,
+	0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x28, 0x0a,
+	0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52,
+	0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x1a, 0x4d, 0x0a, 0x09, 0x44, 0x61, 0x74, 0x61, 0x45,
+	0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x2a, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x44, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f,
+	0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a,
+	0x09, 0x74, 0x65, 0x6e, 0x61, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x74, 0x65, 0x6e, 0x61, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x64,
+	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x03, 0x69, 0x64, 0x73, 0x22, 0xcd, 0x01, 0x0a,
+	0x14, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3d, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x04,
+	0x64, 0x61, 0x74, 0x61, 0x12, 0x28, 0x0a, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x18, 0x02,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x1a, 0x4c,
+	0x0a, 0x09, 0x44, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b,
+	0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x29, 0x0a,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x65,
+	0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
+	0x72, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x48, 0x0a, 0x17,
+	0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x74, 0x65, 0x6e, 0x61, 0x6e,
+	0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x74, 0x65, 0x6e, 0x61,
+	0x6e, 0x74, 0x49, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x64, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28,
+	0x09, 0x52, 0x03, 0x69, 0x64, 0x73, 0x22, 0xd9, 0x01, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x53, 0x75,
+	0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x2d, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65,
+	0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x28, 0x0a, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73,
+	0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73,
+	0x1a, 0x50, 0x0a, 0x09, 0x44, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a,
+	0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
+	0x2d, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17,
+	0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63,
+	0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02,
+	0x38, 0x01, 0x22, 0x43, 0x0a, 0x15, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54,
+	0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2a, 0x0a, 0x04, 0x70,
+	0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x6f, 0x0a, 0x16, 0x4c, 0x69, 0x73, 0x74, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x14, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x2b, 0x0a, 0x04, 0x70,
+	0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x46, 0x0a, 0x18, 0x4c, 0x69, 0x73, 0x74,
+	0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x2a, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x16, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x22, 0x75, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x2b, 0x0a, 0x04, 0x70, 0x61,
+	0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x42, 0x0a, 0x14, 0x4c, 0x69, 0x73, 0x74, 0x50,
+	0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x2a, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x6d, 0x0a, 0x15, 0x4c,
+	0x69, 0x73, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x27, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x13, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50,
+	0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x2b, 0x0a,
+	0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x43, 0x0a, 0x17, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22,
+	0x6e, 0x0a, 0x18, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79,
+	0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x28, 0x0a, 0x04, 0x64,
+	0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x52,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x28, 0x0a, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x18,
+	0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x22,
+	0x49, 0x0a, 0x1a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2b, 0x0a,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x74, 0x0a, 0x1b, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a, 0x04, 0x64, 0x61, 0x74,
+	0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
+	0x2e, 0x76, 0x31, 0x2e, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x28, 0x0a, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73,
+	0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x06, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73,
+	0x22, 0x4f, 0x0a, 0x0b, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05,
+	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x12, 0x12, 0x0a,
+	0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x04, 0x64, 0x65, 0x73,
+	0x63, 0x22, 0x4a, 0x0a, 0x0c, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x6e, 0x65, 0x78, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x72, 0x65, 0x76, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x70, 0x72, 0x65, 0x76, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x6f, 0x6e,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x04, 0x64, 0x6f, 0x6e, 0x65, 0x22, 0x49, 0x0a,
+	0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6e,
+	0x64, 0x65, 0x78, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78,
+	0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x32, 0xde, 0x05, 0x0a, 0x0c, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4f, 0x0a, 0x0c, 0x47, 0x65, 0x74,
+	0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x12, 0x1e, 0x2e, 0x65, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
+	0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x65, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
+	0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x52, 0x0a, 0x0d, 0x4c, 0x69,
+	0x73, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x12, 0x1f, 0x2e, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x72, 0x6f, 0x76,
+	0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x65,
+	0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x72, 0x6f,
+	0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x52,
+	0x0a, 0x0d, 0x47, 0x65, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12,
+	0x1f, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x45,
 	0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x21, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73,
-	0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x5b, 0x0a, 0x10, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65,
-	0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x22, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54,
-	0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x65, 0x76,
-	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x76,
-	0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x5e, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x23, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76,
-	0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x65, 0x76, 0x65,
-	0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63,
-	0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x64, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72,
-	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x25, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72,
-	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26,
-	0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x26, 0x5a, 0x24, 0x73, 0x76, 0x69, 0x78, 0x2d, 0x70,
-	0x6f, 0x63, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x72, 0x2f, 0x67, 0x72,
-	0x70, 0x63, 0x2f, 0x76, 0x31, 0x3b, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x76, 0x31, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x1a, 0x20, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x55, 0x0a, 0x0e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54,
+	0x79, 0x70, 0x65, 0x73, 0x12, 0x20, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x5b, 0x0a, 0x10, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x22, 0x2e,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x23, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x5b, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x22, 0x2e, 0x65, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23,
+	0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75,
+	0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x5e, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63,
+	0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x23, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75,
+	0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x64, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x25, 0x2e, 0x65, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x26, 0x2e, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x26, 0x5a, 0x24, 0x73, 0x76, 0x69,
+	0x78, 0x2d, 0x70, 0x6f, 0x63, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x72,
+	0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x76, 0x31, 0x3b, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x76,
+	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -386,31 +1420,80 @@ func file_app_router_grpc_v1_event_proto_rawDescGZIP() []byte {
 	return file_app_router_grpc_v1_event_proto_rawDescData
 }
 
-var file_app_router_grpc_v1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_app_router_grpc_v1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_app_router_grpc_v1_event_proto_goTypes = []interface{}{
-	(*ListEventTypesRequest)(nil),       // 0: events.v1.ListEventTypesRequest
-	(*ListEventTypesResponse)(nil),      // 1: events.v1.ListEventTypesResponse
-	(*CreateEventTypesRequest)(nil),     // 2: events.v1.CreateEventTypesRequest
-	(*CreateEventTypesResponse)(nil),    // 3: events.v1.CreateEventTypesResponse
-	(*ListSubscriptionsRequest)(nil),    // 4: events.v1.ListSubscriptionsRequest
-	(*ListSubscriptionsResponse)(nil),   // 5: events.v1.ListSubscriptionsResponse
-	(*CreateSubscriptionsRequest)(nil),  // 6: events.v1.CreateSubscriptionsRequest
-	(*CreateSubscriptionsResponse)(nil), // 7: events.v1.CreateSubscriptionsResponse
+	(*EventType)(nil),                   // 0: events.v1.EventType
+	(*Provider)(nil),                    // 1: events.v1.Provider
+	(*Subscription)(nil),                // 2: events.v1.Subscription
+	(*GetEventTypesRequest)(nil),        // 3: events.v1.GetEventTypesRequest
+	(*GetEventTypesResponse)(nil),       // 4: events.v1.GetEventTypesResponse
+	(*GetProvidersRequest)(nil),         // 5: events.v1.GetProvidersRequest
+	(*GetProvidersResponse)(nil),        // 6: events.v1.GetProvidersResponse
+	(*GetSubscriptionsRequest)(nil),     // 7: events.v1.GetSubscriptionsRequest
+	(*GetSubscriptionsResponse)(nil),    // 8: events.v1.GetSubscriptionsResponse
+	(*ListEventTypesRequest)(nil),       // 9: events.v1.ListEventTypesRequest
+	(*ListEventTypesResponse)(nil),      // 10: events.v1.ListEventTypesResponse
+	(*ListSubscriptionsRequest)(nil),    // 11: events.v1.ListSubscriptionsRequest
+	(*ListSubscriptionsResponse)(nil),   // 12: events.v1.ListSubscriptionsResponse
+	(*ListProvidersRequest)(nil),        // 13: events.v1.ListProvidersRequest
+	(*ListProvidersResponse)(nil),       // 14: events.v1.ListProvidersResponse
+	(*CreateEventTypesRequest)(nil),     // 15: events.v1.CreateEventTypesRequest
+	(*CreateEventTypesResponse)(nil),    // 16: events.v1.CreateEventTypesResponse
+	(*CreateSubscriptionsRequest)(nil),  // 17: events.v1.CreateSubscriptionsRequest
+	(*CreateSubscriptionsResponse)(nil), // 18: events.v1.CreateSubscriptionsResponse
+	(*PageRequest)(nil),                 // 19: events.v1.PageRequest
+	(*PageResponse)(nil),                // 20: events.v1.PageResponse
+	(*Error)(nil),                       // 21: events.v1.Error
+	nil,                                 // 22: events.v1.GetEventTypesResponse.DataEntry
+	nil,                                 // 23: events.v1.GetProvidersResponse.DataEntry
+	nil,                                 // 24: events.v1.GetSubscriptionsResponse.DataEntry
 }
 var file_app_router_grpc_v1_event_proto_depIdxs = []int32{
-	0, // 0: events.v1.EventService.ListEventTypes:input_type -> events.v1.ListEventTypesRequest
-	2, // 1: events.v1.EventService.CreateEventTypes:input_type -> events.v1.CreateEventTypesRequest
-	4, // 2: events.v1.EventService.ListSubscriptions:input_type -> events.v1.ListSubscriptionsRequest
-	6, // 3: events.v1.EventService.CreateSubscriptions:input_type -> events.v1.CreateSubscriptionsRequest
-	1, // 4: events.v1.EventService.ListEventTypes:output_type -> events.v1.ListEventTypesResponse
-	3, // 5: events.v1.EventService.CreateEventTypes:output_type -> events.v1.CreateEventTypesResponse
-	5, // 6: events.v1.EventService.ListSubscriptions:output_type -> events.v1.ListSubscriptionsResponse
-	7, // 7: events.v1.EventService.CreateSubscriptions:output_type -> events.v1.CreateSubscriptionsResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	22, // 0: events.v1.GetEventTypesResponse.data:type_name -> events.v1.GetEventTypesResponse.DataEntry
+	21, // 1: events.v1.GetEventTypesResponse.errors:type_name -> events.v1.Error
+	23, // 2: events.v1.GetProvidersResponse.data:type_name -> events.v1.GetProvidersResponse.DataEntry
+	21, // 3: events.v1.GetProvidersResponse.errors:type_name -> events.v1.Error
+	24, // 4: events.v1.GetSubscriptionsResponse.data:type_name -> events.v1.GetSubscriptionsResponse.DataEntry
+	21, // 5: events.v1.GetSubscriptionsResponse.errors:type_name -> events.v1.Error
+	19, // 6: events.v1.ListEventTypesRequest.page:type_name -> events.v1.PageRequest
+	0,  // 7: events.v1.ListEventTypesResponse.data:type_name -> events.v1.EventType
+	20, // 8: events.v1.ListEventTypesResponse.page:type_name -> events.v1.PageResponse
+	19, // 9: events.v1.ListSubscriptionsRequest.page:type_name -> events.v1.PageRequest
+	2,  // 10: events.v1.ListSubscriptionsResponse.data:type_name -> events.v1.Subscription
+	20, // 11: events.v1.ListSubscriptionsResponse.page:type_name -> events.v1.PageResponse
+	19, // 12: events.v1.ListProvidersRequest.page:type_name -> events.v1.PageRequest
+	1,  // 13: events.v1.ListProvidersResponse.data:type_name -> events.v1.Provider
+	20, // 14: events.v1.ListProvidersResponse.page:type_name -> events.v1.PageResponse
+	0,  // 15: events.v1.CreateEventTypesRequest.data:type_name -> events.v1.EventType
+	0,  // 16: events.v1.CreateEventTypesResponse.data:type_name -> events.v1.EventType
+	21, // 17: events.v1.CreateEventTypesResponse.errors:type_name -> events.v1.Error
+	2,  // 18: events.v1.CreateSubscriptionsRequest.data:type_name -> events.v1.Subscription
+	2,  // 19: events.v1.CreateSubscriptionsResponse.data:type_name -> events.v1.Subscription
+	21, // 20: events.v1.CreateSubscriptionsResponse.errors:type_name -> events.v1.Error
+	0,  // 21: events.v1.GetEventTypesResponse.DataEntry.value:type_name -> events.v1.EventType
+	1,  // 22: events.v1.GetProvidersResponse.DataEntry.value:type_name -> events.v1.Provider
+	2,  // 23: events.v1.GetSubscriptionsResponse.DataEntry.value:type_name -> events.v1.Subscription
+	5,  // 24: events.v1.EventService.GetProviders:input_type -> events.v1.GetProvidersRequest
+	13, // 25: events.v1.EventService.ListProviders:input_type -> events.v1.ListProvidersRequest
+	3,  // 26: events.v1.EventService.GetEventTypes:input_type -> events.v1.GetEventTypesRequest
+	9,  // 27: events.v1.EventService.ListEventTypes:input_type -> events.v1.ListEventTypesRequest
+	15, // 28: events.v1.EventService.CreateEventTypes:input_type -> events.v1.CreateEventTypesRequest
+	7,  // 29: events.v1.EventService.GetSubscriptions:input_type -> events.v1.GetSubscriptionsRequest
+	11, // 30: events.v1.EventService.ListSubscriptions:input_type -> events.v1.ListSubscriptionsRequest
+	17, // 31: events.v1.EventService.CreateSubscriptions:input_type -> events.v1.CreateSubscriptionsRequest
+	6,  // 32: events.v1.EventService.GetProviders:output_type -> events.v1.GetProvidersResponse
+	14, // 33: events.v1.EventService.ListProviders:output_type -> events.v1.ListProvidersResponse
+	4,  // 34: events.v1.EventService.GetEventTypes:output_type -> events.v1.GetEventTypesResponse
+	10, // 35: events.v1.EventService.ListEventTypes:output_type -> events.v1.ListEventTypesResponse
+	16, // 36: events.v1.EventService.CreateEventTypes:output_type -> events.v1.CreateEventTypesResponse
+	8,  // 37: events.v1.EventService.GetSubscriptions:output_type -> events.v1.GetSubscriptionsResponse
+	12, // 38: events.v1.EventService.ListSubscriptions:output_type -> events.v1.ListSubscriptionsResponse
+	18, // 39: events.v1.EventService.CreateSubscriptions:output_type -> events.v1.CreateSubscriptionsResponse
+	32, // [32:40] is the sub-list for method output_type
+	24, // [24:32] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_app_router_grpc_v1_event_proto_init() }
@@ -420,7 +1503,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_app_router_grpc_v1_event_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListEventTypesRequest); i {
+			switch v := v.(*EventType); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -432,7 +1515,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListEventTypesResponse); i {
+			switch v := v.(*Provider); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -444,7 +1527,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateEventTypesRequest); i {
+			switch v := v.(*Subscription); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -456,7 +1539,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateEventTypesResponse); i {
+			switch v := v.(*GetEventTypesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -468,7 +1551,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListSubscriptionsRequest); i {
+			switch v := v.(*GetEventTypesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -480,7 +1563,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListSubscriptionsResponse); i {
+			switch v := v.(*GetProvidersRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -492,7 +1575,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateSubscriptionsRequest); i {
+			switch v := v.(*GetProvidersResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -504,7 +1587,175 @@ func file_app_router_grpc_v1_event_proto_init() {
 			}
 		}
 		file_app_router_grpc_v1_event_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSubscriptionsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSubscriptionsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListEventTypesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListEventTypesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListSubscriptionsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListSubscriptionsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListProvidersRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListProvidersResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEventTypesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEventTypesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateSubscriptionsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateSubscriptionsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PageRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PageResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_router_grpc_v1_event_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Error); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -522,7 +1773,7 @@ func file_app_router_grpc_v1_event_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_app_router_grpc_v1_event_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

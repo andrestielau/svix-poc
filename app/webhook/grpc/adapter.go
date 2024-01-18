@@ -12,17 +12,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-type Host string
-
-var DefaultHost Host = ":4315"
-
-func ProvideHost() Host {
-	if url := Host(os.Getenv("ROUTER_GRPC_HOST")); url != "" {
-		return url
-	}
-	return DefaultHost
-}
-
 func Provide(d webhook.Dependencies) *server.Adapter {
 	return server.NewAdapter(server.AdapterOptions{
 		Addr: string(ProvideHost()),
@@ -32,6 +21,17 @@ func Provide(d webhook.Dependencies) *server.Adapter {
 	}, app.Actors{
 		svixclient.SingletonKey: d.SvixClient,
 	})
+}
+
+type Host string
+
+var DefaultHost Host = ":4315"
+
+func ProvideHost() Host {
+	if url := Host(os.Getenv("ROUTER_GRPC_HOST")); url != "" {
+		return url
+	}
+	return DefaultHost
 }
 
 var Set = wire.NewSet(
