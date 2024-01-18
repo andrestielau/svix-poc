@@ -3,12 +3,8 @@ package tests_test
 import (
 	"context"
 	"encoding/json"
-	"net/http"
-	"net/http/httptest"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
-	"svix-poc/lib/utils"
 	"testing"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
@@ -28,10 +24,9 @@ func TestGrpc(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tenantId := uuid.NewString()
 			ctx := context.Background()
-			client := webhooksv1.NewWebHookServiceClient(lo.Must(grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))))
-			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				t.Log(utils.JsonReq[any](w, r))
-			}))
+			conn, err := grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))
+			require.NoError(t, err)
+			client := webhooksv1.NewWebHookServiceClient(conn)
 			res, err := client.CreateApps(ctx, &webhooksv1.CreateAppsRequest{
 				Data: []*webhooksv1.App{{
 					Uid:  tenantId,
@@ -39,18 +34,26 @@ func TestGrpc(t *testing.T) {
 				}},
 			})
 			require.NoError(t, err)
-			t.Log(res)
-			endpointId := uuid.NewString()
-			res2, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
-				TenantId: tenantId,
-				Data: []*webhooksv1.Endpoint{{
-					Uid: endpointId,
-					Url: server.URL,
+			CheckErr(t, res.Errors)
+			res2, err := client.CreateEventTypes(ctx, &webhooksv1.CreateEventTypesRequest{
+				Data: []*webhooksv1.EventType{{
+					Name: "asd",
 				}},
 			})
 			require.NoError(t, err)
-			t.Log(res2)
-			res3, err := client.CreateMessages(ctx, &webhooksv1.CreateMessagesRequest{
+			CheckErr(t, res2.Errors)
+			eventId := uuid.NewString()
+			endpointId := uuid.NewString()
+			res3, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
+				TenantId: tenantId,
+				Data: []*webhooksv1.Endpoint{{
+					Uid: endpointId,
+					Url: "http://smocker:8080/" + eventId,
+				}},
+			})
+			require.NoError(t, err)
+			CheckErr(t, res3.Errors)
+			res4, err := client.CreateMessages(ctx, &webhooksv1.CreateMessagesRequest{
 				TenantId: tenantId,
 				Data: []*webhooksv1.Message{{
 					EventType: "foo",
@@ -62,9 +65,8 @@ func TestGrpc(t *testing.T) {
 				}},
 			})
 			require.NoError(t, err)
-			t.Log(res3)
-			// Wait a bit
-			time.Sleep(5 * time.Minute)
+			CheckErr(t, res4.Errors)
+			CheckReceived(t, eventId)
 		})
 	}
 }

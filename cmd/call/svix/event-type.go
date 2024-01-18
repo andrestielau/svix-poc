@@ -15,7 +15,7 @@ import (
 
 var eventTypeName string
 var EventType = cmd.New("eventType",
-	cmd.Alias("et"),
+	cmd.Alias("t"),
 	cmd.Add(
 		cmd.New("list", cmd.Alias("l"), cmd.Run(runListEventTypes), cmd.Flags(listFlagsOpt...)),
 		cmd.New("create", cmd.Alias("c"), cmd.Run(runCreateEventTypes), cmd.Flags(

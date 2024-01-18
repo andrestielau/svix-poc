@@ -2,22 +2,19 @@ package tests_test
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
 	webhooksv1 "svix-poc/app/webhook/grpc/v1"
-	"svix-poc/lib/utils"
 	"testing"
-	"time"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-googlecloud/pkg/googlecloud"
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/google/uuid"
-	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
+
+const tenantId = "test-tenant"
 
 func TestTopic(t *testing.T) {
 	for _, tt := range []struct {
@@ -28,12 +25,10 @@ func TestTopic(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			tenantId := uuid.NewString()
 			ctx := context.Background()
-			client := webhooksv1.NewWebHookServiceClient(lo.Must(grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))))
-			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				t.Log(utils.JsonReq[any](w, r))
-			}))
+			conn, err := grpc.Dial("localhost:4315", grpc.WithTransportCredentials(insecure.NewCredentials()))
+			require.NoError(t, err)
+			client := webhooksv1.NewWebHookServiceClient(conn)
 			res, err := client.CreateApps(ctx, &webhooksv1.CreateAppsRequest{
 				Data: []*webhooksv1.App{{
 					Uid:  tenantId,
@@ -41,24 +36,25 @@ func TestTopic(t *testing.T) {
 				}},
 			})
 			require.NoError(t, err)
-			t.Log(res)
+			CheckErr(t, res.Errors)
 			res2, err := client.CreateEventTypes(ctx, &webhooksv1.CreateEventTypesRequest{
 				Data: []*webhooksv1.EventType{{
 					Name: "asd",
 				}},
 			})
 			require.NoError(t, err)
-			t.Log(res2)
+			CheckErr(t, res2.Errors)
+			eventId := uuid.NewString()
 			endpointId := uuid.NewString()
 			res3, err := client.CreateEndpoints(ctx, &webhooksv1.CreateEndpointsRequest{ // Register Endpoint in Svix
 				TenantId: tenantId,
 				Data: []*webhooksv1.Endpoint{{
 					Uid: endpointId,
-					Url: server.URL,
+					Url: "http://smocker:8080/" + eventId,
 				}},
 			})
 			require.NoError(t, err)
-			t.Log(res3)
+			CheckErr(t, res3.Errors)
 			publisher, err := googlecloud.NewPublisher(googlecloud.PublisherConfig{
 				ProjectID: "demo",
 			}, watermill.NewStdLogger(true, false))
@@ -72,8 +68,7 @@ func TestTopic(t *testing.T) {
 				Payload: []byte(`{ "foo": "bar" }`),
 			})
 			require.NoError(t, err)
-			// Wait a bit
-			time.Sleep(5 * time.Second)
+			CheckReceived(t, eventId)
 		})
 	}
 }

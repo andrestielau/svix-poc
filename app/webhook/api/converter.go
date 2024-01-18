@@ -1,6 +1,7 @@
 package webhookapi
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 	webhookv1 "svix-poc/app/webhook/api/v1"
@@ -91,13 +92,17 @@ func EndpointResultToJson(in []svix.EndpointOut, errs []webhookv1.Error) webhook
 }
 
 // Messages
-// TODO: Map payload
 
 func NewMessageFromJson(in webhookv1.NewMessage) *svix.MessageIn {
+	var payload map[string]any
+	if in.Payload != "" {
+		json.Unmarshal([]byte(in.Payload), &payload)
+	}
 	ret := &svix.MessageIn{
 		Tags:      lo.FromPtr(in.Tags),
 		Channels:  lo.FromPtr(in.Channels),
 		EventType: in.EventType,
+		Payload:   payload,
 	}
 	if in.EventId != nil {
 		ret.SetEventId(*in.EventId)
@@ -113,12 +118,17 @@ func NewMessagesFromJson(in []webhookv1.NewMessage) []*svix.MessageIn {
 	})
 }
 func MessageToJson(in svix.MessageOut) webhookv1.Message {
+	var payload []byte
+	if len(in.Payload) != 0 {
+		payload, _ = json.Marshal(in.Payload)
+	}
 	return webhookv1.Message{
 		Channels:  in.Channels,
 		CreatedAt: in.Timestamp,
 		EventId:   in.EventId.Get(),
 		EventType: in.EventType,
 		Id:        &in.Id,
+		Payload:   string(payload),
 	}
 }
 func MessagesToJson(in []svix.MessageOut) []webhookv1.Message {

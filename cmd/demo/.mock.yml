@@ -1,0 +1,14 @@
+- request:
+    method: POST
+    path: 
+      matcher: ShouldMatch
+      value: /*
+  dynamic_response:
+    engine: go_template # mandatory string, indicates that the dynamic response must use the Go template engine
+    script: > # mandatory string
+      headers:
+        Content-Type: [application/json]
+      body: >
+        {
+          "message": "request path: {{.Request.Path}}"
+        }
