@@ -1,3 +1,4 @@
+"use server"
 import { ISchema, Subscription, Topic } from "@google-cloud/pubsub";
 import { pubsub } from "./client";
 import { Buffer } from "buffer";
@@ -17,7 +18,8 @@ export const subscriptions = () => pubsub.getSubscriptions()
 export const topic = (nameOrId: string) => pubsub.topic(nameOrId)
 export const schema = (nameOrId: string) => pubsub.schema(nameOrId)
 export const subscription = (nameOrId: string) => pubsub.subscription(nameOrId)
-
+export type SchemaType = "TYPE_UNSPECIFIED" | "PROTOCOL_BUFFER" | "AVRO"
+export const createSchema = (id: string, def: string, type: SchemaType = "TYPE_UNSPECIFIED") => pubsub.createSchema(id, type, def)
 export const createTopic = (nameOrId: string) => pubsub.createTopic(nameOrId)
 
 export const subscriptionMetadata = (subscription: Subscription) => subscription.getMetadata() 

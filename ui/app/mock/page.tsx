@@ -7,7 +7,7 @@ import { Grid, Title } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const MocksPage = async () => {
+const MocksPage = () => {
   const router = useRouter()
   const [searchMocks, setSearchMocks] = useState('')
   const [searchHistory, setSearchHistory] = useState('')

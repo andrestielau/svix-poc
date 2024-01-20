@@ -1,21 +1,21 @@
 "use client"
+import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, em, Breadcrumbs, Anchor } from '@mantine/core';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { usePathname, useRouter } from 'next/navigation';
+import { WalkNavTree, routes } from './routes';
+import { theme } from '../theme';
 import '@mantine/core/styles.css';
 import React from 'react';
-import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex } from '@mantine/core';
-import { theme } from '../theme';
-import { useDisclosure } from '@mantine/hooks';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
-import { WalkNavTree, routes } from './routes';
 
 const queryClient = new QueryClient()
-
 
 export default function RootLayout({ children }: { children: any  }) {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
   const pathname = usePathname()
-  
+  const router = useRouter()
   return (
     <html lang="en">
       <head>
@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: any  }) {
               <AppShell.Navbar p="xs" style={{width: 360}}>
                 <AppShell.Section>Navbar header</AppShell.Section>
                 <AppShell.Section grow component={ScrollArea}>
-                  <WalkNavTree pathname={pathname} items={routes} />
+                  <WalkNavTree pathname={pathname} items={routes} open={(isMobile && mobileOpened) || (!isMobile && desktopOpened)} to={router.push}/>
                 </AppShell.Section>
                 <AppShell.Section>
                   <Flex
@@ -71,7 +71,10 @@ export default function RootLayout({ children }: { children: any  }) {
                   </Flex>
                 </AppShell.Section>
               </AppShell.Navbar>
-              <AppShell.Main p={80}>
+              <AppShell.Main p={80}>{pathname !== '/' &&
+                <Breadcrumbs>{pathname.split('/').map((v, i, a) => 
+                  <Anchor key={i} href={a.slice(0,i).join("/")+"/"+v}>{v}</Anchor>)}
+                </Breadcrumbs>}
                 {children}
               </AppShell.Main>
             </AppShell>
