@@ -10,7 +10,6 @@ export const provider = evnt.table("provider", {
 	id: text("id").primaryKey().notNull(),
 });
 
-
 export type NotificationType = typeof notificationType.$inferSelect
 export type NewNotificationType = typeof notificationType.$inferInsert
 export const notificationType = evnt.table("notification_type", {

@@ -19,6 +19,8 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^4.1.1",
+    "@grpc/grpc-js": "^1.9.14",
     "@mantine/core": "7.4.2",
     "@mantine/form": "^7.4.2",
     "@mantine/hooks": "7.4.2",
@@ -37,6 +39,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
+    "@genapi/cli": "^0.5.1",
+    "@genapi/swag-axios-ts": "^1.1.1",
     "@next/eslint-plugin-next": "^14.0.1",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-styling-webpack": "^0.0.5",

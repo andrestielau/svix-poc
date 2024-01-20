@@ -8,7 +8,7 @@ gen/api: oapi.yml app/router/api/v1/event.yml app/webhook/api/v1/webhook.yml
 	@cd app/webhook/api/v1 && oapi-codegen -config ../../../../oapi.yml -package webhooksv1 webhook.yml > webhook.gen.go
 
 gen/grpc: buf.gen.yaml app/router/grpc/v1/event.proto app/webhook/grpc/v1/webhook.proto
-	@buf generate
+	@buf generate 
 
 db/up: ./app/router/repo/migrations/*
 	@echo Migrating DB
@@ -20,7 +20,10 @@ gen/db:
 
 gen: gen/db gen/grpc gen/api
 	@go mod tidy
-	
+
+install:
+	npm install @bufbuild/protobuf @bufbuild/protoc-gen-es @bufbuild/buf -g
+
 run/mock:
 	@echo Run Mock
 

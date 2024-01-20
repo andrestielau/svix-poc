@@ -22,14 +22,15 @@ export type RequestDef = {
 }
 export type ResponseDef = {
     status: number
-    body: string
+    body?: string
     delay?: Delay
     proxy?: Proxy
-    headers: Map<string, string>
+    headers?: Map<string, string>
 }
 export type Mock = {
   request:  RequestDef
-  response: ResponseDef
+  response?: ResponseDef
+  dynamic_response?: DynamicResponseDef
   context: Context
   state: State
 }
@@ -44,15 +45,16 @@ export type Proxy = {
     keep_host: any
     headers: Map<string, string>
 }
-export type DynamicResponse = {
+export type DynamicResponseDef = {
     engine: string
     script: string
 }
 export type NewMock = {
-  request: Request
-  response: Response
-  dynamic_response?: DynamicResponse
+  request: RequestDef
+  response?: ResponseDef
+  dynamic_response?: DynamicResponseDef
 }
+
 export type NewMockParams = {
     reset?: boolean
     session?: string

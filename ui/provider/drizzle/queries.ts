@@ -1,7 +1,7 @@
 "use server"
 import { eq } from "drizzle-orm"
 import { db } from "."
-import { NewEventType, NewNotificationType, eventType, notificationType } from "./schema"
+import { NewEventType, NewNotificationType, NewSubscription, eventType, notificationType, subscription } from "./schema"
 
 export const listProviders = async () => {
     return db.query.provider.findMany()
@@ -23,4 +23,13 @@ export const addNotificationType = async (i: NewNotificationType) => {
 }
 export const remNotificationType = async (id: string) => {
     return db.delete(notificationType).where(eq(notificationType.id, id))
+}
+export const listSubscriptions = async () => {
+    return db.query.subscription.findMany()
+}
+export const addSubscription = async (i: NewSubscription) => {
+    return db.insert(subscription).values(i)
+}
+export const remSubscription = async (id: string) => {
+    return db.delete(subscription).where(eq(subscription.uid, id))
 }
