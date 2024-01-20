@@ -1,5 +1,5 @@
 "use client"
-import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, em, Breadcrumbs, Anchor } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, em, Breadcrumbs, Anchor, Divider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { usePathname, useRouter } from 'next/navigation';
@@ -71,10 +71,11 @@ export default function RootLayout({ children }: { children: any  }) {
                   </Flex>
                 </AppShell.Section>
               </AppShell.Navbar>
-              <AppShell.Main p={80}>{pathname !== '/' &&
+              <AppShell.Main p={80}>{pathname !== '/' && <>
                 <Breadcrumbs>{pathname.split('/').map((v, i, a) => 
                   <Anchor key={i} href={a.slice(0,i).join("/")+"/"+v}>{v}</Anchor>)}
-                </Breadcrumbs>}
+                </Breadcrumbs>
+                <Divider mt='md'/></>}
                 {children}
               </AppShell.Main>
             </AppShell>

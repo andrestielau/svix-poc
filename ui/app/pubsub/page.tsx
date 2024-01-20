@@ -13,7 +13,7 @@ const PubsubPage = () => {
   return (
     <Grid>
       <Grid.Col span={6}>
-        <Title order={1} onClick={() => router.push('/pubsub/topics')}>Topics</Title>
+        <Title order={1} onClick={() => router.push('/pubsub/topic')}>Topics</Title>
         <TopicList search={searchTopics} setSearch={setSearchTopics}/>
       </Grid.Col>
       <Grid.Col span={6}>

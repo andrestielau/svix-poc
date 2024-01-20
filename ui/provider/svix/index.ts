@@ -1,6 +1,7 @@
 "use server"
 import { ApplicationIn, ApplicationListOptions, EndpointIn, EndpointListOptions, EventTypeIn, EventTypeListOptions, MessageIn, MessageListOptions } from "svix";
 import { svix } from "./client";
+import { toObj } from "../utils";
 
 export const listEventTypes = async (opts?: EventTypeListOptions) => toObj(await svix.eventType.list(opts))?.data
 export const createEventType = async (v: EventTypeIn) => toObj(await svix.eventType.create(v))
@@ -20,5 +21,3 @@ export const listMessages = async (appId: string, opts?: MessageListOptions) => 
 export const createMessage = async (appId: string, v: MessageIn) => toObj(await svix.message.create(appId, v))
 export const deleteMessage = async (appId: string, id: string) => await svix.message.expungeContent(appId, id)
 
-const toObj = <T extends {}, R extends { [K in keyof T]: T[K]}>(obj: T) => 
-    JSON.parse(JSON.stringify(obj)) as R

@@ -3,7 +3,7 @@ import { Button, TextInput, Tooltip } from "@mantine/core"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
 import { createSchema, schemas } from "@/provider/pubsub"
-import { Schema, SchemaType } from "@google-cloud/pubsub"
+import { ISchema, SchemaType } from "@google-cloud/pubsub"
 
 const queryKey = ["pubsub", "schemas"]
 export type SchemaListProps = {
@@ -12,7 +12,7 @@ export type SchemaListProps = {
 }
 export const SchemaList = ({ search, setSearch }: SchemaListProps) => { 
     const router = useRouter()
-    return <QueryList<Schema> value={search} setValue={setSearch} 
+    return <QueryList<ISchema> value={search} setValue={setSearch} 
         queryKey={queryKey} queryFn={async () => await schemas() }
         action={<CreationModal<{ id: string, def: string, type?: SchemaType }> title="New Schema" queryKey={queryKey} 
             name='new-pubsub-schema' initialValues={{ id: '', def: '' }} validate={{

@@ -3,7 +3,7 @@ import { Button, TextInput, Tooltip } from "@mantine/core"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
 import { createTopic, topics } from "@/provider/pubsub"
-import { Topic } from "@google-cloud/pubsub"
+import { Topic, TopicMetadata } from "@google-cloud/pubsub"
 
 const queryKey = ["pubsub", "topics"]
 export type TopicListProps = {
@@ -12,7 +12,7 @@ export type TopicListProps = {
 }
 export const TopicList = ({ search, setSearch }: TopicListProps) => { 
     const router = useRouter()
-    return <QueryList<Topic> value={search} setValue={setSearch} 
+    return <QueryList<TopicMetadata> value={search} setValue={setSearch} 
         queryKey={queryKey} queryFn={async () => await topics() }
         action={<CreationModal<{ name: string }> title="New Topic" queryKey={queryKey} 
             name='new-pubsub-topic' initialValues={{ name: '' }} validate={{
@@ -24,7 +24,7 @@ export const TopicList = ({ search, setSearch }: TopicListProps) => {
         {({ name }) => <WithMenu key={name}>
             <Tooltip label={''}>
                 <Button onClick={() => 
-                    router.push('/pubsub/topics/'+name)} variant="default" fullWidth>{name}</Button>
+                    router.push('/pubsub/topic/'+name?.split('/').join('-'))} variant="default" fullWidth>{name}</Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 

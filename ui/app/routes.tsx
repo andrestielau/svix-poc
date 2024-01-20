@@ -24,11 +24,6 @@ export const routes: Route[] = [
       rightSection: <IconWebhook size="1.5rem" stroke={1.5} />,
       children: [
         { 
-          href: '/',
-          label: 'Dash',
-          rightSection: <IconDashboard size="1.5rem" stroke={1.5} />
-        },
-        { 
           href: '/applications',
           label: 'Applications',
           rightSection: <IconApiApp size="1.5rem" stroke={1.5} />
@@ -37,7 +32,7 @@ export const routes: Route[] = [
           href: '/event-types',
           label: 'EventTypes',
           rightSection: <IconCalendarEvent size="1.5rem" stroke={1.5} />
-        }
+        },
       ]
     },
     { 
@@ -47,11 +42,6 @@ export const routes: Route[] = [
       rightSection: <IconTestPipe size="1.5rem" stroke={1.5} />,
       children: [
         { 
-          href: '/',
-          label: 'Dash',
-          rightSection: <IconDashboard size="1.5rem" stroke={1.5} />
-        },
-        { 
           href: '/history',
           label: 'History',
           rightSection: <IconHistory size="1.5rem" stroke={1.5} />
@@ -60,7 +50,7 @@ export const routes: Route[] = [
           href: '/sessions',
           label: 'Sessions',
           rightSection: <IconHistoryToggle size="1.5rem" stroke={1.5} />
-        }
+        },
       ]
     },
     { 
@@ -70,16 +60,6 @@ export const routes: Route[] = [
       rightSection: <IconActivity size="1.5rem" stroke={1.5} />,
       children: [
         { 
-          href: '/',
-          label: 'Dash',
-          rightSection: <IconDashboard size="1.5rem" stroke={1.5} />
-        },
-        { 
-          href: '/router',
-          label: 'Router',
-          rightSection: <IconRouter size="1.5rem" stroke={1.5} />
-        }, 
-        { 
           href: '/schema',
           label: 'Schema',
           rightSection: <IconSchema size="1.5rem" stroke={1.5} />
@@ -88,7 +68,13 @@ export const routes: Route[] = [
           href: '/topic',
           label: 'Topics',
           rightSection: <IconPresentationAnalytics size="1.5rem" stroke={1.5} />
-        }]
+        },
+        { 
+          href: '/router',
+          label: 'Router',
+          rightSection: <IconRouter size="1.5rem" stroke={1.5} />
+        }, 
+      ]
     },
 ];
 

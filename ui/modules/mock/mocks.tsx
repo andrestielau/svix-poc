@@ -27,7 +27,7 @@ export const MockList = ({ search, setSearch }: MockListProps) => {
         {({ state: { id, creation_date } }) => <WithMenu key={id}>
             <Tooltip label={'Created At: '+ creation_date}>
                 <Button onClick={() => 
-                    router.push('/mock/mocks/'+id)} variant="default" fullWidth>{id}</Button>
+                    router.push('/mock/'+id)} variant="default" fullWidth>{id}</Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 

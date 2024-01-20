@@ -1,9 +1,10 @@
 "use server"
-import { ISchema, Subscription, Topic } from "@google-cloud/pubsub";
+import { ISchema, Subscription, Topic, TopicMetadata } from "@google-cloud/pubsub";
 import { pubsub } from "./client";
 import { Buffer } from "buffer";
+import { toObj } from "../utils";
 
-export const isEmulator = () => pubsub.isEmulator
+export const isEmulator = async () => pubsub.isEmulator
 
 export const schemas = async () => {
     const ret: ISchema[] = []
@@ -12,20 +13,14 @@ export const schemas = async () => {
     }
     return ret
 }
-export const topics = () => pubsub.getTopics()
-export const subscriptions = () => pubsub.getSubscriptions()
+const mapMetadata = (t: { metadata?: TopicMetadata }) => t?.metadata
+export const topics = async () => pubsub.getTopics().then(([topics]) => topics.map(mapMetadata))
+export const subscriptions = async () => pubsub.getSubscriptions().then(([subscriptions]) => subscriptions.map(mapMetadata))
 
-export const topic = (nameOrId: string) => pubsub.topic(nameOrId)
-export const schema = (nameOrId: string) => pubsub.schema(nameOrId)
-export const subscription = (nameOrId: string) => pubsub.subscription(nameOrId)
+export const topic = async (nameOrId: string) => pubsub.topic(nameOrId)?.metadata
+export type SchemaView = "SCHEMA_VIEW_UNSPECIFIED" | "BASIC" | "FULL"
+export const schema = async (nameOrId: string, view: SchemaView = "SCHEMA_VIEW_UNSPECIFIED") => pubsub.schema(nameOrId)?.get(view)
+export const subscription = (nameOrId: string) => pubsub.subscription(nameOrId)?.metadata
 export type SchemaType = "TYPE_UNSPECIFIED" | "PROTOCOL_BUFFER" | "AVRO"
-export const createSchema = (id: string, def: string, type: SchemaType = "TYPE_UNSPECIFIED") => pubsub.createSchema(id, type, def)
-export const createTopic = (nameOrId: string) => pubsub.createTopic(nameOrId)
-
-export const subscriptionMetadata = (subscription: Subscription) => subscription.getMetadata() 
-export const deleteSubscription = (subscription: Subscription) => subscription.delete()
-
-// TODO: Map options as types
-export const subscribe = (topic: Topic, name: string) => topic.createSubscription(name)
-export const publish = (topic: Topic, data: Buffer) => topic.publishMessage({data})
-export const deleteTopic = (topic: Topic) => topic.delete()
+export const createSchema = async (id: string, def: string, type: SchemaType = "TYPE_UNSPECIFIED") => pubsub.createSchema(id, type, def).then(_ => _)
+export const createTopic = async (nameOrId: string) => pubsub.createTopic(nameOrId).then(_ => _)
