@@ -15,15 +15,15 @@ const MocksPage = () => {
   return (
     <Grid>
       <Grid.Col span={4}>
-        <Title order={1} onClick={() => router.push('/mock/mocks')}>Mocks</Title>
+        <Title order={1} onDoubleClick={() => router.push('/mock/mocks')}>Mocks</Title>
         <MockList search={searchMocks} setSearch={setSearchMocks}/>
       </Grid.Col>
       <Grid.Col span={4}>
-        <Title order={1} onClick={() => router.push('/mock/mocks')}>Sessions</Title>
+        <Title order={1} onDoubleClick={() => router.push('/mock/mocks')}>Sessions</Title>
         <SessionList search={searchSessions} setSearch={setSearchSessions}/>
       </Grid.Col>
       <Grid.Col span={4}>
-        <Title order={1} onClick={() => router.push('/mock/history')}>History</Title>
+        <Title order={1} onDoubleClick={() => router.push('/mock/history')}>History</Title>
         <HistoryList search={searchHistory} setSearch={setSearchHistory}/>
       </Grid.Col>
     </Grid>

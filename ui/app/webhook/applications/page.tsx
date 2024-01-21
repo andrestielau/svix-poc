@@ -9,7 +9,7 @@ const AppsPage = () => {
     const router = useRouter()
     const [searchApps, setSearchApps] = useState('')
     return <>
-        <Title order={1} onClick={() => router.push('/webhook/applications')}>Applications</Title>
+        <Title order={1} onDoubleClick={() => router.push('/webhook/applications')}>Applications</Title>
         <ApplicationList search={searchApps} setSearch={setSearchApps}/>  
     </>
 }

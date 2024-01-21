@@ -13,11 +13,11 @@ const WebhooksPage = () => {
   return (
     <Grid>
       <Grid.Col span={6}>
-        <Title order={1} onClick={() => router.push('/webhook/applications')}>Applications</Title>
+        <Title order={1} onDoubleClick={() => router.push('/webhook/applications')}>Applications</Title>
         <ApplicationList search={searchApps} setSearch={setSearchApps}/>
       </Grid.Col>
       <Grid.Col span={6}>
-        <Title order={1} onClick={() => router.push('/webhook/event-types')}>Event Types</Title>
+        <Title order={1} onDoubleClick={() => router.push('/webhook/event-types')}>Event Types</Title>
         <EventTypeList search={searchEventTypes} setSearch={setSearchEventTypes}/>
       </Grid.Col>
     </Grid>

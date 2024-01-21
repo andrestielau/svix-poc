@@ -17,10 +17,11 @@ export const QueryList = <T, F = any>({ action, children, value, setValue, ...re
 export type CreationModalProps<F,T> = {
     title: string
     queryKey: string[]
+    onReset?: () => void
     children: (form: UseFormReturnType<F>) => ReactNode
 } & UseFormInput<F> & UseMutationOptions<T, Error, F>
 
-export const CreationModal = <F,T = any>({ children, title, queryKey, onSuccess, ...rest }: CreationModalProps<F,T>) => {
+export const CreationModal = <F,T = any>({ children, title, queryKey, onSuccess, onReset, ...rest }: CreationModalProps<F,T>) => {
     const client = useQueryClient()
     const add = useMutation<T, Error, F>({ ...rest,
         onSuccess: (d,v,c) => client.invalidateQueries({ queryKey }).
@@ -28,7 +29,7 @@ export const CreationModal = <F,T = any>({ children, title, queryKey, onSuccess,
     })
     const form = useForm<F>(rest);
     return <NewModal title={title}>
-        <form onSubmit={form.onSubmit((values) => add.mutate(values))} onReset={() => form.reset()} >
+        <form onSubmit={form.onSubmit((values) => add.mutate(values))} onReset={() => { form.reset(); return onReset && onReset() }} >
             {children(form)}
             <Divider my="xs" />
             <Group justify="end">

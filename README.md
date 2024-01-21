@@ -1,3 +1,5 @@
+# Web of Hooks
+
 # Introduction
 The goal of this POC is to allow:
 - admins to configure notifications-types for web-hooks

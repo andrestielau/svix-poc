@@ -24,7 +24,7 @@ export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => {
             </>}</CreationModal>}>
         {({ name, createdAt }) => <WithMenu key={name}>
             <Tooltip label={'Created At: '+ createdAt}>
-                <Button onClick={() => router.push('/webhook/event-types/'+name)} variant="default" fullWidth>{name}</Button>
+                <Button onDoubleClick={() => router.push('/webhook/event-types/'+name)} variant="default" fullWidth>{name}</Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 

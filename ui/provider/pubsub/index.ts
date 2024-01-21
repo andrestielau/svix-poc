@@ -1,8 +1,6 @@
 "use server"
-import { ISchema, Subscription, Topic, TopicMetadata } from "@google-cloud/pubsub";
+import { ISchema, TopicMetadata } from "@google-cloud/pubsub";
 import { pubsub } from "./client";
-import { Buffer } from "buffer";
-import { toObj } from "../utils";
 
 export const isEmulator = async () => pubsub.isEmulator
 
@@ -22,5 +20,5 @@ export type SchemaView = "SCHEMA_VIEW_UNSPECIFIED" | "BASIC" | "FULL"
 export const schema = async (nameOrId: string, view: SchemaView = "SCHEMA_VIEW_UNSPECIFIED") => pubsub.schema(nameOrId)?.get(view)
 export const subscription = (nameOrId: string) => pubsub.subscription(nameOrId)?.metadata
 export type SchemaType = "TYPE_UNSPECIFIED" | "PROTOCOL_BUFFER" | "AVRO"
-export const createSchema = async (id: string, def: string, type: SchemaType = "TYPE_UNSPECIFIED") => pubsub.createSchema(id, type, def).then(_ => _)
+export const createSchema = async (id: string, def: string, type: SchemaType = "TYPE_UNSPECIFIED") => pubsub.createSchema(id, type, def).then(schema => schema.get("SCHEMA_VIEW_UNSPECIFIED"))
 export const createTopic = async (nameOrId: string) => pubsub.createTopic(nameOrId).then(_ => _)

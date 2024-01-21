@@ -23,8 +23,10 @@ export const TopicList = ({ search, setSearch }: TopicListProps) => {
             </>}</CreationModal>}>
         {({ name }) => <WithMenu key={name}>
             <Tooltip label={''}>
-                <Button onClick={() => 
-                    router.push('/pubsub/topic/'+name?.split('/').join('-'))} variant="default" fullWidth>{name}</Button>
+                <Button  variant="default" fullWidth onClick={() => 
+                    router.push('/pubsub/topic/'+name?.replaceAll('projects/demo/topics/', ''))}>
+                        {name?.replaceAll('projects/demo/topics/', '')}
+                    </Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { ReactNode } from 'react';
-import { IconActivity, IconApiApp, IconCalendarEvent, IconDashboard, IconGauge, IconHistory, IconHistoryToggle, IconPresentationAnalytics, IconRouter, IconSchema, IconTestPipe, IconWebhook } from '@tabler/icons-react';
+import { IconActivity, IconApiApp, IconBrandDatabricks, IconCalendarEvent, IconHistory, IconHistoryToggle, IconMailForward, IconMailbox, IconPresentationAnalytics, IconRouter, IconSchema, IconTestPipe, IconWebhook } from '@tabler/icons-react';
 import { NavLink, Tooltip } from '@mantine/core';
 
 export type Route = {
@@ -10,13 +10,48 @@ export type Route = {
     leftSection?: ReactNode
     rightSection?: ReactNode
     children?: Route[]
-  }
+}
 export const routes: Route[] = [
     { 
-      href: '/',
-      label: 'Home', 
-      rightSection: <IconGauge size="1.5rem" stroke={1.5} />,
+      href: '/pubsub',
+      label: 'PubSub',
+      description: 'Manage Messages', 
+      rightSection: <IconActivity size="1.5rem" stroke={1.5} />,
+      children: [
+        { 
+          href: '/schema',
+          label: 'Schema',
+          rightSection: <IconSchema size="1.5rem" stroke={1.5} />
+        },
+        { 
+          href: '/topic',
+          label: 'Topics',
+          rightSection: <IconPresentationAnalytics size="1.5rem" stroke={1.5} />
+        },
+      ]
     },
+    { 
+      href: '/router',
+      label: 'Router',
+      rightSection: <IconRouter size="1.5rem" stroke={1.5} />,
+      children: [
+        { 
+          href: '/event-types',
+          label: 'EventTypes',
+          rightSection: <IconMailbox size="1.5rem" stroke={1.5} />,
+        },
+        { 
+          href: '/providers',
+          label: 'Providers',
+          rightSection: <IconBrandDatabricks size="1.5rem" stroke={1.5} />,
+        },
+        { 
+          href: '/notification-types',
+          label: 'NotificationTypes',
+          rightSection: <IconMailForward size="1.5rem" stroke={1.5} />,
+        }
+      ]
+    }, 
     {
       href: '/webhook',
       label: 'WebHooks',
@@ -53,35 +88,12 @@ export const routes: Route[] = [
         },
       ]
     },
-    { 
-      href: '/pubsub',
-      label: 'PubSub',
-      description: 'Manage Messages', 
-      rightSection: <IconActivity size="1.5rem" stroke={1.5} />,
-      children: [
-        { 
-          href: '/schema',
-          label: 'Schema',
-          rightSection: <IconSchema size="1.5rem" stroke={1.5} />
-        },
-        { 
-          href: '/topic',
-          label: 'Topics',
-          rightSection: <IconPresentationAnalytics size="1.5rem" stroke={1.5} />
-        },
-        { 
-          href: '/router',
-          label: 'Router',
-          rightSection: <IconRouter size="1.5rem" stroke={1.5} />
-        }, 
-      ]
-    },
 ];
 
 export type WalkNavTreeProps = {pathname: string, open: boolean, items?: Route[], to?: (href: string) => void}
 export const WalkNavTree = ({ pathname, open, items, to }: WalkNavTreeProps) => items?.map((item) => {
 const children = item.children && <WalkNavTree pathname={pathname} open={open} items={item.children?.
-  map(({ href, ...rest }) => ({ href: item.href + href, ...rest }))} to={to}/>
+  map(({ href, ...rest }, i) => ({ href: item.href + href, ...rest }))} to={to}/>
 const ret = (<NavLink
   component={Link}
   href={item.href}
@@ -93,5 +105,5 @@ const ret = (<NavLink
   rightSection={item.rightSection}
   onDoubleClick={() => item.children && to && to(item.href)}
 >{children}</NavLink>)
-  return open ? ret : <Tooltip label={item.label}>{ret}</Tooltip>
+  return open ? ret : <Tooltip label={item.label} key={item.href}>{ret}</Tooltip>
 })

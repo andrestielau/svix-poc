@@ -1,11 +1,11 @@
 "use client"
 import { Grid, GridCol, Title } from "@mantine/core";
-import { ProviderList } from "@/modules/pubsub/router/providers";
-import { EventTypeList } from "@/modules/pubsub/router/event-types";
-import { NotificationTypeList } from "@/modules/pubsub/router/notification-types";
+import { ProviderList } from "@/modules/router/providers";
+import { EventTypeList } from "@/modules/router/event-types";
+import { NotificationTypeList } from "@/modules/router/notification-types";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SubscriptionList } from "@/modules/pubsub/router/subscriptions";
+import { SubscriptionList } from "@/modules/router/subscriptions";
 
 const RouterPage = () => {
   const router = useRouter()
@@ -16,19 +16,19 @@ const RouterPage = () => {
   return (
     <Grid>
       <GridCol span={3}>
-        <Title order={1} onClick={() => router.push('/router/providers')}>Providers</Title>
+        <Title order={1} onDoubleClick={() => router.push('/router/providers')}>Providers</Title>
         <ProviderList search={searchProviders} setSearch={setSearchProviders}/>
       </GridCol>
       <GridCol span={3}>
-        <Title order={1} onClick={() => router.push('/router/event-types')}>Event Types</Title>
+        <Title order={1} onDoubleClick={() => router.push('/router/event-types')}>Event Types</Title>
         <EventTypeList search={searchEventTypes} setSearch={setSearchEventTypes}/>
       </GridCol>
       <GridCol span={3}>
-        <Title order={1} onClick={() => router.push('/router/notification-types')}>Notification Types</Title>
+        <Title order={1} onDoubleClick={() => router.push('/router/notification-types')}>Notification Types</Title>
         <NotificationTypeList search={searchNotificationTypes} setSearch={setSearchNotificationTypes}/>
       </GridCol>
       <GridCol span={3}>
-        <Title order={1} onClick={() => router.push('/router/subscriptions')}>Subscriptions</Title>
+        <Title order={1} onDoubleClick={() => router.push('/router/subscriptions')}>Subscriptions</Title>
         <SubscriptionList search={searchSubscriptions} setSearch={setSearchSubscriptions}/>
       </GridCol>
     </Grid>

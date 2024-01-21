@@ -1,26 +1,26 @@
 "use client"
-import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, em, Breadcrumbs, Anchor, Divider } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, Breadcrumbs, Anchor, Divider, Image, Group } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { usePathname, useRouter } from 'next/navigation';
+import { useDisclosure, useColorScheme } from '@mantine/hooks';
 import { WalkNavTree, routes } from './routes';
+import NextImage from 'next/image';
 import { theme } from '../theme';
 import '@mantine/core/styles.css';
 import React from 'react';
+import Link from 'next/link';
 
 const queryClient = new QueryClient()
 
 export default function RootLayout({ children }: { children: any  }) {
-  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
-  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
+  const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname()
   const router = useRouter()
   return (
     <html lang="en">
       <head>
         <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.png" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
@@ -32,25 +32,45 @@ export default function RootLayout({ children }: { children: any  }) {
             <AppShell
               header={{ height: 60 }}
               navbar={{
-                width: { base: 300 },
+                width: 300,
                 breakpoint: 'sm',
-                collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+                collapsed: { mobile: !opened, desktop: !opened },
               }}
-              padding="md"
+              padding="xs"
             >
               <AppShell.Header>
-                <Burger
-                  opened={mobileOpened}
-                  onClick={toggleMobile}
-                  hiddenFrom="sm"
-                  size="sm"
-                />
-                <div>Logo</div>
+                <Group justify="space-between">
+                  <Flex
+                    p="2.5"
+                    mih={50}
+                    gap="md"
+                    justify="flex-start"
+                    align="center"
+                    direction="row"
+                    wrap="wrap"
+                  >
+                    <Link href='/'>
+                      <Image component={NextImage} src={useColorScheme() === 'light' ?'/logo.svg':'/logo-dark.svg'} height={50} width={50} alt="Logo" />
+                    </Link>
+                  </Flex>
+                  <Flex
+                    p="5"
+                    pr='md'
+                    mih={50}
+                    gap="md"
+                    justify="flex-end"
+                    align="center"
+                    direction="row"
+                    wrap="wrap"
+                  > 
+                    <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom='sm' />
+                  </Flex>
+                </Group>
               </AppShell.Header>
-              <AppShell.Navbar p="xs" style={{width: 360}}>
+              <AppShell.Navbar p="xs" style={{minWidth: 360}}>
                 <AppShell.Section>Navbar header</AppShell.Section>
                 <AppShell.Section grow component={ScrollArea}>
-                  <WalkNavTree pathname={pathname} items={routes} open={(isMobile && mobileOpened) || (!isMobile && desktopOpened)} to={router.push}/>
+                  <WalkNavTree pathname={pathname} items={routes} open={opened} to={router.push}/>
                 </AppShell.Section>
                 <AppShell.Section>
                   <Flex
@@ -62,12 +82,7 @@ export default function RootLayout({ children }: { children: any  }) {
                     direction="row"
                     wrap="wrap"
                   >
-                    <Burger
-                      visibleFrom='sm'
-                      opened={desktopOpened}
-                      onClick={toggleDesktop}
-                      size="sm"
-                    />
+                    <Burger opened={opened} onClick={toggle} size="sm" visibleFrom='sm'/>
                   </Flex>
                 </AppShell.Section>
               </AppShell.Navbar>

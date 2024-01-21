@@ -24,7 +24,7 @@ export const SubscriptionList = ({ search, setSearch }: SubscriptionListProps) =
             </>}</CreationModal>}>
         {({ uid, createdAt, ...rest }) => <WithMenu key={uid}>
             <Tooltip label={<span>Created At: {createdAt}<br/>{JSON.stringify(rest)}</span>} >
-                <Button onClick={() => router.push('/router/subscriptions/'+uid)} variant="default" fullWidth>{uid}</Button>
+                <Button onDoubleClick={() => router.push('/router/subscriptions/'+uid)} variant="default" fullWidth>{uid}</Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 

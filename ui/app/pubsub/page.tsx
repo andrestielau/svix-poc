@@ -13,11 +13,11 @@ const PubsubPage = () => {
   return (
     <Grid>
       <Grid.Col span={6}>
-        <Title order={1} onClick={() => router.push('/pubsub/topic')}>Topics</Title>
+        <Title order={1} onDoubleClick={() => router.push('/pubsub/topic')}>Topics</Title>
         <TopicList search={searchTopics} setSearch={setSearchTopics}/>
       </Grid.Col>
       <Grid.Col span={6}>
-        <Title order={1} onClick={() => router.push('/pubsub/schema')}>Schemas</Title>
+        <Title order={1} onDoubleClick={() => router.push('/pubsub/schema')}>Schemas</Title>
         <SchemaList search={searchSchemas} setSearch={setSearchSchemas}/>
       </Grid.Col>
     </Grid>

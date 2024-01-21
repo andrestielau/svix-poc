@@ -24,7 +24,7 @@ export const NotificationTypeList = ({ search, setSearch }: NotificationTypeList
             </>}</CreationModal>}>
         {({ id, createdAt }) => <WithMenu key={id}>
             <Tooltip label={'Created At: '+ createdAt}>
-                <Button onClick={() => router.push('/router/notification-types/'+id)}  variant="default" fullWidth>{id}</Button>
+                <Button onDoubleClick={() => router.push('/router/notification-types/'+id)}  variant="default" fullWidth>{id}</Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 
