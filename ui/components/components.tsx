@@ -73,19 +73,22 @@ export type SearchListProps = {
 export const SearchList = ({ action, children, value, setValue }: PropsWithChildren<SearchListProps>) => {
   return <Stack h={300} bg="var(--mantine-color-body)" gap="xs" pt={10}>
       <Flex justify="flex-end" align="center" direction="row">
-          <TextInput placeholder="Search"
-              style={{width: '100%'}}
-              value={value}
-              onChange={(event) => setValue(event.currentTarget.value)}
-              rightSectionPointerEvents="all"
-              rightSection={<CloseButton 
-                  aria-label="Clear input" 
-                  onClick={() => setValue('')} 
-                  style={{ display: value ? undefined : 'none' }} 
-              />}
-          />
+          <SearchBox value={value} setValue={setValue} />
           {action}
       </Flex>
       {children}
   </Stack>
 }
+
+export const SearchBox = ({ value, setValue }: any) => 
+  <TextInput placeholder="Search"
+      style={{width: '100%'}}
+      value={value}
+      onChange={(event) => setValue(event.currentTarget.value)}
+      rightSectionPointerEvents="all"
+      rightSection={<CloseButton 
+          aria-label="Clear input" 
+          onClick={() => setValue('')} 
+          style={{ display: value ? undefined : 'none' }} 
+      />}
+  />

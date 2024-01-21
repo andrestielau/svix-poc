@@ -34,7 +34,7 @@ export const CreationModal = <F,T = any>({ children, title, queryKey, onSuccess,
             <Divider my="xs" />
             <Group justify="end">
                 <Button variant="light" type='reset' disabled={!form.isDirty}>Reset</Button>
-                <Button variant="outline" type='submit' disabled={!form.isValid()}>Create</Button>
+                <Button variant="outline" type='submit'>Create</Button>
             </Group>
         </form>
     </NewModal>

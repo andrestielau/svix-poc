@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { ReactNode } from 'react';
-import { IconActivity, IconApiApp, IconBrandDatabricks, IconCalendarEvent, IconHistory, IconHistoryToggle, IconMailForward, IconMailbox, IconPresentationAnalytics, IconRouter, IconSchema, IconTestPipe, IconWebhook } from '@tabler/icons-react';
+import { IconActivity, IconApiApp, IconBrandDatabricks, IconCalendarEvent, IconHistory, IconHistoryToggle, IconMailForward, IconMailbox, IconPingPong, IconPresentationAnalytics, IconRouter, IconSchema, IconSubscript, IconTestPipe, IconWebhook } from '@tabler/icons-react';
 import { NavLink, Tooltip } from '@mantine/core';
 
 export type Route = {
@@ -28,11 +28,17 @@ export const routes: Route[] = [
           label: 'Topics',
           rightSection: <IconPresentationAnalytics size="1.5rem" stroke={1.5} />
         },
+        { 
+          href: '/subscriptions',
+          label: 'Subscriptions',
+          rightSection: <IconSubscript size="1.5rem" stroke={1.5} />
+        },
       ]
     },
     { 
       href: '/router',
       label: 'Router',
+      description: 'Manage Notification Events',
       rightSection: <IconRouter size="1.5rem" stroke={1.5} />,
       children: [
         { 
@@ -49,7 +55,12 @@ export const routes: Route[] = [
           href: '/notification-types',
           label: 'NotificationTypes',
           rightSection: <IconMailForward size="1.5rem" stroke={1.5} />,
-        }
+        },
+        { 
+          href: '/subscriptions',
+          label: 'Subscriptions',
+          rightSection: <IconPingPong size="1.5rem" stroke={1.5} />,
+        },
       ]
     }, 
     {

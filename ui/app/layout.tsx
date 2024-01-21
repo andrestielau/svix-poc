@@ -1,5 +1,5 @@
 "use client"
-import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, Breadcrumbs, Anchor, Divider, Image, Group } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, Breadcrumbs, Anchor, Divider, Image, Group, Title } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDisclosure, useColorScheme } from '@mantine/hooks';
@@ -7,8 +7,9 @@ import { WalkNavTree, routes } from './routes';
 import NextImage from 'next/image';
 import { theme } from '../theme';
 import '@mantine/core/styles.css';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { SearchBox } from '@/components/components';
 
 const queryClient = new QueryClient()
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: any  }) {
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname()
   const router = useRouter()
+  const [search, setSearch] = useState()
   return (
     <html lang="en">
       <head>
@@ -32,6 +34,11 @@ export default function RootLayout({ children }: { children: any  }) {
             <AppShell
               header={{ height: 60 }}
               navbar={{
+                width: 300,
+                breakpoint: 'sm',
+                collapsed: { mobile: !opened, desktop: !opened },
+              }}
+              aside={{
                 width: 300,
                 breakpoint: 'sm',
                 collapsed: { mobile: !opened, desktop: !opened },
@@ -68,7 +75,9 @@ export default function RootLayout({ children }: { children: any  }) {
                 </Group>
               </AppShell.Header>
               <AppShell.Navbar p="xs" style={{minWidth: 360}}>
-                <AppShell.Section>Navbar header</AppShell.Section>
+                <AppShell.Section>
+                  <SearchBox value={search} setValue={setSearch}/>
+                </AppShell.Section>
                 <AppShell.Section grow component={ScrollArea}>
                   <WalkNavTree pathname={pathname} items={routes} open={opened} to={router.push}/>
                 </AppShell.Section>
@@ -93,6 +102,12 @@ export default function RootLayout({ children }: { children: any  }) {
                 <Divider mt='md'/></>}
                 {children}
               </AppShell.Main>
+              <AppShell.Aside>
+                <SearchBox value={search} setValue={setSearch}/>
+              </AppShell.Aside>
+              <AppShell.Footer>
+                <Title order={1}>Footer</Title>
+              </AppShell.Footer>
             </AppShell>
           </MantineProvider>
         </QueryClientProvider>

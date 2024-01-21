@@ -16,8 +16,10 @@ export const getApplication = async (id: string) => toObj(await svix.application
 export const listEndpoints = async (appId: string, opts?: EndpointListOptions) => toObj(await svix.endpoint.list(appId, opts))?.data
 export const createEndpoint = async (appId: string, v: EndpointIn) => toObj(await svix.endpoint.create(appId, v))
 export const deleteEndpoint = async (appId: string, id: string) => await svix.endpoint.delete(appId, id)
+export const getEndpoint = async (appId: string, id: string) => toObj(await svix.endpoint.get(appId, id))
 
 export const listMessages = async (appId: string, opts?: MessageListOptions) => toObj(await svix.message.list(appId, opts))?.data
 export const createMessage = async (appId: string, v: MessageIn) => toObj(await svix.message.create(appId, v))
 export const deleteMessage = async (appId: string, id: string) => await svix.message.expungeContent(appId, id)
+export const getMessage = async (appId: string, id: string) => await svix.message.get(appId, id)
 

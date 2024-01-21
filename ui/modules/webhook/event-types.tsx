@@ -1,26 +1,33 @@
 import { listEventTypes, createEventType } from "@/provider/svix"
 import { CreationModal, QueryList } from "@/components/crud"
-import { Button, TextInput, Tooltip } from "@mantine/core"
+import { Button, InputWrapper, TextInput, Tooltip } from "@mantine/core"
 import { EventTypeIn, EventTypeOut } from "svix"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
+import { Editor } from "@monaco-editor/react"
 
 const queryKey = ["webhook", "event-types"]
 export type EventTypeListProps = {
     search: string
     setSearch: (s: string) => void 
 }
+const defaultSchema = `{
+
+}`
 export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => { 
     const router = useRouter()
     return <QueryList<EventTypeOut> value={search} setValue={setSearch} 
         queryKey={queryKey} queryFn={async () => await listEventTypes() }
         action={<CreationModal<EventTypeIn> title="New EventType" queryKey={queryKey} 
-            name='new-webhook-event-type' initialValues={{ name: '', description: '' }} validate={{
+            name='new-webhook-event-type' initialValues={{ name: '', description: '', schemas: { 0: {}} }} validate={{
                 name: (value: string) => value ? null : 'Invalid name',
             }}
             mutationFn={async (i) => await createEventType(i)}>{(form) => <>
                 <TextInput label='Name' withAsterisk {...form.getInputProps('name')} />
-                <TextInput label='Description' {...form.getInputProps('description')} />        
+                <TextInput label='Description' {...form.getInputProps('description')} /> 
+                <InputWrapper label="Schema" withAsterisk>
+                    <Editor height="30vh" theme='vs-dark' defaultLanguage="json" {...form.getInputProps('schemas.0')} onValidate={console.log}/>
+                </InputWrapper>       
             </>}</CreationModal>}>
         {({ name, createdAt }) => <WithMenu key={name}>
             <Tooltip label={'Created At: '+ createdAt}>
@@ -29,3 +36,4 @@ export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => {
         </WithMenu>}
     </QueryList> 
 }
+

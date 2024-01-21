@@ -1,13 +1,13 @@
 "use client"
 import { Title } from "@mantine/core";
-import { SubscriptionList } from "@/modules/router/subscriptions";
+import { ProviderList } from "@/modules/router/providers";
 import { useState } from "react";
 
-const SubscriptionsPage = () => {
-    const [searchSubscriptions, setSearchSubscriptions] = useState('')
+const ProvidersPage = () => {
+    const [searchProviders, setSearchProviders] = useState('')
     return <>
-        <Title order={1}>Subscriptions</Title>
-        <SubscriptionList search={searchSubscriptions} setSearch={setSearchSubscriptions}/>
+        <Title order={1}>Providers</Title>
+        <ProviderList search={searchProviders} setSearch={setSearchProviders}/>
     </>
 }
-export default SubscriptionsPage
+export default ProvidersPage

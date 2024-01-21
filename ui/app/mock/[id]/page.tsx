@@ -4,7 +4,7 @@ import { Grid, Title } from "@mantine/core"
 import { useQuery } from "@tanstack/react-query"
 
 const MockPage = ({ params: { id } }: { params: { id: string } }) => {
-    const {data} = useQuery({queryKey: ['webhook-mocks'], queryFn: async () => await mock(id) })
+    const {data} = useQuery({queryKey: ['mock', 'mocks', id], queryFn: async () => await mock(id) })
     return <Grid>
         <Grid.Col span={12}>
             <Title order={1}>Mock: {data?.state?.id}</Title>

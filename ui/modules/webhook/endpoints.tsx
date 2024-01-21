@@ -20,13 +20,15 @@ export const EndpointList = ({ appId, search, setSearch }: EndpointListProps) =>
                 url: (value: string) => value ? null : 'Invalid url',
             }}
             mutationFn={async (i) => await createEndpoint(appId, i)}>{(form) => <>
-                <TextInput label='Url' withAsterisk {...form.getInputProps('name')} />
+                <TextInput label='Url' withAsterisk {...form.getInputProps('url')} />
+                <TextInput label='Uid' {...form.getInputProps('uid')} />
+                <TextInput label='Name' {...form.getInputProps('name')} />
                 <TextInput label='Description' {...form.getInputProps('description')} />        
             </>}</CreationModal>}>
-        {({ id, createdAt }) => <WithMenu key={id}>
-            <Tooltip label={'Created At: '+ createdAt}>
+        {({ id, uid, url, createdAt }) => <WithMenu key={id}>
+            <Tooltip label={<label>Created At: {createdAt.toString()}<br/>{url}</label>}>
                 <Button onClick={() => 
-                    router.push('/webhook/'+appId+'/endpoints/'+id)} variant="default" fullWidth>{id}</Button>
+                    router.push('/webhook/applications/'+appId+'/endpoints/'+id)} variant="default" fullWidth>{uid || id}</Button>
             </Tooltip>
         </WithMenu>}
     </QueryList> 
