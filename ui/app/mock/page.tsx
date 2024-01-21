@@ -1,5 +1,4 @@
 "use client"
-
 import { HistoryList } from "@/modules/mock/history";
 import { MockList } from "@/modules/mock/mocks";
 import { SessionList } from "@/modules/mock/sessions";
@@ -19,7 +18,7 @@ const MocksPage = () => {
         <MockList search={searchMocks} setSearch={setSearchMocks}/>
       </Grid.Col>
       <Grid.Col span={4}>
-        <Title order={1} onDoubleClick={() => router.push('/mock/mocks')}>Sessions</Title>
+        <Title order={1} onDoubleClick={() => router.push('/mock/sessions')}>Sessions</Title>
         <SessionList search={searchSessions} setSearch={setSearchSessions}/>
       </Grid.Col>
       <Grid.Col span={4}>
