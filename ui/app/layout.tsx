@@ -1,5 +1,5 @@
 "use client"
-import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, Breadcrumbs, Anchor, Divider, Image, Group, Title } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript, AppShell, Burger, ScrollArea, Flex, Breadcrumbs, Anchor, Divider, Image, Group, Title, rem } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDisclosure, useColorScheme } from '@mantine/hooks';
@@ -10,10 +10,13 @@ import '@mantine/core/styles.css';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { SearchBox } from '@/components/components';
+import { IconCross, IconPlus } from '@tabler/icons-react';
+import { IconX } from '@tabler/icons-react';
 
 const queryClient = new QueryClient()
 
 export default function RootLayout({ children }: { children: any  }) {
+  const [asideOpened, { toggle: toggleAside }] = useDisclosure();
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname()
   const router = useRouter()
@@ -41,7 +44,11 @@ export default function RootLayout({ children }: { children: any  }) {
               aside={{
                 width: 300,
                 breakpoint: 'sm',
-                collapsed: { mobile: !opened, desktop: !opened },
+                collapsed: { mobile: !asideOpened, desktop: !asideOpened },
+              }}
+              footer={{
+                height: 65,
+                offset: true,
               }}
               padding="xs"
             >
@@ -106,7 +113,9 @@ export default function RootLayout({ children }: { children: any  }) {
                 <SearchBox value={search} setValue={setSearch}/>
               </AppShell.Aside>
               <AppShell.Footer>
-                <Title order={1}>Footer</Title>
+                <Flex justify='center'>
+                  {asideOpened ? <IconX size={60} onClick={toggleAside}/> : <IconPlus size={60} onClick={toggleAside}/>}
+                </Flex>
               </AppShell.Footer>
             </AppShell>
           </MantineProvider>
