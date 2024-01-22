@@ -1,17 +1,14 @@
-import { pgTable, pgSchema, timestamp, text, foreignKey, jsonb, primaryKey, unique, uuid } from "drizzle-orm/pg-core"
-import { sql } from "drizzle-orm"
+import { pgTable, pgSchema, timestamp, text, foreignKey, primaryKey, unique, uuid, jsonb } from "drizzle-orm/pg-core"
+  import { sql } from "drizzle-orm"
 
 
 export const evnt = pgSchema("evnt");
 
-export type Provider = typeof provider.$inferSelect
 export const provider = evnt.table("provider", {
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	id: text("id").primaryKey().notNull(),
 });
 
-export type NotificationType = typeof notificationType.$inferSelect
-export type NewNotificationType = typeof notificationType.$inferInsert
 export const notificationType = evnt.table("notification_type", {
 	provider: text("provider").notNull().references(() => provider.id),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
@@ -24,16 +21,11 @@ export const eventNotification = evnt.table("event_notification", {
 	transform: text("transform"),
 });
 
-export type EventType = typeof eventType.$inferSelect
-export type NewEventType = typeof eventType.$inferInsert
 export const eventType = evnt.table("event_type", {
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	schema: jsonb("schema").notNull(),
 	id: text("id").primaryKey().notNull(),
 });
 
-export type Subscription = typeof subscription.$inferSelect
-export type NewSubscription = typeof subscription.$inferInsert
 export const subscription = evnt.table("subscription", {
 	notificationType: text("notification_type").notNull().references(() => notificationType.id),
 	uid: uuid("uid").default(sql`uuid_generate_v4()`).notNull(),

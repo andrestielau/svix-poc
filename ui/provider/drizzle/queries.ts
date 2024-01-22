@@ -1,35 +1,15 @@
 "use server"
 import { eq } from "drizzle-orm"
-import { db } from "."
-import { NewEventType, NewNotificationType, NewSubscription, eventType, notificationType, subscription } from "./schema"
+import { NewEventType, NewNotificationType, NewSubscription, db } from "."
+import { eventType, notificationType, subscription } from "./schema"
 
-export const listProviders = async () => {
-    return db.query.provider.findMany()
-}
-export const listEventTypes = async () => {
-    return db.query.eventType.findMany()
-}
-export const addEventType = async (i: NewEventType) => {
-    return db.insert(eventType).values(i)
-}
-export const remEventType = async (id: string) => {
-    return db.delete(eventType).where(eq(eventType.id, id))
-}
-export const listNotificationTypes = async () => {
-    return db.query.notificationType.findMany()
-}
-export const addNotificationType = async (i: NewNotificationType) => {
-    return db.insert(notificationType).values(i)
-}
-export const remNotificationType = async (id: string) => {
-    return db.delete(notificationType).where(eq(notificationType.id, id))
-}
-export const listSubscriptions = async () => {
-    return db.query.subscription.findMany()
-}
-export const addSubscription = async (i: NewSubscription) => {
-    return db.insert(subscription).values(i)
-}
-export const remSubscription = async (id: string) => {
-    return db.delete(subscription).where(eq(subscription.uid, id))
-}
+export const listProviders = async () => db.query.provider.findMany()
+export const listEventTypes = async () => db.query.eventType.findMany()
+export const addEventType = async (i: NewEventType) => db.insert(eventType).values(i).then(_ => true)
+export const remEventType = async (id: string) =>  db.delete(eventType).where(eq(eventType.id, id)).then(_ => true)
+export const listNotificationTypes = async () => db.query.notificationType.findMany()
+export const addNotificationType = async (i: NewNotificationType) => db.insert(notificationType).values(i).then(_ => true)
+export const remNotificationType = async (id: string) => db.delete(notificationType).where(eq(notificationType.id, id)).then(_ => true)
+export const listSubscriptions = async () => db.query.subscription.findMany()
+export const addSubscription = async (i: NewSubscription) => db.insert(subscription).values(i).then(_ => true)
+export const remSubscription = async (id: string) => db.delete(subscription).where(eq(subscription.uid, id)).then(_ => true)

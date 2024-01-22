@@ -11,9 +11,6 @@ export type EventTypeListProps = {
     search: string
     setSearch: (s: string) => void 
 }
-const defaultSchema = `{
-
-}`
 export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => { 
     const router = useRouter()
     return <QueryList<EventTypeOut> value={search} setValue={setSearch} 
