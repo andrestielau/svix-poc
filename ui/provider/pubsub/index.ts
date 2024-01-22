@@ -9,8 +9,13 @@ export const status = async () => ({
     isOpen: pubsub.isOpen,
 })
 
-export const publish = async (topic: string, msg: MessageOptions) => pubsub.topic(topic).publishMessage(msg)
-
+export const publish = async (topic: string, msg: MessageOptions) => {
+    if (msg.json) {
+        msg.data = Buffer.from(msg.json)
+        delete msg.json
+    }
+    return pubsub.topic(topic).publishMessage(msg)
+}
 export type SchemaView = "SCHEMA_VIEW_UNSPECIFIED" | "BASIC" | "FULL"
 export type SchemaType = "TYPE_UNSPECIFIED" | "PROTOCOL_BUFFER" | "AVRO"
 

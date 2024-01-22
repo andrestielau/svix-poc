@@ -73,9 +73,9 @@ const AttributeList = ({ form, reorder }: { form: UseFormReturnType<Publish>, re
     </Flex>)}
     <Button variant='default' fullWidth onClick={() => 
         form.insertListItem('attributes', ['', '', v4()], attributes.length)}>Add Attribute</Button>
-        {JSON.stringify(Object.fromEntries(attributes))}
 </Stack>
 }
+
 var prev: any
 function onDragOver(ev: any) {
     ev.preventDefault()
