@@ -2,7 +2,11 @@
 import { ISchema, TopicMetadata } from "@google-cloud/pubsub";
 import { pubsub } from "./client";
 
-export const isEmulator = async () => pubsub.isEmulator
+export const status = async () => ({
+    isIdResolved: pubsub.isIdResolved,
+    isEmulator: pubsub.isEmulator,
+    isOpen: pubsub.isOpen,
+})
 const mapMetadata = (t: { metadata?: TopicMetadata }) => t?.metadata
 
 export type SchemaView = "SCHEMA_VIEW_UNSPECIFIED" | "BASIC" | "FULL"

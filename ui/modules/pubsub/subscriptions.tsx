@@ -26,7 +26,7 @@ export const SubscriptionList = ({ search, setSearch }: SubscriptionListProps) =
             danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteSubscription(name!)}/>}>
             <Tooltip label={''}>
                 <Button  variant="default" fullWidth onClick={() => 
-                    router.push('/pubsub/subscription/'+name?.replaceAll('projects/demo/subscriptions/', ''))}>
+                    router.push('/pubsub/subscriptions/'+name?.replaceAll('projects/demo/subscriptions/', ''))}>
                         {name?.replaceAll('projects/demo/subscriptions/', '')}
                     </Button>
             </Tooltip>

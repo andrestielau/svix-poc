@@ -7,20 +7,23 @@ import { WalkNavTree, routes } from './routes';
 import NextImage from 'next/image';
 import { theme } from '../theme';
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { SearchBox } from '@/components/components';
-import { IconCross, IconPlus } from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
 import { IconX } from '@tabler/icons-react';
+import { Aside } from '@/components/layout/aside';
+import { Notifications } from '@mantine/notifications';
 
 const queryClient = new QueryClient()
 
 export default function RootLayout({ children }: { children: any  }) {
   const [asideOpened, { toggle: toggleAside }] = useDisclosure();
   const [opened, { toggle }] = useDisclosure();
+  const [search, setSearch] = useState()
   const pathname = usePathname()
   const router = useRouter()
-  const [search, setSearch] = useState()
   return (
     <html lang="en">
       <head>
@@ -34,6 +37,7 @@ export default function RootLayout({ children }: { children: any  }) {
       <body>
         <QueryClientProvider client={queryClient}>
           <MantineProvider theme={theme}>
+            <Notifications />
             <AppShell
               header={{ height: 60 }}
               navbar={{
@@ -109,9 +113,7 @@ export default function RootLayout({ children }: { children: any  }) {
                 <Divider mt='md'/></>}
                 {children}
               </AppShell.Main>
-              <AppShell.Aside>
-                <SearchBox value={search} setValue={setSearch}/>
-              </AppShell.Aside>
+              <Aside />
               <AppShell.Footer>
                 <Flex justify='center'>
                   {asideOpened ? <IconX size={60} onClick={toggleAside}/> : <IconPlus size={60} onClick={toggleAside}/>}
