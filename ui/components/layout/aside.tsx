@@ -3,7 +3,7 @@ import { Accordion, AppShell, Button, Group, Text, Tooltip } from "@mantine/core
 import { SearchBox } from "../components"
 import { ReactNode, useState } from "react"
 import { ResetButton, VersionTooltip } from "@/modules/mock/utils"
-import { StatusTooltip } from "@/modules/pubsub/utils"
+import { PublishModal, StatusTooltip } from "@/modules/pubsub/utils"
 import { HealthTooltip } from "@/modules/webhook/utils"
 
 export const Aside = ({}) => {
@@ -41,7 +41,7 @@ const services: AccordionLabelProps[] = [
         tooltip: <StatusTooltip/>,
         description: 'PubSub Actions',
         panel: <>
-            <Button>Do Something</Button>
+            <PublishModal />
         </>,
     },
     {

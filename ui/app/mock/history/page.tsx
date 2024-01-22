@@ -6,7 +6,7 @@ import { useState } from "react"
 const HistoryPage = () => {
     const [searchHistory, setSearchHistory] = useState('')
     return <>
-        <Title order={1}>Sessions</Title>
+        <Title order={1}>History</Title>
         <HistoryList search={searchHistory} setSearch={setSearchHistory}/>
     </>
 }

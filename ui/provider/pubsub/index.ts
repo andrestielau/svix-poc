@@ -1,13 +1,15 @@
 "use server"
 import { ISchema, TopicMetadata } from "@google-cloud/pubsub";
 import { pubsub } from "./client";
+import { MessageOptions } from "@google-cloud/pubsub/build/src/topic";
 
 export const status = async () => ({
     isIdResolved: pubsub.isIdResolved,
     isEmulator: pubsub.isEmulator,
     isOpen: pubsub.isOpen,
 })
-const mapMetadata = (t: { metadata?: TopicMetadata }) => t?.metadata
+
+export const publish = async (topic: string, msg: MessageOptions) => pubsub.topic(topic).publishMessage(msg)
 
 export type SchemaView = "SCHEMA_VIEW_UNSPECIFIED" | "BASIC" | "FULL"
 export type SchemaType = "TYPE_UNSPECIFIED" | "PROTOCOL_BUFFER" | "AVRO"
@@ -36,3 +38,5 @@ export const createSubscription = (topic: string, name: string) => pubsub.create
 export const subscriptions = async () => pubsub.getSubscriptions().then(([s]) => s.map(mapMetadata))
 export const deleteSubscription = async (nameOrId: string) => pubsub.subscription(nameOrId).delete()
 
+
+const mapMetadata = (t: { metadata?: TopicMetadata }) => t?.metadata
