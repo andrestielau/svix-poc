@@ -12,7 +12,7 @@ export type TopicListProps = {
 }
 export const TopicList = ({ search, setSearch }: TopicListProps) => { 
     const router = useRouter()
-    return <QueryList<TopicMetadata> value={search} setValue={setSearch} 
+    return <QueryList<TopicMetadata> value={search} setValue={setSearch} accessor={({ name }) => name!}
         queryKey={queryKey} queryFn={async () => await topics() }
         action={<CreationModal<{ name: string }> title="New Topic" queryKey={queryKey} 
             name='new-pubsub-topic' initialValues={{ name: '' }} validate={{

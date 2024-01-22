@@ -13,7 +13,7 @@ export type EndpointListProps = {
 export const EndpointList = ({ appId, search, setSearch }: EndpointListProps) => { 
     const router = useRouter()
     const queryKey = ["webhook", appId, "endpoints"]
-    return <QueryList<EndpointOut> value={search} setValue={setSearch} 
+    return <QueryList<EndpointOut> value={search} setValue={setSearch} accessor={({ id }) => id}
         queryKey={queryKey} queryFn={async () => await listEndpoints(appId) }
         action={<CreationModal<EndpointIn> title="New Endpoint" queryKey={queryKey} 
             name='new-webhook-endpoint' initialValues={{ url: '' }} validate={{

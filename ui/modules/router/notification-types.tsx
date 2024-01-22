@@ -14,7 +14,7 @@ export type NotificationTypeListProps = {
 export const NotificationTypeList = ({ search, setSearch }: NotificationTypeListProps) => { 
     const router = useRouter()
     const providers = useQuery({queryKey: ['router','providers'], queryFn: async () => await listProviders() })
-    return <QueryList<NotificationType> value={search} setValue={setSearch} 
+    return <QueryList<NotificationType> value={search} setValue={setSearch} accessor={({ id }) => id}
         queryKey={queryKey} queryFn={async () => await listNotificationTypes() }
         action={<CreationModal<NewNotificationType> title="New Notification Type" queryKey={queryKey} 
             name='new-router-notification-type' initialValues={{ provider: providers.data?.at(0)?.id || '', id: '' }} validate={{

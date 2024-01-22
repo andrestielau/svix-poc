@@ -12,7 +12,7 @@ export type EventTypeListProps = {
 }
 export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => { 
     const router = useRouter()
-    return <QueryList<EventType> value={search} setValue={setSearch} 
+    return <QueryList<EventType> value={search} setValue={setSearch} accessor={({ id }) => id}
         queryKey={queryKey} queryFn={async () => await listEventTypes() }
         action={<CreationModal<NewEventType> title="New Event Type" queryKey={queryKey} 
             name='new-router-event-type' initialValues={{ id: '' }} validate={{

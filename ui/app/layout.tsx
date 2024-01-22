@@ -115,7 +115,7 @@ export default function RootLayout({ children }: { children: any  }) {
               </AppShell.Main>
               <Aside />
               <AppShell.Footer>
-                <Flex justify='center'>
+                <Flex justify='end'>
                   {asideOpened ? <IconX size={60} onClick={toggleAside}/> : <IconPlus size={60} onClick={toggleAside}/>}
                 </Flex>
               </AppShell.Footer>

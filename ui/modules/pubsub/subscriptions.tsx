@@ -12,7 +12,7 @@ export type SubscriptionListProps = {
 }
 export const SubscriptionList = ({ search, setSearch }: SubscriptionListProps) => { 
     const router = useRouter()
-    return <QueryList<SubscriptionMetadata> value={search} setValue={setSearch} 
+    return <QueryList<SubscriptionMetadata> value={search} setValue={setSearch} accessor={({ name }) => name!}
         queryKey={queryKey} queryFn={async () => await subscriptions() }
         action={<CreationModal<{ name: string, topic: string }> title="New Subscription" queryKey={queryKey} 
             name='new-pubsub-subscription' initialValues={{ name: '', topic: '' }} validate={{

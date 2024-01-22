@@ -20,7 +20,7 @@ export const SchemaList = ({ search, setSearch }: SchemaListProps) => {
     const router = useRouter()
     const monaco = useMonaco()
 
-    return <QueryList<ISchema> value={search} setValue={setSearch} 
+    return <QueryList<ISchema> value={search} setValue={setSearch} accessor={({ name }) => name!}
         queryKey={queryKey} queryFn={async () => await schemas() }
         action={<CreationModal<{ id: string, def: string, type?: SchemaType }> title="New Schema" queryKey={queryKey} 
             name='new-pubsub-schema' initialValues={{ id: '', type: "PROTOCOL_BUFFER", def: protoDefault }} validate={{

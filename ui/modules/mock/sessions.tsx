@@ -12,7 +12,7 @@ export type SessionListProps = {
 }
 export const SessionList = ({ search, setSearch }: SessionListProps) => { 
     const router = useRouter()
-    return <QueryList<SessionDetails> value={search} setValue={setSearch} 
+    return <QueryList<SessionDetails> value={search} setValue={setSearch} accessor={({ id }) => id}
         queryKey={queryKey} queryFn={async () => await sessions() }
         action={<CreationModal<NewSession> title="New Session" queryKey={queryKey} 
             name='new-mock-session'

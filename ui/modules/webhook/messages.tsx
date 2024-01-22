@@ -13,7 +13,7 @@ export type MessageListProps = {
 export const MessageList = ({ appId, search, setSearch }: MessageListProps) => { 
     const router = useRouter()
     const queryKey = ["webhook", appId, "messages"]
-    return <QueryList<MessageOut> value={search} setValue={setSearch} 
+    return <QueryList<MessageOut> value={search} setValue={setSearch} accessor={({ id }) => id}
         queryKey={queryKey} queryFn={async () => await listMessages(appId) }
         action={<CreationModal<MessageIn> title="New Message" queryKey={queryKey} 
             name='new-webhook-message' initialValues={{ eventType: '', payload: '{}'}} validate={{

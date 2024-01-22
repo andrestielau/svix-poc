@@ -6,13 +6,14 @@ import { ReactNode } from "react"
 import { IconTrash } from "@tabler/icons-react"
 
 export type QueryListProps<T, F> = {
+    accessor: (value: T) => string 
     children: (value: T) => ReactNode
 } & SearchListProps & UndefinedInitialDataOptions<F, Error, T[]>
 
-export const QueryList = <T, F = any>({ action, children, value, setValue, ...rest }: QueryListProps<T, F>) => { 
+export const QueryList = <T, F = any>({ action, children, accessor, value, setValue, ...rest }: QueryListProps<T, F>) => { 
     const query = useQuery<F, Error, T[]>(rest)
     return <SearchList value={value} setValue={setValue} action={action}>
-        {query.data?.map(children)}
+        {query.data?.filter((data) => !value || accessor(data).includes(value)).map(children)}
     </SearchList> 
 }
 export type CreationModalProps<F,T> = {

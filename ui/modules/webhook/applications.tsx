@@ -12,7 +12,7 @@ export type ApplicationListProps = {
 }
 export const ApplicationList = ({ search, setSearch }: ApplicationListProps) => { 
     const router = useRouter()
-    return <QueryList<ApplicationOut> value={search} setValue={setSearch} 
+    return <QueryList<ApplicationOut> value={search} setValue={setSearch} accessor={({ id }) => id}
         queryKey={queryKey} queryFn={async () => await listApplications() }
         action={<CreationModal<ApplicationIn> title="New Application" queryKey={queryKey} 
             name='new-webhook-application' initialValues={{ name: '' }} validate={{

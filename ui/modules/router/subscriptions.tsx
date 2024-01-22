@@ -14,7 +14,7 @@ export type SubscriptionListProps = {
 export const SubscriptionList = ({ search, setSearch }: SubscriptionListProps) => { 
     const router = useRouter()
     const notificationTypes = useQuery({queryKey: ['router','notification-types'], queryFn: async () => await listNotificationTypes() })
-    return <QueryList<Subscription> value={search} setValue={setSearch} 
+    return <QueryList<Subscription> value={search} setValue={setSearch} accessor={({ uid }) => uid}
         queryKey={queryKey} queryFn={async () => await listSubscriptions() }
         action={<CreationModal<NewSubscription> title="New Subscription" queryKey={queryKey} 
             name='new-router-subscription' initialValues={{ notificationType: '', tenantId: '', metadata: '{}' }} validate={{

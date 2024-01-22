@@ -12,7 +12,7 @@ export type MockListProps = {
 }
 export const MockList = ({ search, setSearch }: MockListProps) => { 
     const router = useRouter()
-    return <QueryList<Mock> value={search} setValue={setSearch} 
+    return <QueryList<Mock> value={search} setValue={setSearch} accessor={({ state }) => state.id}
         queryKey={queryKey} queryFn={async () => await mocks() }
         action={<CreationModal<NewMock> title="New Mock" queryKey={queryKey} 
             name='new-mock-mock' initialValues={{
