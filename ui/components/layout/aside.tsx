@@ -4,6 +4,7 @@ import { SearchBox } from "../components"
 import { ReactNode, useState } from "react"
 import { ResetButton, VersionTooltip } from "@/modules/mock/utils"
 import { StatusTooltip } from "@/modules/pubsub/utils"
+import { HealthTooltip } from "@/modules/webhook/utils"
 
 export const Aside = ({}) => {
     const [search, setSearch] = useState()
@@ -61,7 +62,7 @@ const services: AccordionLabelProps[] = [
     },
     {
         title: 'Svix',
-        tooltip: '',
+        tooltip: <HealthTooltip/>,
         description: 'Svix Actions',
         panel:<>
             <Button>Do Something</Button>

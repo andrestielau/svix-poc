@@ -7,5 +7,5 @@ export const HealthTooltip = () => {
         queryKey: ['svix', 'health'],
         queryFn: () => health()
     })
-    return <JsonInput value={JSON.stringify(req.data || {}, undefined, '\n')} disabled autosize/>
+    return <JsonInput value={JSON.stringify(req.data || {}, undefined, ' ')} disabled autosize/>
 }
