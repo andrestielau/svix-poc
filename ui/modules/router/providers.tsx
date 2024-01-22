@@ -13,7 +13,7 @@ export const ProviderList = ({ search, setSearch }: ProviderProps) => {
     const data = useQuery({queryKey: ['providers'], queryFn: async () => await listProviders()})
     const router = useRouter()
     return <SearchList value={search} setValue={setSearch}>
-        {data.data?.map(({ id, createdAt }) => <WithMenu key={id}>
+        {data.data?.map(({ id, createdAt }) => <WithMenu id={id} key={id}>
             <Tooltip label={'Created At: '+ createdAt}>
                 <Button onDoubleClick={() => router.push('/router/providers/'+id)} variant="default" fullWidth>{id}</Button>
             </Tooltip>

@@ -1,5 +1,5 @@
-import { listEventTypes, createEventType } from "@/provider/svix"
-import { CreationModal, QueryList } from "@/components/crud"
+import { listEventTypes, createEventType, deleteEventType } from "@/provider/svix"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { Button, InputWrapper, TextInput, Tooltip } from "@mantine/core"
 import { EventTypeIn, EventTypeOut } from "svix"
 import { WithMenu } from "@/components/components"
@@ -29,7 +29,8 @@ export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => {
                     <Editor height="30vh" theme='vs-dark' defaultLanguage="json" {...form.getInputProps('schemas.0')} onValidate={console.log}/>
                 </InputWrapper>       
             </>}</CreationModal>}>
-        {({ name, createdAt }) => <WithMenu key={name}>
+        {({ name, createdAt }) => <WithMenu id={name} key={name}
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteEventType(name)}/>}>
             <Tooltip label={'Created At: '+ createdAt}>
                 <Button onDoubleClick={() => router.push('/webhook/event-types/'+name)} variant="default" fullWidth>{name}</Button>
             </Tooltip>

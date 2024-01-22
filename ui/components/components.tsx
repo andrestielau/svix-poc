@@ -1,10 +1,10 @@
 import { Button, TextInput,  Menu, rem, Text, Modal, Stack, Flex, CloseButton } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { IconArrowsLeftRight, IconDotsVertical, IconMessageCircle, IconPhoto, IconPlus, IconSearch, IconSettings, IconTrash } from "@tabler/icons-react"
+import { IconDotsVertical, IconMessageCircle, IconPhoto, IconPlus, IconSearch, IconSettings, IconTrash } from "@tabler/icons-react"
 import { PropsWithChildren, ReactNode } from "react"
 
 
-export const WithMenu = ({ children }: PropsWithChildren) => <Button.Group>
+export const WithMenu = ({ children, id, danger }: PropsWithChildren<{ id?: string, danger?: ReactNode }>) => <Button.Group>
   {children}
   <Menu shadow="md" width={200}>
       <Menu.Target>
@@ -34,21 +34,9 @@ export const WithMenu = ({ children }: PropsWithChildren) => <Button.Group>
         >
           Search
         </Menu.Item>
-
         <Menu.Divider />
-
-        <Menu.Label>Danger zone</Menu.Label>
-        <Menu.Item
-          leftSection={<IconArrowsLeftRight style={{ width: rem(14), height: rem(14) }} />}
-        >
-          Transfer my data
-        </Menu.Item>
-        <Menu.Item
-          color="red"
-          leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-        >
-          Delete my account
-        </Menu.Item>
+        {danger && <Menu.Label>Danger zone</Menu.Label>}
+        {danger}
       </Menu.Dropdown>
     </Menu>
 </Button.Group>

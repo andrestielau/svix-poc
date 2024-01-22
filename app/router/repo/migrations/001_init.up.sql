@@ -2,13 +2,11 @@ create schema evnt;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 create type evnt.new_event_type AS (
-    id text,
-    schema JSONB
+    id text
 );
 -- event_type is an internal event type that producers send
 create table evnt.event_type (
     created_at timestamptz not null default now(),
-    schema JSONB not null,
     id text primary key
 );
 create type evnt.new_provider AS (

@@ -1,17 +1,14 @@
 -- CreateEventTypes inserts event types into the database
 -- name: CreateEventTypes :many
 INSERT INTO evnt.event_type (
-  schema,
   id
 ) 
 SELECT 
-  schema,
   id
 FROM unnest(pggen.arg('event_types')::evnt.new_event_type[])
 ON CONFLICT DO NOTHING
 RETURNING 
   id,
-  schema,
   created_at;
 
 -- CreateNotificationTypes inserts notification types into the database
@@ -55,12 +52,21 @@ RETURNING
 DELETE FROM evnt.subscription
 WHERE uid = ANY(pggen.arg('ids')::uuid[]);
 
+-- DeleteEventTypes deletes eventTypes TODO - soft delete 
+-- name: DeleteEventTypes :exec
+DELETE FROM evnt.event_type
+WHERE id = ANY(pggen.arg('ids')::text[]);
+
+-- DeleteNotificationTypes deletes notificationTypes TODO - soft delete 
+-- name: DeleteNotificationTypes :exec
+DELETE FROM evnt.notification_type
+WHERE id = ANY(pggen.arg('ids')::text[]);
+
 
 -- GetEventTypes fetches a batch of event types by id
 -- name: GetEventTypes :many
 SELECT 
   id,
-  schema,
   created_at
 FROM evnt.event_type
 WHERE id = ANY(pggen.arg('ids')::text[]);

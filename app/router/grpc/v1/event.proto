@@ -9,14 +9,21 @@ service EventService {
     rpc GetEventTypes(GetEventTypesRequest) returns (GetEventTypesResponse);
     rpc ListEventTypes(ListEventTypesRequest) returns (ListEventTypesResponse);
     rpc CreateEventTypes(CreateEventTypesRequest) returns (CreateEventTypesResponse);
+    rpc DeleteEventTypes(DeleteEventTypesRequest) returns (DeleteEventTypesResponse);
     rpc GetSubscriptions(GetSubscriptionsRequest) returns (GetSubscriptionsResponse);
     rpc ListSubscriptions(ListSubscriptionsRequest) returns (ListSubscriptionsResponse);
     rpc CreateSubscriptions(CreateSubscriptionsRequest) returns (CreateSubscriptionsResponse);
+    rpc GetNotificationTypes(GetNotificationTypesRequest) returns (GetNotificationTypesResponse);
+    rpc ListNotificationTypes(ListNotificationTypesRequest) returns (ListNotificationTypesResponse);
+    rpc CreateNotificationTypes(CreateNotificationTypesRequest) returns (CreateNotificationTypesResponse);
+    rpc DeleteNotificationTypes(DeleteNotificationTypesRequest) returns (DeleteNotificationTypesResponse);
 }
 
 message EventType {
     string id = 1;
-    bytes schema = 2;
+}
+message NotificationType {
+    string id = 1;
 }
 message Provider {
     string id = 1;
@@ -33,6 +40,13 @@ message GetEventTypesRequest {
 }
 message GetEventTypesResponse {
     map<string, EventType> data = 1;
+    repeated Error errors = 2;
+}
+message GetNotificationTypesRequest {
+    repeated string ids = 1; 
+}
+message GetNotificationTypesResponse {
+    map<string, NotificationType> data = 1;
     repeated Error errors = 2;
 }
 message GetProvidersRequest {
@@ -58,6 +72,13 @@ message ListEventTypesResponse {
     repeated EventType data = 1;
     PageResponse page = 2;
 }
+message ListNotificationTypesRequest {
+    PageRequest page = 1;
+}
+message ListNotificationTypesResponse {
+    repeated NotificationType data = 1;
+    PageResponse page = 2;
+}
 message ListSubscriptionsRequest {
     PageRequest page = 1;
 }
@@ -78,6 +99,25 @@ message CreateEventTypesRequest {
 message CreateEventTypesResponse {
     repeated EventType data = 1;
     repeated Error errors = 2;
+}
+message DeleteEventTypesRequest {
+    repeated string ids = 1;
+}
+message DeleteEventTypesResponse {
+    repeated Error errors = 1;
+}
+message CreateNotificationTypesRequest {
+    repeated NotificationType data = 1;
+}
+message CreateNotificationTypesResponse {
+    repeated NotificationType data = 1;
+    repeated Error errors = 2;
+}
+message DeleteNotificationTypesRequest {
+    repeated string ids = 1;
+}
+message DeleteNotificationTypesResponse {
+    repeated Error errors = 1;
 }
 message CreateSubscriptionsRequest {
     repeated Subscription data = 1;

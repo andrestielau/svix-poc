@@ -15,11 +15,6 @@ export class EventType extends Message<EventType> {
    */
   id = "";
 
-  /**
-   * @generated from field: bytes schema = 2;
-   */
-  schema = new Uint8Array(0);
-
   constructor(data?: PartialMessage<EventType>) {
     super();
     proto3.util.initPartial(data, this);
@@ -29,7 +24,6 @@ export class EventType extends Message<EventType> {
   static readonly typeName = "events.v1.EventType";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "schema", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): EventType {
@@ -46,6 +40,43 @@ export class EventType extends Message<EventType> {
 
   static equals(a: EventType | PlainMessage<EventType> | undefined, b: EventType | PlainMessage<EventType> | undefined): boolean {
     return proto3.util.equals(EventType, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.NotificationType
+ */
+export class NotificationType extends Message<NotificationType> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  constructor(data?: PartialMessage<NotificationType>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.NotificationType";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NotificationType {
+    return new NotificationType().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NotificationType {
+    return new NotificationType().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NotificationType {
+    return new NotificationType().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: NotificationType | PlainMessage<NotificationType> | undefined, b: NotificationType | PlainMessage<NotificationType> | undefined): boolean {
+    return proto3.util.equals(NotificationType, a, b);
   }
 }
 
@@ -218,6 +249,86 @@ export class GetEventTypesResponse extends Message<GetEventTypesResponse> {
 
   static equals(a: GetEventTypesResponse | PlainMessage<GetEventTypesResponse> | undefined, b: GetEventTypesResponse | PlainMessage<GetEventTypesResponse> | undefined): boolean {
     return proto3.util.equals(GetEventTypesResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.GetNotificationTypesRequest
+ */
+export class GetNotificationTypesRequest extends Message<GetNotificationTypesRequest> {
+  /**
+   * @generated from field: repeated string ids = 1;
+   */
+  ids: string[] = [];
+
+  constructor(data?: PartialMessage<GetNotificationTypesRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.GetNotificationTypesRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetNotificationTypesRequest {
+    return new GetNotificationTypesRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetNotificationTypesRequest {
+    return new GetNotificationTypesRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetNotificationTypesRequest {
+    return new GetNotificationTypesRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetNotificationTypesRequest | PlainMessage<GetNotificationTypesRequest> | undefined, b: GetNotificationTypesRequest | PlainMessage<GetNotificationTypesRequest> | undefined): boolean {
+    return proto3.util.equals(GetNotificationTypesRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.GetNotificationTypesResponse
+ */
+export class GetNotificationTypesResponse extends Message<GetNotificationTypesResponse> {
+  /**
+   * @generated from field: map<string, events.v1.NotificationType> data = 1;
+   */
+  data: { [key: string]: NotificationType } = {};
+
+  /**
+   * @generated from field: repeated events.v1.Error errors = 2;
+   */
+  errors: Error[] = [];
+
+  constructor(data?: PartialMessage<GetNotificationTypesResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.GetNotificationTypesResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "data", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: NotificationType} },
+    { no: 2, name: "errors", kind: "message", T: Error, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetNotificationTypesResponse {
+    return new GetNotificationTypesResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetNotificationTypesResponse {
+    return new GetNotificationTypesResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetNotificationTypesResponse {
+    return new GetNotificationTypesResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetNotificationTypesResponse | PlainMessage<GetNotificationTypesResponse> | undefined, b: GetNotificationTypesResponse | PlainMessage<GetNotificationTypesResponse> | undefined): boolean {
+    return proto3.util.equals(GetNotificationTypesResponse, a, b);
   }
 }
 
@@ -474,6 +585,86 @@ export class ListEventTypesResponse extends Message<ListEventTypesResponse> {
 }
 
 /**
+ * @generated from message events.v1.ListNotificationTypesRequest
+ */
+export class ListNotificationTypesRequest extends Message<ListNotificationTypesRequest> {
+  /**
+   * @generated from field: events.v1.PageRequest page = 1;
+   */
+  page?: PageRequest;
+
+  constructor(data?: PartialMessage<ListNotificationTypesRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.ListNotificationTypesRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "page", kind: "message", T: PageRequest },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListNotificationTypesRequest {
+    return new ListNotificationTypesRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListNotificationTypesRequest {
+    return new ListNotificationTypesRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListNotificationTypesRequest {
+    return new ListNotificationTypesRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListNotificationTypesRequest | PlainMessage<ListNotificationTypesRequest> | undefined, b: ListNotificationTypesRequest | PlainMessage<ListNotificationTypesRequest> | undefined): boolean {
+    return proto3.util.equals(ListNotificationTypesRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.ListNotificationTypesResponse
+ */
+export class ListNotificationTypesResponse extends Message<ListNotificationTypesResponse> {
+  /**
+   * @generated from field: repeated events.v1.NotificationType data = 1;
+   */
+  data: NotificationType[] = [];
+
+  /**
+   * @generated from field: events.v1.PageResponse page = 2;
+   */
+  page?: PageResponse;
+
+  constructor(data?: PartialMessage<ListNotificationTypesResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.ListNotificationTypesResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "data", kind: "message", T: NotificationType, repeated: true },
+    { no: 2, name: "page", kind: "message", T: PageResponse },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListNotificationTypesResponse {
+    return new ListNotificationTypesResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListNotificationTypesResponse {
+    return new ListNotificationTypesResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListNotificationTypesResponse {
+    return new ListNotificationTypesResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListNotificationTypesResponse | PlainMessage<ListNotificationTypesResponse> | undefined, b: ListNotificationTypesResponse | PlainMessage<ListNotificationTypesResponse> | undefined): boolean {
+    return proto3.util.equals(ListNotificationTypesResponse, a, b);
+  }
+}
+
+/**
  * @generated from message events.v1.ListSubscriptionsRequest
  */
 export class ListSubscriptionsRequest extends Message<ListSubscriptionsRequest> {
@@ -710,6 +901,234 @@ export class CreateEventTypesResponse extends Message<CreateEventTypesResponse> 
 
   static equals(a: CreateEventTypesResponse | PlainMessage<CreateEventTypesResponse> | undefined, b: CreateEventTypesResponse | PlainMessage<CreateEventTypesResponse> | undefined): boolean {
     return proto3.util.equals(CreateEventTypesResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.DeleteEventTypesRequest
+ */
+export class DeleteEventTypesRequest extends Message<DeleteEventTypesRequest> {
+  /**
+   * @generated from field: repeated string ids = 1;
+   */
+  ids: string[] = [];
+
+  constructor(data?: PartialMessage<DeleteEventTypesRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.DeleteEventTypesRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteEventTypesRequest {
+    return new DeleteEventTypesRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteEventTypesRequest {
+    return new DeleteEventTypesRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteEventTypesRequest {
+    return new DeleteEventTypesRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteEventTypesRequest | PlainMessage<DeleteEventTypesRequest> | undefined, b: DeleteEventTypesRequest | PlainMessage<DeleteEventTypesRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteEventTypesRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.DeleteEventTypesResponse
+ */
+export class DeleteEventTypesResponse extends Message<DeleteEventTypesResponse> {
+  /**
+   * @generated from field: repeated events.v1.Error errors = 1;
+   */
+  errors: Error[] = [];
+
+  constructor(data?: PartialMessage<DeleteEventTypesResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.DeleteEventTypesResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "errors", kind: "message", T: Error, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteEventTypesResponse {
+    return new DeleteEventTypesResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteEventTypesResponse {
+    return new DeleteEventTypesResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteEventTypesResponse {
+    return new DeleteEventTypesResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteEventTypesResponse | PlainMessage<DeleteEventTypesResponse> | undefined, b: DeleteEventTypesResponse | PlainMessage<DeleteEventTypesResponse> | undefined): boolean {
+    return proto3.util.equals(DeleteEventTypesResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.CreateNotificationTypesRequest
+ */
+export class CreateNotificationTypesRequest extends Message<CreateNotificationTypesRequest> {
+  /**
+   * @generated from field: repeated events.v1.NotificationType data = 1;
+   */
+  data: NotificationType[] = [];
+
+  constructor(data?: PartialMessage<CreateNotificationTypesRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.CreateNotificationTypesRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "data", kind: "message", T: NotificationType, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateNotificationTypesRequest {
+    return new CreateNotificationTypesRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateNotificationTypesRequest {
+    return new CreateNotificationTypesRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateNotificationTypesRequest {
+    return new CreateNotificationTypesRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CreateNotificationTypesRequest | PlainMessage<CreateNotificationTypesRequest> | undefined, b: CreateNotificationTypesRequest | PlainMessage<CreateNotificationTypesRequest> | undefined): boolean {
+    return proto3.util.equals(CreateNotificationTypesRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.CreateNotificationTypesResponse
+ */
+export class CreateNotificationTypesResponse extends Message<CreateNotificationTypesResponse> {
+  /**
+   * @generated from field: repeated events.v1.NotificationType data = 1;
+   */
+  data: NotificationType[] = [];
+
+  /**
+   * @generated from field: repeated events.v1.Error errors = 2;
+   */
+  errors: Error[] = [];
+
+  constructor(data?: PartialMessage<CreateNotificationTypesResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.CreateNotificationTypesResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "data", kind: "message", T: NotificationType, repeated: true },
+    { no: 2, name: "errors", kind: "message", T: Error, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateNotificationTypesResponse {
+    return new CreateNotificationTypesResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateNotificationTypesResponse {
+    return new CreateNotificationTypesResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateNotificationTypesResponse {
+    return new CreateNotificationTypesResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CreateNotificationTypesResponse | PlainMessage<CreateNotificationTypesResponse> | undefined, b: CreateNotificationTypesResponse | PlainMessage<CreateNotificationTypesResponse> | undefined): boolean {
+    return proto3.util.equals(CreateNotificationTypesResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.DeleteNotificationTypesRequest
+ */
+export class DeleteNotificationTypesRequest extends Message<DeleteNotificationTypesRequest> {
+  /**
+   * @generated from field: repeated string ids = 1;
+   */
+  ids: string[] = [];
+
+  constructor(data?: PartialMessage<DeleteNotificationTypesRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.DeleteNotificationTypesRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteNotificationTypesRequest {
+    return new DeleteNotificationTypesRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteNotificationTypesRequest {
+    return new DeleteNotificationTypesRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteNotificationTypesRequest {
+    return new DeleteNotificationTypesRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteNotificationTypesRequest | PlainMessage<DeleteNotificationTypesRequest> | undefined, b: DeleteNotificationTypesRequest | PlainMessage<DeleteNotificationTypesRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteNotificationTypesRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message events.v1.DeleteNotificationTypesResponse
+ */
+export class DeleteNotificationTypesResponse extends Message<DeleteNotificationTypesResponse> {
+  /**
+   * @generated from field: repeated events.v1.Error errors = 1;
+   */
+  errors: Error[] = [];
+
+  constructor(data?: PartialMessage<DeleteNotificationTypesResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "events.v1.DeleteNotificationTypesResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "errors", kind: "message", T: Error, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteNotificationTypesResponse {
+    return new DeleteNotificationTypesResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteNotificationTypesResponse {
+    return new DeleteNotificationTypesResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteNotificationTypesResponse {
+    return new DeleteNotificationTypesResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteNotificationTypesResponse | PlainMessage<DeleteNotificationTypesResponse> | undefined, b: DeleteNotificationTypesResponse | PlainMessage<DeleteNotificationTypesResponse> | undefined): boolean {
+    return proto3.util.equals(DeleteNotificationTypesResponse, a, b);
   }
 }
 

@@ -1,8 +1,8 @@
-import { CreationModal, QueryList } from "@/components/crud"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { Button, TextInput, Tooltip } from "@mantine/core"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
-import { createSubscription, subscriptions } from "@/provider/pubsub"
+import { createSubscription, deleteSubscription, subscriptions } from "@/provider/pubsub"
 import { SubscriptionMetadata } from "@google-cloud/pubsub"
 
 const queryKey = ["pubsub", "subscriptions"]
@@ -22,7 +22,8 @@ export const SubscriptionList = ({ search, setSearch }: SubscriptionListProps) =
             mutationFn={async (i) => await createSubscription(i.topic, i.name)}>{(form) => <>
                 <TextInput label='Name' withAsterisk {...form.getInputProps('name')} />     
             </>}</CreationModal>}>
-        {({ name }) => <WithMenu key={name}>
+        {({ name }) => <WithMenu id={name!} key={name}
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteSubscription(name!)}/>}>
             <Tooltip label={''}>
                 <Button  variant="default" fullWidth onClick={() => 
                     router.push('/pubsub/subscription/'+name?.replaceAll('projects/demo/subscriptions/', ''))}>

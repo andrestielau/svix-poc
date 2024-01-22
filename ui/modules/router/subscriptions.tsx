@@ -22,7 +22,7 @@ export const SubscriptionList = ({ search, setSearch }: SubscriptionListProps) =
                 <TextInput label='Name' withAsterisk {...form.getInputProps('name')} />
                 <TextInput label='Description' {...form.getInputProps('description')} />        
             </>}</CreationModal>}>
-        {({ uid, createdAt, ...rest }) => <WithMenu key={uid}>
+        {({ uid, createdAt, ...rest }) => <WithMenu id={uid} key={uid}>
             <Tooltip label={<span>Created At: {createdAt}<br/>{JSON.stringify(rest)}</span>} >
                 <Button onDoubleClick={() => router.push('/router/subscriptions/'+uid)} variant="default" fullWidth>{uid}</Button>
             </Tooltip>

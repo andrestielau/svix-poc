@@ -1,6 +1,6 @@
 import { NewEventType, EventType } from "@/provider/drizzle/schema"
 import { addEventType, listEventTypes } from "@/provider/drizzle/queries"
-import { CreationModal, QueryList } from "@/components/crud"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { Button, TextInput, Tooltip } from "@mantine/core"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
@@ -22,7 +22,8 @@ export const EventTypeList = ({ search, setSearch }: EventTypeListProps) => {
             mutationFn={async (i) => await addEventType(i)}>{(form) => <>
                 <TextInput  label='Id' withAsterisk {...form.getInputProps('id')} />    
             </>}</CreationModal>}>
-        {({ id, createdAt }) => <WithMenu key={id}>
+        {({ id, createdAt }) => <WithMenu id={id} key={id}
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteEventType(id)}/>}>
             <Tooltip label={'Created At: '+ createdAt}>
                 <Button onDoubleClick={() => router.push('/router/event-types/'+id)}  variant="default" fullWidth>{id}</Button>
             </Tooltip>

@@ -11,22 +11,30 @@ import (
 )
 
 func EventTypesFromProto(in []*eventsv1.EventType) []repo.NewEventType {
-
 	return lo.Map(in, func(item *eventsv1.EventType, _ int) repo.NewEventType {
 		return repo.NewEventType{
 			ID: item.Id,
-			Schema: pgtype.JSONB{
-				Status: pgtype.Present,
-				Bytes:  item.Schema,
-			},
 		}
 	})
 }
 func NewEventTypesToProto(in []repo.CreateEventTypesRow) []*eventsv1.EventType {
 	return lo.Map(in, func(item repo.CreateEventTypesRow, _ int) *eventsv1.EventType {
 		return &eventsv1.EventType{
-			Id:     item.ID,
-			Schema: item.Schema.Bytes,
+			Id: item.ID,
+		}
+	})
+}
+func NotificationTypesFromProto(in []*eventsv1.NotificationType) []repo.NewNotificationType {
+	return lo.Map(in, func(item *eventsv1.NotificationType, _ int) repo.NewNotificationType {
+		return repo.NewNotificationType{
+			ID: item.Id,
+		}
+	})
+}
+func NewNotificationTypesToProto(in []repo.CreateNotificationTypesRow) []*eventsv1.NotificationType {
+	return lo.Map(in, func(item repo.CreateNotificationTypesRow, _ int) *eventsv1.NotificationType {
+		return &eventsv1.NotificationType{
+			Id: item.ID,
 		}
 	})
 }
@@ -54,8 +62,14 @@ func NewSubscriptionsToProto(in []repo.CreateSubscriptionsRow) []*eventsv1.Subsc
 func GotEventTypesToProto(in []repo.GetEventTypesRow) map[string]*eventsv1.EventType {
 	return lo.SliceToMap(in, func(item repo.GetEventTypesRow) (string, *eventsv1.EventType) {
 		return item.ID, &eventsv1.EventType{
-			Id:     item.ID,
-			Schema: item.Schema.Bytes,
+			Id: item.ID,
+		}
+	})
+}
+func GotNotificationTypesToProto(in []repo.GetNotificationTypesRow) map[string]*eventsv1.NotificationType {
+	return lo.SliceToMap(in, func(item repo.GetNotificationTypesRow) (string, *eventsv1.NotificationType) {
+		return item.ID, &eventsv1.NotificationType{
+			Id: item.ID,
 		}
 	})
 }
@@ -79,6 +93,14 @@ func GotSubscriptionsToProto(in []repo.GetSubscriptionsRow) map[string]*eventsv1
 func EventTypeListToProto(in []repo.ListEventTypesRow) []*eventsv1.EventType {
 	return lo.Map(in, func(item repo.ListEventTypesRow, _ int) *eventsv1.EventType {
 		return &eventsv1.EventType{
+			Id: item.ID,
+			// TODO: convert times
+		}
+	})
+}
+func NotificationTypeListToProto(in []repo.ListNotificationTypesRow) []*eventsv1.NotificationType {
+	return lo.Map(in, func(item repo.ListNotificationTypesRow, _ int) *eventsv1.NotificationType {
+		return &eventsv1.NotificationType{
 			Id: item.ID,
 			// TODO: convert times
 		}

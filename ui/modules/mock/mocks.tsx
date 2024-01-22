@@ -24,7 +24,7 @@ export const MockList = ({ search, setSearch }: MockListProps) => {
                 <TextInput label='Request Path' {...form.getInputProps('request.path')} />
                 <NumberInput label='Response Status'{...form.getInputProps('response.status')} />      
             </>}</CreationModal>}>
-        {({ state: { id, creation_date } }) => <WithMenu key={id}>
+        {({ state: { id, creation_date } }) => <WithMenu id={id} key={id}>
             <Tooltip label={'Created At: '+ creation_date}>
                 <Button onClick={() => 
                     router.push('/mock/'+id)} variant="default" fullWidth>{id}</Button>

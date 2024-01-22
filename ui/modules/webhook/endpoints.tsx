@@ -1,7 +1,7 @@
-import { listEndpoints, createEndpoint } from "@/provider/svix"
-import { CreationModal, QueryList } from "@/components/crud"
+import { listEndpoints, createEndpoint, deleteEndpoint } from "@/provider/svix"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { Button, TextInput, Tooltip } from "@mantine/core"
-import {  WithMenu } from "@/components/components"
+import { WithMenu } from "@/components/components"
 import { EndpointIn, EndpointOut } from "svix"
 import { useRouter } from "next/navigation"
 
@@ -25,7 +25,8 @@ export const EndpointList = ({ appId, search, setSearch }: EndpointListProps) =>
                 <TextInput label='Name' {...form.getInputProps('name')} />
                 <TextInput label='Description' {...form.getInputProps('description')} />        
             </>}</CreationModal>}>
-        {({ id, uid, url, createdAt }) => <WithMenu key={id}>
+        {({ id, uid, url, createdAt }) => <WithMenu id={id} key={id}
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteEndpoint(appId, id)}/>}>
             <Tooltip label={<label>Created At: {createdAt.toString()}<br/>{url}</label>}>
                 <Button onClick={() => 
                     router.push('/webhook/applications/'+appId+'/endpoints/'+id)} variant="default" fullWidth>{uid || id}</Button>

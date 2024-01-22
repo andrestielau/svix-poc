@@ -20,7 +20,7 @@ export const SessionList = ({ search, setSearch }: SessionListProps) => {
                 <TextInput label='Name' withAsterisk {...form.getInputProps('name')} />
                 <TextInput label='Description' {...form.getInputProps('description')} />        
             </>}</CreationModal>}>
-        {({ id, name, date }) => <WithMenu key={id}>
+        {({ id, name, date }) => <WithMenu id={id} key={id}>
             <Tooltip label={'Created At: '+ date}>
                 <Button onClick={() => 
                     router.push('/mock/sessions/'+id)} variant="default" fullWidth>{name || id}</Button>

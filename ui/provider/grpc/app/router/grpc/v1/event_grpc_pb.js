@@ -26,6 +26,28 @@ function deserialize_events_v1_CreateEventTypesResponse(buffer_arg) {
   return app_router_grpc_v1_event_pb.CreateEventTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_events_v1_CreateNotificationTypesRequest(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.CreateNotificationTypesRequest)) {
+    throw new Error('Expected argument of type events.v1.CreateNotificationTypesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_CreateNotificationTypesRequest(buffer_arg) {
+  return app_router_grpc_v1_event_pb.CreateNotificationTypesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_CreateNotificationTypesResponse(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.CreateNotificationTypesResponse)) {
+    throw new Error('Expected argument of type events.v1.CreateNotificationTypesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_CreateNotificationTypesResponse(buffer_arg) {
+  return app_router_grpc_v1_event_pb.CreateNotificationTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_events_v1_CreateSubscriptionsRequest(arg) {
   if (!(arg instanceof app_router_grpc_v1_event_pb.CreateSubscriptionsRequest)) {
     throw new Error('Expected argument of type events.v1.CreateSubscriptionsRequest');
@@ -48,6 +70,50 @@ function deserialize_events_v1_CreateSubscriptionsResponse(buffer_arg) {
   return app_router_grpc_v1_event_pb.CreateSubscriptionsResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_events_v1_DeleteEventTypesRequest(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.DeleteEventTypesRequest)) {
+    throw new Error('Expected argument of type events.v1.DeleteEventTypesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_DeleteEventTypesRequest(buffer_arg) {
+  return app_router_grpc_v1_event_pb.DeleteEventTypesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_DeleteEventTypesResponse(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.DeleteEventTypesResponse)) {
+    throw new Error('Expected argument of type events.v1.DeleteEventTypesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_DeleteEventTypesResponse(buffer_arg) {
+  return app_router_grpc_v1_event_pb.DeleteEventTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_DeleteNotificationTypesRequest(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.DeleteNotificationTypesRequest)) {
+    throw new Error('Expected argument of type events.v1.DeleteNotificationTypesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_DeleteNotificationTypesRequest(buffer_arg) {
+  return app_router_grpc_v1_event_pb.DeleteNotificationTypesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_DeleteNotificationTypesResponse(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.DeleteNotificationTypesResponse)) {
+    throw new Error('Expected argument of type events.v1.DeleteNotificationTypesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_DeleteNotificationTypesResponse(buffer_arg) {
+  return app_router_grpc_v1_event_pb.DeleteNotificationTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_events_v1_GetEventTypesRequest(arg) {
   if (!(arg instanceof app_router_grpc_v1_event_pb.GetEventTypesRequest)) {
     throw new Error('Expected argument of type events.v1.GetEventTypesRequest');
@@ -68,6 +134,28 @@ function serialize_events_v1_GetEventTypesResponse(arg) {
 
 function deserialize_events_v1_GetEventTypesResponse(buffer_arg) {
   return app_router_grpc_v1_event_pb.GetEventTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_GetNotificationTypesRequest(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.GetNotificationTypesRequest)) {
+    throw new Error('Expected argument of type events.v1.GetNotificationTypesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_GetNotificationTypesRequest(buffer_arg) {
+  return app_router_grpc_v1_event_pb.GetNotificationTypesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_GetNotificationTypesResponse(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.GetNotificationTypesResponse)) {
+    throw new Error('Expected argument of type events.v1.GetNotificationTypesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_GetNotificationTypesResponse(buffer_arg) {
+  return app_router_grpc_v1_event_pb.GetNotificationTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_events_v1_GetProvidersRequest(arg) {
@@ -134,6 +222,28 @@ function serialize_events_v1_ListEventTypesResponse(arg) {
 
 function deserialize_events_v1_ListEventTypesResponse(buffer_arg) {
   return app_router_grpc_v1_event_pb.ListEventTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_ListNotificationTypesRequest(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.ListNotificationTypesRequest)) {
+    throw new Error('Expected argument of type events.v1.ListNotificationTypesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_ListNotificationTypesRequest(buffer_arg) {
+  return app_router_grpc_v1_event_pb.ListNotificationTypesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_events_v1_ListNotificationTypesResponse(arg) {
+  if (!(arg instanceof app_router_grpc_v1_event_pb.ListNotificationTypesResponse)) {
+    throw new Error('Expected argument of type events.v1.ListNotificationTypesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_events_v1_ListNotificationTypesResponse(buffer_arg) {
+  return app_router_grpc_v1_event_pb.ListNotificationTypesResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_events_v1_ListProvidersRequest(arg) {
@@ -237,6 +347,17 @@ var EventServiceService = exports.EventServiceService = {
     responseSerialize: serialize_events_v1_CreateEventTypesResponse,
     responseDeserialize: deserialize_events_v1_CreateEventTypesResponse,
   },
+  deleteEventTypes: {
+    path: '/events.v1.EventService/DeleteEventTypes',
+    requestStream: false,
+    responseStream: false,
+    requestType: app_router_grpc_v1_event_pb.DeleteEventTypesRequest,
+    responseType: app_router_grpc_v1_event_pb.DeleteEventTypesResponse,
+    requestSerialize: serialize_events_v1_DeleteEventTypesRequest,
+    requestDeserialize: deserialize_events_v1_DeleteEventTypesRequest,
+    responseSerialize: serialize_events_v1_DeleteEventTypesResponse,
+    responseDeserialize: deserialize_events_v1_DeleteEventTypesResponse,
+  },
   getSubscriptions: {
     path: '/events.v1.EventService/GetSubscriptions',
     requestStream: false,
@@ -269,6 +390,50 @@ var EventServiceService = exports.EventServiceService = {
     requestDeserialize: deserialize_events_v1_CreateSubscriptionsRequest,
     responseSerialize: serialize_events_v1_CreateSubscriptionsResponse,
     responseDeserialize: deserialize_events_v1_CreateSubscriptionsResponse,
+  },
+  getNotificationTypes: {
+    path: '/events.v1.EventService/GetNotificationTypes',
+    requestStream: false,
+    responseStream: false,
+    requestType: app_router_grpc_v1_event_pb.GetNotificationTypesRequest,
+    responseType: app_router_grpc_v1_event_pb.GetNotificationTypesResponse,
+    requestSerialize: serialize_events_v1_GetNotificationTypesRequest,
+    requestDeserialize: deserialize_events_v1_GetNotificationTypesRequest,
+    responseSerialize: serialize_events_v1_GetNotificationTypesResponse,
+    responseDeserialize: deserialize_events_v1_GetNotificationTypesResponse,
+  },
+  listNotificationTypes: {
+    path: '/events.v1.EventService/ListNotificationTypes',
+    requestStream: false,
+    responseStream: false,
+    requestType: app_router_grpc_v1_event_pb.ListNotificationTypesRequest,
+    responseType: app_router_grpc_v1_event_pb.ListNotificationTypesResponse,
+    requestSerialize: serialize_events_v1_ListNotificationTypesRequest,
+    requestDeserialize: deserialize_events_v1_ListNotificationTypesRequest,
+    responseSerialize: serialize_events_v1_ListNotificationTypesResponse,
+    responseDeserialize: deserialize_events_v1_ListNotificationTypesResponse,
+  },
+  createNotificationTypes: {
+    path: '/events.v1.EventService/CreateNotificationTypes',
+    requestStream: false,
+    responseStream: false,
+    requestType: app_router_grpc_v1_event_pb.CreateNotificationTypesRequest,
+    responseType: app_router_grpc_v1_event_pb.CreateNotificationTypesResponse,
+    requestSerialize: serialize_events_v1_CreateNotificationTypesRequest,
+    requestDeserialize: deserialize_events_v1_CreateNotificationTypesRequest,
+    responseSerialize: serialize_events_v1_CreateNotificationTypesResponse,
+    responseDeserialize: deserialize_events_v1_CreateNotificationTypesResponse,
+  },
+  deleteNotificationTypes: {
+    path: '/events.v1.EventService/DeleteNotificationTypes',
+    requestStream: false,
+    responseStream: false,
+    requestType: app_router_grpc_v1_event_pb.DeleteNotificationTypesRequest,
+    responseType: app_router_grpc_v1_event_pb.DeleteNotificationTypesResponse,
+    requestSerialize: serialize_events_v1_DeleteNotificationTypesRequest,
+    requestDeserialize: deserialize_events_v1_DeleteNotificationTypesRequest,
+    responseSerialize: serialize_events_v1_DeleteNotificationTypesResponse,
+    responseDeserialize: deserialize_events_v1_DeleteNotificationTypesResponse,
   },
 };
 

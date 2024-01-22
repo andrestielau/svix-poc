@@ -20,12 +20,15 @@ export const schemas = async () => {
     }
     return ret
 }
+export const deleteSchema = async (nameOrId: string) => pubsub.schema(nameOrId).delete()
 
-export const topic = async (nameOrId: string) => pubsub.topic(nameOrId).getMetadata().then(([topic]) => topic)
-export const createTopic = async (nameOrId: string) => pubsub.createTopic(nameOrId).then(([topic]) => topic)
+export const topic = async (nameOrId: string) => pubsub.topic(nameOrId).getMetadata().then(([t]) => t)
+export const createTopic = async (nameOrId: string) => pubsub.createTopic(nameOrId).then(([t]) => t)
 export const topics = async () => pubsub.getTopics().then(([topics]) => topics.map(mapMetadata))
+export const deleteTopic = async (nameOrId: string) => pubsub.topic(nameOrId).delete()
 
 export const subscription = (nameOrId: string) => pubsub.subscription(nameOrId)?.getMetadata().then(([s]) => s)
 export const createSubscription = (topic: string, name: string) => pubsub.createSubscription(topic, name).then(([s]) => s)
-export const subscriptions = async () => pubsub.getSubscriptions().then(([subscriptions]) => subscriptions.map(mapMetadata))
+export const subscriptions = async () => pubsub.getSubscriptions().then(([s]) => s.map(mapMetadata))
+export const deleteSubscription = async (nameOrId: string) => pubsub.subscription(nameOrId).delete()
 

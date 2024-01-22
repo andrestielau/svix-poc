@@ -1,11 +1,10 @@
 import { Button, InputWrapper, NativeSelect, TextInput, Tooltip } from "@mantine/core"
-import { CreationModal, QueryList } from "@/components/crud"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { ISchema, SchemaType } from "@google-cloud/pubsub"
-import { createSchema, schemas } from "@/provider/pubsub"
+import { createSchema, deleteSchema, schemas } from "@/provider/pubsub"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
 import Editor, { useMonaco } from '@monaco-editor/react';
-import { useEffect } from "react"
 
 const protoDefault = `syntax = "proto3";
 message {Name} {
@@ -37,7 +36,8 @@ export const SchemaList = ({ search, setSearch }: SchemaListProps) => {
                     <Editor height="30vh" theme='vs-dark' defaultLanguage="proto" {...form.getInputProps('def')} onValidate={console.log}/>
                 </InputWrapper>
             </>}</CreationModal>}>
-        {({ type, name, revisionCreateTime }) => <WithMenu key={name}>
+        {({ type, name, revisionCreateTime }) => <WithMenu id={name!} key={name} 
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteSchema(name!)}/>}>
             <Tooltip label={<label>Created At: {revisionCreateTime?.nanos}</label>}>
                 <Button onClick={() => 
                     router.push('/pubsub/schema/'+name?.replaceAll('projects/demo/schemas/', ''))} variant="default" fullWidth>

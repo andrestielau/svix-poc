@@ -22,7 +22,7 @@ export const NotificationTypeList = ({ search, setSearch }: NotificationTypeList
             mutationFn={async (i) => await addNotificationType(i)}>{(form) => <>
                 <TextInput  label='Id' withAsterisk {...form.getInputProps('id')} />    
             </>}</CreationModal>}>
-        {({ id, createdAt }) => <WithMenu key={id}>
+        {({ id, createdAt }) => <WithMenu id={id} key={id}>
             <Tooltip label={'Created At: '+ createdAt}>
                 <Button onDoubleClick={() => router.push('/router/notification-types/'+id)}  variant="default" fullWidth>{id}</Button>
             </Tooltip>

@@ -27,6 +27,17 @@ func (h *Handler) CreateEventTypes(ctx context.Context, req *eventsv1.CreateEven
 	}, nil
 }
 
+// CreateNotificationTypes implements eventsv1.EventServiceServer.
+func (h *Handler) CreateNotificationTypes(ctx context.Context, req *eventsv1.CreateNotificationTypesRequest) (*eventsv1.CreateNotificationTypesResponse, error) {
+	res, err := h.Repository.CreateNotificationTypes(ctx, NotificationTypesFromProto(req.GetData()))
+	if err != nil {
+		return nil, err
+	}
+	return &eventsv1.CreateNotificationTypesResponse{
+		Data: NewNotificationTypesToProto(res),
+	}, nil
+}
+
 // CreateSubscriptions implements eventsv1.EventServiceServer.
 func (h *Handler) CreateSubscriptions(ctx context.Context, req *eventsv1.CreateSubscriptionsRequest) (*eventsv1.CreateSubscriptionsResponse, error) {
 	res, err := h.Repository.CreateSubscriptions(ctx, SubscriptionsFromProto(req.GetData()))
@@ -34,8 +45,26 @@ func (h *Handler) CreateSubscriptions(ctx context.Context, req *eventsv1.CreateS
 		return nil, err
 	}
 	return &eventsv1.CreateSubscriptionsResponse{
-		Data: NewSubscriptionsToProto(res),
+		Data: NewSubscriptionsToProto(res), //TODO: add errors
 	}, nil
+}
+
+// DeleteEventTypes implements eventsv1.EventServiceServer.
+func (h *Handler) DeleteEventTypes(ctx context.Context, req *eventsv1.DeleteEventTypesRequest) (*eventsv1.DeleteEventTypesResponse, error) {
+	_, err := h.Repository.DeleteEventTypes(ctx, req.GetIds())
+	if err != nil {
+		return nil, err
+	}
+	return &eventsv1.DeleteEventTypesResponse{}, nil
+}
+
+// DeleteNotificationTypes implements eventsv1.EventServiceServer.
+func (h *Handler) DeleteNotificationTypes(ctx context.Context, req *eventsv1.DeleteNotificationTypesRequest) (*eventsv1.DeleteNotificationTypesResponse, error) {
+	_, err := h.Repository.DeleteEventTypes(ctx, req.GetIds())
+	if err != nil {
+		return nil, err
+	}
+	return &eventsv1.DeleteNotificationTypesResponse{}, nil
 }
 
 // GetEventTypes implements eventsv1.EventServiceServer.
@@ -57,6 +86,17 @@ func (h *Handler) GetProviders(ctx context.Context, req *eventsv1.GetProvidersRe
 	}
 	return &eventsv1.GetProvidersResponse{
 		Data: GotProvidersToProto(res),
+	}, nil
+}
+
+// GetNotificationTypes implements eventsv1.EventServiceServer.
+func (h *Handler) GetNotificationTypes(ctx context.Context, req *eventsv1.GetNotificationTypesRequest) (*eventsv1.GetNotificationTypesResponse, error) {
+	res, err := h.Repository.GetNotificationTypes(ctx, req.GetIds())
+	if err != nil {
+		return nil, err
+	}
+	return &eventsv1.GetNotificationTypesResponse{
+		Data: GotNotificationTypesToProto(res),
 	}, nil
 }
 
@@ -91,6 +131,18 @@ func (h *Handler) ListProviders(ctx context.Context, req *eventsv1.ListProviders
 	}
 	return &eventsv1.ListProvidersResponse{
 		Data: ProviderListToProto(res),
+		Page: &eventsv1.PageResponse{},
+	}, nil
+}
+
+// ListNotificationTypes implements eventsv1.EventServiceServer.
+func (h *Handler) ListNotificationTypes(ctx context.Context, req *eventsv1.ListNotificationTypesRequest) (*eventsv1.ListNotificationTypesResponse, error) {
+	res, err := h.Repository.ListNotificationTypes(ctx, Cursor(req.GetPage()), int(lo.FromPtr(req.GetPage()).Limit))
+	if err != nil {
+		return nil, err
+	}
+	return &eventsv1.ListNotificationTypesResponse{
+		Data: NotificationTypeListToProto(res),
 		Page: &eventsv1.PageResponse{},
 	}, nil
 }

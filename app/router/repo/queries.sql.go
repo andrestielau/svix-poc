@@ -49,6 +49,22 @@ type Querier interface {
 	// DeleteSubscriptionScan scans the result of an executed DeleteSubscriptionBatch query.
 	DeleteSubscriptionScan(results pgx.BatchResults) (pgconn.CommandTag, error)
 
+	// DeleteEventTypes deletes eventTypes TODO - soft delete
+	DeleteEventTypes(ctx context.Context, ids []string) (pgconn.CommandTag, error)
+	// DeleteEventTypesBatch enqueues a DeleteEventTypes query into batch to be executed
+	// later by the batch.
+	DeleteEventTypesBatch(batch genericBatch, ids []string)
+	// DeleteEventTypesScan scans the result of an executed DeleteEventTypesBatch query.
+	DeleteEventTypesScan(results pgx.BatchResults) (pgconn.CommandTag, error)
+
+	// DeleteNotificationTypes deletes notificationTypes TODO - soft delete
+	DeleteNotificationTypes(ctx context.Context, ids []string) (pgconn.CommandTag, error)
+	// DeleteNotificationTypesBatch enqueues a DeleteNotificationTypes query into batch to be executed
+	// later by the batch.
+	DeleteNotificationTypesBatch(batch genericBatch, ids []string)
+	// DeleteNotificationTypesScan scans the result of an executed DeleteNotificationTypesBatch query.
+	DeleteNotificationTypesScan(results pgx.BatchResults) (pgconn.CommandTag, error)
+
 	// GetEventTypes fetches a batch of event types by id
 	GetEventTypes(ctx context.Context, ids []string) ([]GetEventTypesRow, error)
 	// GetEventTypesBatch enqueues a GetEventTypes query into batch to be executed
@@ -209,6 +225,12 @@ func PrepareAllQueries(ctx context.Context, p preparer) error {
 	if _, err := p.Prepare(ctx, deleteSubscriptionSQL, deleteSubscriptionSQL); err != nil {
 		return fmt.Errorf("prepare query 'DeleteSubscription': %w", err)
 	}
+	if _, err := p.Prepare(ctx, deleteEventTypesSQL, deleteEventTypesSQL); err != nil {
+		return fmt.Errorf("prepare query 'DeleteEventTypes': %w", err)
+	}
+	if _, err := p.Prepare(ctx, deleteNotificationTypesSQL, deleteNotificationTypesSQL); err != nil {
+		return fmt.Errorf("prepare query 'DeleteNotificationTypes': %w", err)
+	}
 	if _, err := p.Prepare(ctx, getEventTypesSQL, getEventTypesSQL); err != nil {
 		return fmt.Errorf("prepare query 'GetEventTypes': %w", err)
 	}
@@ -241,8 +263,7 @@ func PrepareAllQueries(ctx context.Context, p preparer) error {
 
 // NewEventType represents the Postgres composite type "new_event_type".
 type NewEventType struct {
-	ID     string       `json:"id"`
-	Schema pgtype.JSONB `json:"schema"`
+	ID string `json:"id"`
 }
 
 // NewNotificationType represents the Postgres composite type "new_notification_type".
@@ -351,7 +372,6 @@ func (tr *typeResolver) newNewEventType() pgtype.ValueTranscoder {
 	return tr.newCompositeValue(
 		"new_event_type",
 		compositeField{name: "id", typeName: "text", defaultVal: &pgtype.Text{}},
-		compositeField{name: "schema", typeName: "jsonb", defaultVal: &pgtype.JSONB{}},
 	)
 }
 
@@ -360,7 +380,6 @@ func (tr *typeResolver) newNewEventType() pgtype.ValueTranscoder {
 func (tr *typeResolver) newNewEventTypeRaw(v NewEventType) []interface{} {
 	return []interface{}{
 		v.ID,
-		v.Schema,
 	}
 }
 
@@ -485,23 +504,19 @@ func (tr *typeResolver) newNewSubscriptionArrayRaw(vs []NewSubscription) []inter
 }
 
 const createEventTypesSQL = `INSERT INTO evnt.event_type (
-  schema,
   id
 ) 
 SELECT 
-  schema,
   id
 FROM unnest($1::evnt.new_event_type[])
 ON CONFLICT DO NOTHING
 RETURNING 
   id,
-  schema,
   created_at;`
 
 type CreateEventTypesRow struct {
-	ID        string       `json:"id"`
-	Schema    pgtype.JSONB `json:"schema"`
-	CreatedAt time.Time    `json:"created_at"`
+	ID        string    `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // CreateEventTypes implements Querier.CreateEventTypes.
@@ -515,7 +530,7 @@ func (q *DBQuerier) CreateEventTypes(ctx context.Context, eventTypes []NewEventT
 	items := []CreateEventTypesRow{}
 	for rows.Next() {
 		var item CreateEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan CreateEventTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -541,7 +556,7 @@ func (q *DBQuerier) CreateEventTypesScan(results pgx.BatchResults) ([]CreateEven
 	items := []CreateEventTypesRow{}
 	for rows.Next() {
 		var item CreateEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan CreateEventTypesBatch row: %w", err)
 		}
 		items = append(items, item)
@@ -721,17 +736,69 @@ func (q *DBQuerier) DeleteSubscriptionScan(results pgx.BatchResults) (pgconn.Com
 	return cmdTag, err
 }
 
+const deleteEventTypesSQL = `DELETE FROM evnt.event_type
+WHERE id = ANY($1::text[]);`
+
+// DeleteEventTypes implements Querier.DeleteEventTypes.
+func (q *DBQuerier) DeleteEventTypes(ctx context.Context, ids []string) (pgconn.CommandTag, error) {
+	ctx = context.WithValue(ctx, "pggen_query_name", "DeleteEventTypes")
+	cmdTag, err := q.conn.Exec(ctx, deleteEventTypesSQL, ids)
+	if err != nil {
+		return cmdTag, fmt.Errorf("exec query DeleteEventTypes: %w", err)
+	}
+	return cmdTag, err
+}
+
+// DeleteEventTypesBatch implements Querier.DeleteEventTypesBatch.
+func (q *DBQuerier) DeleteEventTypesBatch(batch genericBatch, ids []string) {
+	batch.Queue(deleteEventTypesSQL, ids)
+}
+
+// DeleteEventTypesScan implements Querier.DeleteEventTypesScan.
+func (q *DBQuerier) DeleteEventTypesScan(results pgx.BatchResults) (pgconn.CommandTag, error) {
+	cmdTag, err := results.Exec()
+	if err != nil {
+		return cmdTag, fmt.Errorf("exec DeleteEventTypesBatch: %w", err)
+	}
+	return cmdTag, err
+}
+
+const deleteNotificationTypesSQL = `DELETE FROM evnt.notification_type
+WHERE id = ANY($1::text[]);`
+
+// DeleteNotificationTypes implements Querier.DeleteNotificationTypes.
+func (q *DBQuerier) DeleteNotificationTypes(ctx context.Context, ids []string) (pgconn.CommandTag, error) {
+	ctx = context.WithValue(ctx, "pggen_query_name", "DeleteNotificationTypes")
+	cmdTag, err := q.conn.Exec(ctx, deleteNotificationTypesSQL, ids)
+	if err != nil {
+		return cmdTag, fmt.Errorf("exec query DeleteNotificationTypes: %w", err)
+	}
+	return cmdTag, err
+}
+
+// DeleteNotificationTypesBatch implements Querier.DeleteNotificationTypesBatch.
+func (q *DBQuerier) DeleteNotificationTypesBatch(batch genericBatch, ids []string) {
+	batch.Queue(deleteNotificationTypesSQL, ids)
+}
+
+// DeleteNotificationTypesScan implements Querier.DeleteNotificationTypesScan.
+func (q *DBQuerier) DeleteNotificationTypesScan(results pgx.BatchResults) (pgconn.CommandTag, error) {
+	cmdTag, err := results.Exec()
+	if err != nil {
+		return cmdTag, fmt.Errorf("exec DeleteNotificationTypesBatch: %w", err)
+	}
+	return cmdTag, err
+}
+
 const getEventTypesSQL = `SELECT 
   id,
-  schema,
   created_at
 FROM evnt.event_type
 WHERE id = ANY($1::text[]);`
 
 type GetEventTypesRow struct {
-	ID        string       `json:"id"`
-	Schema    pgtype.JSONB `json:"schema"`
-	CreatedAt time.Time    `json:"created_at"`
+	ID        string    `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // GetEventTypes implements Querier.GetEventTypes.
@@ -745,7 +812,7 @@ func (q *DBQuerier) GetEventTypes(ctx context.Context, ids []string) ([]GetEvent
 	items := []GetEventTypesRow{}
 	for rows.Next() {
 		var item GetEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan GetEventTypes row: %w", err)
 		}
 		items = append(items, item)
@@ -771,7 +838,7 @@ func (q *DBQuerier) GetEventTypesScan(results pgx.BatchResults) ([]GetEventTypes
 	items := []GetEventTypesRow{}
 	for rows.Next() {
 		var item GetEventTypesRow
-		if err := rows.Scan(&item.ID, &item.Schema, &item.CreatedAt); err != nil {
+		if err := rows.Scan(&item.ID, &item.CreatedAt); err != nil {
 			return nil, fmt.Errorf("scan GetEventTypesBatch row: %w", err)
 		}
 		items = append(items, item)

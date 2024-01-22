@@ -1,5 +1,5 @@
-import { listMessages, createMessage } from "@/provider/svix"
-import { CreationModal, QueryList } from "@/components/crud"
+import { listMessages, createMessage, deleteMessage } from "@/provider/svix"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { Button, JsonInput, TextInput, Tooltip } from "@mantine/core"
 import {  WithMenu } from "@/components/components"
 import { MessageIn, MessageOut } from "svix"
@@ -23,7 +23,8 @@ export const MessageList = ({ appId, search, setSearch }: MessageListProps) => {
                 <TextInput label='EventType' withAsterisk {...form.getInputProps('eventType')} />
                 <JsonInput label='Payload' {...form.getInputProps('payload')}/>        
             </>}</CreationModal>}>
-        {({ id, timestamp }) => <WithMenu key={id}>
+        {({ id, timestamp }) => <WithMenu id={id} key={id}
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteMessage(appId, id)}/>}>
             <Tooltip label={'Created At: '+ timestamp}>
                 <Button onClick={() => 
                     router.push('/webhook/applications/'+appId+'/messages/'+id)} variant="default" fullWidth>{id}</Button>

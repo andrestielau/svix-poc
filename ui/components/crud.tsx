@@ -1,8 +1,9 @@
 import { UndefinedInitialDataOptions, UseMutationOptions, UseQueryOptions, UseQueryResult, useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
 import { NewModal, SearchList, SearchListProps } from "@/components/components"
-import { Button, Divider, Group } from "@mantine/core"
+import { Button, Divider, Group, MenuItem, rem } from "@mantine/core"
 import { UseFormInput, UseFormReturnType, useForm } from "@mantine/form"
 import { ReactNode } from "react"
+import { IconTrash } from "@tabler/icons-react"
 
 export type QueryListProps<T, F> = {
     children: (value: T) => ReactNode
@@ -39,3 +40,19 @@ export const CreationModal = <F,T = any>({ children, title, queryKey, onSuccess,
         </form>
     </NewModal>
 }
+
+export const DeleteMenuItem = ({queryKey, onSuccess, ...rest }: UseMutationOptions & { queryKey: string[] }) => {
+    const client = useQueryClient()
+    const del = useMutation({
+      ...rest,
+      onSuccess: (d,v,c) => client.invalidateQueries({ queryKey }).
+        then(() => onSuccess && onSuccess(d,v,c))
+    })
+    return <MenuItem
+      color="red"
+      leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+      onClick={() => del.mutate()}
+    >
+      Delete
+    </MenuItem>
+  }

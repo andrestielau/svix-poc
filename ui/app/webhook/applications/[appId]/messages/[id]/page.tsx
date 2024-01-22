@@ -7,7 +7,7 @@ const MessagesPage = ({ params: { appId, id } }: { params: { appId: string, id: 
     const {data} = useQuery({queryKey: ['webhook','applications', appId], queryFn: async () => await getMessage(appId, id) })
     return <>
         <Title order={1}>Message {id}</Title>
-        <JsonInput label='Payload' value={data?.payload} disabled />
+        <JsonInput label='Payload' value={JSON.stringify(data?.payload)} disabled />
     </>
 }
   

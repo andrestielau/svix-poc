@@ -19,14 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	EventService_GetProviders_FullMethodName        = "/events.v1.EventService/GetProviders"
-	EventService_ListProviders_FullMethodName       = "/events.v1.EventService/ListProviders"
-	EventService_GetEventTypes_FullMethodName       = "/events.v1.EventService/GetEventTypes"
-	EventService_ListEventTypes_FullMethodName      = "/events.v1.EventService/ListEventTypes"
-	EventService_CreateEventTypes_FullMethodName    = "/events.v1.EventService/CreateEventTypes"
-	EventService_GetSubscriptions_FullMethodName    = "/events.v1.EventService/GetSubscriptions"
-	EventService_ListSubscriptions_FullMethodName   = "/events.v1.EventService/ListSubscriptions"
-	EventService_CreateSubscriptions_FullMethodName = "/events.v1.EventService/CreateSubscriptions"
+	EventService_GetProviders_FullMethodName            = "/events.v1.EventService/GetProviders"
+	EventService_ListProviders_FullMethodName           = "/events.v1.EventService/ListProviders"
+	EventService_GetEventTypes_FullMethodName           = "/events.v1.EventService/GetEventTypes"
+	EventService_ListEventTypes_FullMethodName          = "/events.v1.EventService/ListEventTypes"
+	EventService_CreateEventTypes_FullMethodName        = "/events.v1.EventService/CreateEventTypes"
+	EventService_DeleteEventTypes_FullMethodName        = "/events.v1.EventService/DeleteEventTypes"
+	EventService_GetSubscriptions_FullMethodName        = "/events.v1.EventService/GetSubscriptions"
+	EventService_ListSubscriptions_FullMethodName       = "/events.v1.EventService/ListSubscriptions"
+	EventService_CreateSubscriptions_FullMethodName     = "/events.v1.EventService/CreateSubscriptions"
+	EventService_GetNotificationTypes_FullMethodName    = "/events.v1.EventService/GetNotificationTypes"
+	EventService_ListNotificationTypes_FullMethodName   = "/events.v1.EventService/ListNotificationTypes"
+	EventService_CreateNotificationTypes_FullMethodName = "/events.v1.EventService/CreateNotificationTypes"
+	EventService_DeleteNotificationTypes_FullMethodName = "/events.v1.EventService/DeleteNotificationTypes"
 )
 
 // EventServiceClient is the client API for EventService service.
@@ -38,9 +43,14 @@ type EventServiceClient interface {
 	GetEventTypes(ctx context.Context, in *GetEventTypesRequest, opts ...grpc.CallOption) (*GetEventTypesResponse, error)
 	ListEventTypes(ctx context.Context, in *ListEventTypesRequest, opts ...grpc.CallOption) (*ListEventTypesResponse, error)
 	CreateEventTypes(ctx context.Context, in *CreateEventTypesRequest, opts ...grpc.CallOption) (*CreateEventTypesResponse, error)
+	DeleteEventTypes(ctx context.Context, in *DeleteEventTypesRequest, opts ...grpc.CallOption) (*DeleteEventTypesResponse, error)
 	GetSubscriptions(ctx context.Context, in *GetSubscriptionsRequest, opts ...grpc.CallOption) (*GetSubscriptionsResponse, error)
 	ListSubscriptions(ctx context.Context, in *ListSubscriptionsRequest, opts ...grpc.CallOption) (*ListSubscriptionsResponse, error)
 	CreateSubscriptions(ctx context.Context, in *CreateSubscriptionsRequest, opts ...grpc.CallOption) (*CreateSubscriptionsResponse, error)
+	GetNotificationTypes(ctx context.Context, in *GetNotificationTypesRequest, opts ...grpc.CallOption) (*GetNotificationTypesResponse, error)
+	ListNotificationTypes(ctx context.Context, in *ListNotificationTypesRequest, opts ...grpc.CallOption) (*ListNotificationTypesResponse, error)
+	CreateNotificationTypes(ctx context.Context, in *CreateNotificationTypesRequest, opts ...grpc.CallOption) (*CreateNotificationTypesResponse, error)
+	DeleteNotificationTypes(ctx context.Context, in *DeleteNotificationTypesRequest, opts ...grpc.CallOption) (*DeleteNotificationTypesResponse, error)
 }
 
 type eventServiceClient struct {
@@ -96,6 +106,15 @@ func (c *eventServiceClient) CreateEventTypes(ctx context.Context, in *CreateEve
 	return out, nil
 }
 
+func (c *eventServiceClient) DeleteEventTypes(ctx context.Context, in *DeleteEventTypesRequest, opts ...grpc.CallOption) (*DeleteEventTypesResponse, error) {
+	out := new(DeleteEventTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_DeleteEventTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *eventServiceClient) GetSubscriptions(ctx context.Context, in *GetSubscriptionsRequest, opts ...grpc.CallOption) (*GetSubscriptionsResponse, error) {
 	out := new(GetSubscriptionsResponse)
 	err := c.cc.Invoke(ctx, EventService_GetSubscriptions_FullMethodName, in, out, opts...)
@@ -123,6 +142,42 @@ func (c *eventServiceClient) CreateSubscriptions(ctx context.Context, in *Create
 	return out, nil
 }
 
+func (c *eventServiceClient) GetNotificationTypes(ctx context.Context, in *GetNotificationTypesRequest, opts ...grpc.CallOption) (*GetNotificationTypesResponse, error) {
+	out := new(GetNotificationTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_GetNotificationTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventServiceClient) ListNotificationTypes(ctx context.Context, in *ListNotificationTypesRequest, opts ...grpc.CallOption) (*ListNotificationTypesResponse, error) {
+	out := new(ListNotificationTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_ListNotificationTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventServiceClient) CreateNotificationTypes(ctx context.Context, in *CreateNotificationTypesRequest, opts ...grpc.CallOption) (*CreateNotificationTypesResponse, error) {
+	out := new(CreateNotificationTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_CreateNotificationTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventServiceClient) DeleteNotificationTypes(ctx context.Context, in *DeleteNotificationTypesRequest, opts ...grpc.CallOption) (*DeleteNotificationTypesResponse, error) {
+	out := new(DeleteNotificationTypesResponse)
+	err := c.cc.Invoke(ctx, EventService_DeleteNotificationTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EventServiceServer is the server API for EventService service.
 // All implementations should embed UnimplementedEventServiceServer
 // for forward compatibility
@@ -132,9 +187,14 @@ type EventServiceServer interface {
 	GetEventTypes(context.Context, *GetEventTypesRequest) (*GetEventTypesResponse, error)
 	ListEventTypes(context.Context, *ListEventTypesRequest) (*ListEventTypesResponse, error)
 	CreateEventTypes(context.Context, *CreateEventTypesRequest) (*CreateEventTypesResponse, error)
+	DeleteEventTypes(context.Context, *DeleteEventTypesRequest) (*DeleteEventTypesResponse, error)
 	GetSubscriptions(context.Context, *GetSubscriptionsRequest) (*GetSubscriptionsResponse, error)
 	ListSubscriptions(context.Context, *ListSubscriptionsRequest) (*ListSubscriptionsResponse, error)
 	CreateSubscriptions(context.Context, *CreateSubscriptionsRequest) (*CreateSubscriptionsResponse, error)
+	GetNotificationTypes(context.Context, *GetNotificationTypesRequest) (*GetNotificationTypesResponse, error)
+	ListNotificationTypes(context.Context, *ListNotificationTypesRequest) (*ListNotificationTypesResponse, error)
+	CreateNotificationTypes(context.Context, *CreateNotificationTypesRequest) (*CreateNotificationTypesResponse, error)
+	DeleteNotificationTypes(context.Context, *DeleteNotificationTypesRequest) (*DeleteNotificationTypesResponse, error)
 }
 
 // UnimplementedEventServiceServer should be embedded to have forward compatible implementations.
@@ -156,6 +216,9 @@ func (UnimplementedEventServiceServer) ListEventTypes(context.Context, *ListEven
 func (UnimplementedEventServiceServer) CreateEventTypes(context.Context, *CreateEventTypesRequest) (*CreateEventTypesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEventTypes not implemented")
 }
+func (UnimplementedEventServiceServer) DeleteEventTypes(context.Context, *DeleteEventTypesRequest) (*DeleteEventTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteEventTypes not implemented")
+}
 func (UnimplementedEventServiceServer) GetSubscriptions(context.Context, *GetSubscriptionsRequest) (*GetSubscriptionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSubscriptions not implemented")
 }
@@ -164,6 +227,18 @@ func (UnimplementedEventServiceServer) ListSubscriptions(context.Context, *ListS
 }
 func (UnimplementedEventServiceServer) CreateSubscriptions(context.Context, *CreateSubscriptionsRequest) (*CreateSubscriptionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSubscriptions not implemented")
+}
+func (UnimplementedEventServiceServer) GetNotificationTypes(context.Context, *GetNotificationTypesRequest) (*GetNotificationTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationTypes not implemented")
+}
+func (UnimplementedEventServiceServer) ListNotificationTypes(context.Context, *ListNotificationTypesRequest) (*ListNotificationTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationTypes not implemented")
+}
+func (UnimplementedEventServiceServer) CreateNotificationTypes(context.Context, *CreateNotificationTypesRequest) (*CreateNotificationTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNotificationTypes not implemented")
+}
+func (UnimplementedEventServiceServer) DeleteNotificationTypes(context.Context, *DeleteNotificationTypesRequest) (*DeleteNotificationTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotificationTypes not implemented")
 }
 
 // UnsafeEventServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -267,6 +342,24 @@ func _EventService_CreateEventTypes_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EventService_DeleteEventTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteEventTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).DeleteEventTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_DeleteEventTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).DeleteEventTypes(ctx, req.(*DeleteEventTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _EventService_GetSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSubscriptionsRequest)
 	if err := dec(in); err != nil {
@@ -321,6 +414,78 @@ func _EventService_CreateSubscriptions_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EventService_GetNotificationTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotificationTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).GetNotificationTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_GetNotificationTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).GetNotificationTypes(ctx, req.(*GetNotificationTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EventService_ListNotificationTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNotificationTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).ListNotificationTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_ListNotificationTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).ListNotificationTypes(ctx, req.(*ListNotificationTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EventService_CreateNotificationTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNotificationTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).CreateNotificationTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_CreateNotificationTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).CreateNotificationTypes(ctx, req.(*CreateNotificationTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EventService_DeleteNotificationTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteNotificationTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServiceServer).DeleteNotificationTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventService_DeleteNotificationTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServiceServer).DeleteNotificationTypes(ctx, req.(*DeleteNotificationTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EventService_ServiceDesc is the grpc.ServiceDesc for EventService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -349,6 +514,10 @@ var EventService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _EventService_CreateEventTypes_Handler,
 		},
 		{
+			MethodName: "DeleteEventTypes",
+			Handler:    _EventService_DeleteEventTypes_Handler,
+		},
+		{
 			MethodName: "GetSubscriptions",
 			Handler:    _EventService_GetSubscriptions_Handler,
 		},
@@ -359,6 +528,22 @@ var EventService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateSubscriptions",
 			Handler:    _EventService_CreateSubscriptions_Handler,
+		},
+		{
+			MethodName: "GetNotificationTypes",
+			Handler:    _EventService_GetNotificationTypes_Handler,
+		},
+		{
+			MethodName: "ListNotificationTypes",
+			Handler:    _EventService_ListNotificationTypes_Handler,
+		},
+		{
+			MethodName: "CreateNotificationTypes",
+			Handler:    _EventService_CreateNotificationTypes_Handler,
+		},
+		{
+			MethodName: "DeleteNotificationTypes",
+			Handler:    _EventService_DeleteNotificationTypes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

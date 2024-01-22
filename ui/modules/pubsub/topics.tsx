@@ -1,9 +1,9 @@
-import { CreationModal, QueryList } from "@/components/crud"
+import { CreationModal, DeleteMenuItem, QueryList } from "@/components/crud"
 import { Button, TextInput, Tooltip } from "@mantine/core"
 import { WithMenu } from "@/components/components"
 import { useRouter } from "next/navigation"
-import { createTopic, topics } from "@/provider/pubsub"
-import { Topic, TopicMetadata } from "@google-cloud/pubsub"
+import { createTopic, deleteTopic, topics } from "@/provider/pubsub"
+import { TopicMetadata } from "@google-cloud/pubsub"
 
 const queryKey = ["pubsub", "topics"]
 export type TopicListProps = {
@@ -21,7 +21,8 @@ export const TopicList = ({ search, setSearch }: TopicListProps) => {
             mutationFn={async (i) => await createTopic(i.name)}>{(form) => <>
                 <TextInput label='Name' withAsterisk {...form.getInputProps('name')} />     
             </>}</CreationModal>}>
-        {({ name }) => <WithMenu key={name}>
+        {({ name }) => <WithMenu id={name!} key={name}
+            danger={<DeleteMenuItem queryKey={queryKey} mutationFn={() => deleteTopic(name!)}/>}>
             <Tooltip label={''}>
                 <Button  variant="default" fullWidth onClick={() => 
                     router.push('/pubsub/topic/'+name?.replaceAll('projects/demo/topics/', ''))}>
